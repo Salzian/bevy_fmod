@@ -1,5 +1,5 @@
 [package]
-name = "bevy_fmod"
+name = "libfmod_bevy"
 version = "0.0.1"
 description = "libfmod plugin for Bevy"
 authors = ["Fabian Fritzsche"]
