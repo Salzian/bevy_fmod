@@ -1,0 +1,9 @@
+[package]
+name = "bevy_fmod"
+version = "0.0.1"
+description = "libfmod plugin for Bevy"
+authors = ["Fabian Fritzsche"]
+
+[dependencies]
+bevy = { version = "0.9.1", default-features = false }
+libfmod = "2.2.606"
