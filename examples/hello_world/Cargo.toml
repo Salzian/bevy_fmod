@@ -1,0 +1,8 @@
+[package]
+name = "libfmod_bevy_examples_hello_world"
+authors.workspace = true
+version.workspace = true
+
+[dependencies]
+bevy.workspace = true
+bevy_fmod = { path = "../../crate" }

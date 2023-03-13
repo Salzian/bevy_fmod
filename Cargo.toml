@@ -1,9 +1,15 @@
-[package]
-name = "libfmod_bevy"
-version = "0.0.1"
-description = "libfmod plugin for Bevy"
-authors = ["Fabian Fritzsche"]
+[workspace]
+members = ["crate", "examples/hello_world"]
+default-members = ["crate"]
+resolver = "2"
 
-[dependencies]
-bevy = { version = "0.9.1", default-features = false }
-libfmod = "2.2.606"
+[workspace.package]
+authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
+repository = "https://github.com/salzian/bevy_fmod"
+version = "0.0.1"
+
+[workspace.dependencies]
+anyhow = "1.0.69"
+bevy = "0.10.0"
+bevy_mod_sysfail = "2.0.0"
+libfmod = { path = "../libfmod", git = "https://github.com/Salzian/libfmod", branch = "" }
