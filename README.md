@@ -1,6 +1,6 @@
 # bevy_fmod
 
-![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.10.0-informational)
+![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.11.0-informational)
 ![Latest compatible FMOD version](https://img.shields.io/badge/FMOD-2.02.12-informational)  
 ![GitHub](https://img.shields.io/github/license/salzian/bevy_fmod)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/salzian/bevy_fmod)
@@ -41,7 +41,7 @@ This requires a free FMOD account.
 
 ```toml
 [dependencies]
-bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.0.1" }
+bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
 ```
 
 This repository includes [examples](./examples) and a FMOD demo project.
@@ -53,13 +53,18 @@ Version 1.0.0 would be a hypothetical stable release. But that's still a long wa
 
 | bevy_fmod | Bevy                                      | FMOD                                                  |
 |-----------|-------------------------------------------|-------------------------------------------------------|
+| 0.1.0     | [![0.11.0][Bevy 0.11.0 img]][Bevy 0.11.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 | 0.0.1     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 
 [Bevy]: https://bevyengine.org
 
 [Bevy 0.10.0]: https://bevyengine.org/news/bevy-0-10/
 
+[Bevy 0.11.0]: https://bevyengine.org/news/bevy-0-11/
+
 [Bevy 0.10.0 img]: https://img.shields.io/badge/Bevy-0.10.0-informational
+
+[Bevy 0.11.0 img]: https://img.shields.io/badge/Bevy-0.11.0-informational
 
 [FMOD licensing]: https://fmod.com/licensing
 

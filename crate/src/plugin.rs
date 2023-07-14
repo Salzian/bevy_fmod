@@ -1,6 +1,6 @@
-use bevy::app::{App, CoreSet, Plugin};
+use bevy::app::{App, Plugin};
 use bevy::log::{debug, trace};
-use bevy::prelude::{EventReader, IntoSystemConfig, NonSend, Resource, World};
+use bevy::prelude::{EventReader, NonSend, Resource, World, Startup, Update, PostUpdate};
 use bevy_mod_sysfail::sysfail;
 use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
 use libfmod::{EventDescription, Studio};
@@ -24,9 +24,9 @@ impl Plugin for FmodPlugin {
             .insert_resource(Config {
                 audio_banks_directory: self.audio_banks_directory,
             })
-            .add_startup_system(Self::startup)
-            .add_system(Self::play_incoming_events)
-            .add_system(Self::update.in_base_set(CoreSet::PostUpdate));
+            .add_systems(Startup, Self::startup)
+            .add_systems(Update, Self::play_incoming_events)
+            .add_systems(PostUpdate, Self::update);
     }
 }
 
