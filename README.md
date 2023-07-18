@@ -48,9 +48,6 @@ This repository includes [examples](./examples) and a FMOD demo project.
 
 ## Versioning
 
-Version 0.0.1 would be the first usable MVP somewhat recommended for use.  
-Version 1.0.0 would be a hypothetical stable release. But that's still a long way to go.
-
 | bevy_fmod | Bevy                                      | FMOD                                                  |
 |-----------|-------------------------------------------|-------------------------------------------------------|
 | 0.1.0     | [![0.11.0][Bevy 0.11.0 img]][Bevy 0.11.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
