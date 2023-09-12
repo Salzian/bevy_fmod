@@ -1,10 +1,10 @@
 extern crate bevy;
-extern crate bevy_fmod;
+extern crate bevy_fmod_core;
 
 use bevy::prelude::EventWriter;
 use bevy::DefaultPlugins;
 use bevy::{app::App, prelude::Startup};
-use bevy_fmod::{FmodPlugin, PlaySoundEvent};
+use bevy_fmod_core::{FmodPlugin, PlaySoundEvent};
 
 fn main() {
     App::new()

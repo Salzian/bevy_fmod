@@ -1,15 +1,12 @@
 [package]
-name = "bevy_fmod"
+name = "bevy_fmod_core"
 description = "Idiomatic FMOD in Bevy"
-authors.workspace = true
-version.workspace = true
-
+version = "0.1.0"
 readme = "../README.md"
 license = "MIT OR Apache-2.0"
-repository.workspace = true
 
 [dependencies]
-anyhow.workspace = true
-bevy = { workspace = true, default-features = false }
-bevy_mod_sysfail.workspace = true
-libfmod = "2.2.607"
+anyhow = "1.0.69"
+bevy = "0.11.0"
+bevy_mod_sysfail = "3.0.0"
+libfmod = { git = "https://github.com/Salzian/libfmod", branch = "main" }

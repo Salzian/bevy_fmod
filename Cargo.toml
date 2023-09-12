@@ -1,15 +1,19 @@
-[workspace]
-members = ["crate", "examples/hello_world"]
-default-members = ["crate"]
-resolver = "2"
-
-[workspace.package]
+[package]
+name = "bevy_fmod"
 authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 repository = "https://github.com/salzian/bevy_fmod"
 version = "0.1.0"
 
-[workspace.dependencies]
-anyhow = "1.0.69"
+[workspace]
+members = ["crate"]
+resolver = "2"
+
+[dependencies]
+bevy_fmod_core = { path = "crate" }
+
+[dev-dependencies]
 bevy = "0.11.0"
-bevy_mod_sysfail = "3.0.0"
-libfmod = { path = "../libfmod", git = "https://github.com/Salzian/libfmod", branch = "" }
+
+[[example]]
+name = "hello_world"
+path = "examples/hello_world.rs"
