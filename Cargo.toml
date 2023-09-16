@@ -3,14 +3,14 @@ name = "bevy_fmod"
 description = "Idiomatic FMOD in Bevy"
 authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 repository = "https://github.com/salzian/bevy_fmod"
-version = "0.1.0"
+version = "0.2.0"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-anyhow = "1.0.69"
+anyhow = "1.0.75"
 bevy = { version = "0.11.2", default-features = false }
 bevy_mod_sysfail = "3.0.0"
-libfmod = { path = "../libfmod", version = "2.2.607" }
+libfmod = "2.2.607"
 
 [dev-dependencies]
 # The hello_world example needs the default features of bevy

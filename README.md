@@ -1,9 +1,9 @@
 # bevy_fmod
 
-![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.11.0-informational)
-![Latest compatible FMOD version](https://img.shields.io/badge/FMOD-2.02.12-informational)  
-![GitHub](https://img.shields.io/github/license/salzian/bevy_fmod)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/salzian/bevy_fmod)
+![Latest compatible Bevy version][Bevy 0.11.2 img]
+![Latest compatible FMOD version][FMOD 2.02.12 img]
+![License][License img]
+![GitHub release][GitHub release img]
 
 This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate wraps [`libfmod`][libfmod].
 
@@ -52,20 +52,21 @@ project: `./demo_project`.
 
 ## Versioning
 
-| bevy_fmod | Bevy                                      | FMOD                                                  |
-|-----------|-------------------------------------------|-------------------------------------------------------|
-| 0.1.0     | [![0.11.0][Bevy 0.11.0 img]][Bevy 0.11.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.0.1     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| bevy_fmod | Bevy                                    | FMOD (tested version, newer may work)                 |
+|-----------|-----------------------------------------|-------------------------------------------------------|
+| 0.2.0     | [![0.11.2][Bevy 0.11.2 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.1.0     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.0.1     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 
 [Bevy]: https://bevyengine.org
 
-[Bevy 0.10.0]: https://bevyengine.org/news/bevy-0-10/
+[Bevy 0.10]: https://bevyengine.org/news/bevy-0-10/
 
-[Bevy 0.11.0]: https://bevyengine.org/news/bevy-0-11/
+[Bevy 0.11]: https://bevyengine.org/news/bevy-0-11/
 
-[Bevy 0.10.0 img]: https://img.shields.io/badge/Bevy-0.10.0-informational
+[Bevy 0.10.0 img]: https://img.shields.io/badge/Bevy-0.10.0-232326
 
-[Bevy 0.11.0 img]: https://img.shields.io/badge/Bevy-0.11.0-informational
+[Bevy 0.11.2 img]: https://img.shields.io/badge/Bevy-0.11.2-232326
 
 [FMOD licensing]: https://fmod.com/licensing
 
@@ -75,10 +76,14 @@ project: `./demo_project`.
 
 [FMOD revision history]: https://www.fmod.com/docs/2.02/studio/welcome-to-fmod-studio-revision-history.html
 
-[FMOD 2.02.12 img]: https://img.shields.io/badge/FMOD-2.02.12-informational
+[FMOD 2.02.12 img]: https://img.shields.io/badge/FMOD-2.02.12-black
 
 [libfmod]: https://github.com/lebedec/libfmod
 
 [demo_project]: https://drive.google.com/file/d/13Mxq_jEHXDLuam6M9whNowGUf_KBGKTU/view?usp=sharing
 
 [salzian]: https://salzian.dev
+
+[License img]: https://img.shields.io/badge/License-MIT%20OR%20Apache%202.0-informal
+
+[GitHub release img]: https://img.shields.io/github/v/release/Salzian/bevy_fmod?filter=v*
