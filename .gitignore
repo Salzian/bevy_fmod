@@ -1,3 +1,5 @@
 target/
 *.lib
 *.dll
+demo_project/
+Cargo.lock

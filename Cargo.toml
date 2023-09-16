@@ -1,15 +1,20 @@
-[workspace]
-members = ["crate", "examples/hello_world"]
-default-members = ["crate"]
-resolver = "2"
-
-[workspace.package]
+[package]
+name = "bevy_fmod"
+description = "Idiomatic FMOD in Bevy"
 authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 repository = "https://github.com/salzian/bevy_fmod"
 version = "0.1.0"
+license = "MIT OR Apache-2.0"
 
-[workspace.dependencies]
+[dependencies]
 anyhow = "1.0.69"
-bevy = "0.11.0"
+bevy = { version = "0.11.2", default-features = false }
 bevy_mod_sysfail = "3.0.0"
-libfmod = { path = "../libfmod", git = "https://github.com/Salzian/libfmod", branch = "" }
+libfmod = { path = "../libfmod", version = "2.2.607" }
+
+[dev-dependencies]
+# The hello_world example needs the default features of bevy
+bevy = "0.11.2"
+
+[[example]]
+name = "hello_world"
