@@ -44,7 +44,11 @@ This requires a free FMOD account.
 bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
 ```
 
-This repository includes [examples](./examples) and a FMOD demo project.
+## Examples
+
+This repository includes a `hello_world` example. In order to run it, you need
+to [download the demo project][demo_project] (Google Drive link) and place it into the root of the
+project: `./demo_project`.
 
 ## Versioning
 
@@ -75,6 +79,6 @@ This repository includes [examples](./examples) and a FMOD demo project.
 
 [libfmod]: https://github.com/lebedec/libfmod
 
-[demo_project]: examples/demo_project
+[demo_project]: https://drive.google.com/file/d/13Mxq_jEHXDLuam6M9whNowGUf_KBGKTU/view?usp=sharing
 
 [salzian]: https://salzian.dev
