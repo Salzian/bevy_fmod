@@ -1,13 +1,53 @@
 use crate::PlaySoundEvent;
 use bevy::app::{App, Plugin};
+use bevy::audio::AudioSinkPlayback;
 use bevy::log::{debug, trace};
-use bevy::prelude::{EventReader, NonSend, PostUpdate, Resource, Startup, Update, World};
+use bevy::math::Vec3;
+use bevy::prelude::{
+    Added, Commands, Component, Entity, EventReader, GlobalTransform, NonSend, PostUpdate, Query,
+    Res, Resource, Startup, Update, World,
+};
+use bevy::time::Time;
 use bevy_mod_sysfail::sysfail;
 use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
-use libfmod::{EventDescription, Studio};
+use libfmod::{Attributes3d, EventDescription, Studio, Vector};
 use std::env::var;
 use std::fs::{canonicalize, read_dir};
 use std::path::{Path, PathBuf};
+
+#[derive(Component)]
+pub struct FmodListener {
+    previous_position: Vec3,
+}
+
+impl Default for FmodListener {
+    fn default() -> Self {
+        FmodListener {
+            previous_position: Vec3::default(),
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct FmodAudioSource {
+    pub name: &'static str,
+}
+
+// This should be OK I think since we should only have one event instance per entity
+unsafe impl Sync for UnsafeEventInstance {}
+unsafe impl Send for UnsafeEventInstance {}
+
+// todo: should not be pub eventually
+pub struct UnsafeEventInstance {
+    pub pointer: libfmod::EventInstance,
+}
+
+#[derive(Component)]
+pub struct FmodAudioSourcePlayer {
+    pub name: &'static str,
+    pub fmod_event: UnsafeEventInstance, //todo: arc+mutex?
+    previous_position: Vec3,
+}
 
 pub struct FmodPlugin {
     pub audio_banks_directory: &'static str,
@@ -25,7 +65,14 @@ impl Plugin for FmodPlugin {
                 audio_banks_directory: self.audio_banks_directory,
             })
             .add_systems(Startup, Self::startup)
-            .add_systems(Update, Self::play_incoming_events)
+            .add_systems(
+                Update,
+                (
+                    Self::play_incoming_events,
+                    Self::check_for_new_sources,
+                    Self::update_sources,
+                ),
+            )
             .add_systems(PostUpdate, Self::update);
     }
 }
@@ -53,10 +100,71 @@ impl FmodPlugin {
         world.insert_non_send_resource(studio);
     }
 
+    fn update_sources(
+        mut query: Query<(&GlobalTransform, &mut FmodAudioSourcePlayer)>,
+        time: Res<Time>,
+    ) {
+        for (transform, mut source) in query.iter_mut() {
+            let pos = transform.translation();
+            let fwd = transform.forward();
+            let up = transform.up();
+
+            let delta = pos - source.previous_position;
+            let vel = delta / time.delta_seconds();
+            source.previous_position = pos;
+
+            let source_attributes = attributes3d(pos, vel, fwd, up);
+
+            source
+                .fmod_event
+                .pointer
+                .set_3d_attributes(source_attributes)
+                .unwrap();
+        }
+    }
+
     #[sysfail(log(level = "error"))]
-    fn update(studio: NonSend<Studio>) -> anyhow::Result<()> {
+    fn update(
+        studio: NonSend<Studio>,
+        mut query: Query<(&GlobalTransform, &mut FmodListener)>,
+        time: Res<Time>,
+    ) -> anyhow::Result<()> {
+        if let Ok((transform, mut listener)) = query.get_single_mut() {
+            let pos = transform.translation();
+            let fwd = transform.forward();
+            let up = transform.up();
+
+            let delta = pos - listener.previous_position;
+            let vel = delta / time.delta_seconds();
+            listener.previous_position = pos;
+
+            let listener_attributes = attributes3d(pos, vel, fwd, up);
+
+            studio.set_listener_attributes(0, listener_attributes, None)?;
+        }
+
         studio.update()?;
         Ok(())
+    }
+
+    fn check_for_new_sources(
+        mut commands: Commands,
+        query: Query<(Entity, &FmodAudioSource), Added<FmodAudioSource>>,
+        studio: NonSend<Studio>,
+    ) {
+        for (ent, source) in query.iter() {
+            let event_description = studio.get_event(source.name).unwrap();
+            let instance = event_description.create_instance().unwrap();
+
+            // Start the effect already
+            instance.start().unwrap();
+
+            commands.entity(ent).insert(FmodAudioSourcePlayer {
+                name: source.name,
+                fmod_event: UnsafeEventInstance { pointer: instance },
+                previous_position: Vec3::ZERO,
+            });
+        }
     }
 
     #[sysfail(log(level = "error"))]
@@ -81,6 +189,7 @@ impl FmodPlugin {
         Ok(())
     }
 
+    ///todo? FMOD may also be configured to use a right-handed coordinate system by passing FMOD_INIT_3D_RIGHTHANDED to System::init.
     fn init_studio() -> Studio {
         let studio = Studio::create().expect("Failed to create FMOD studio");
         studio
@@ -89,6 +198,8 @@ impl FmodPlugin {
         studio
     }
 
+    // Todo: optionally load sample data in advance? https://www.fmod.com/docs/2.00/api/studio-guide.html#sample-data-loading
+    // Or per in-game level for example?
     fn load_banks(studio: &Studio, banks_dir: &Path) -> anyhow::Result<()> {
         // Collect all files within the fmod/Example/Build/Desktop directory
         let files = read_dir(banks_dir)
@@ -117,5 +228,78 @@ impl FmodPlugin {
         }
 
         Ok(())
+    }
+}
+
+fn attributes3d(pos: Vec3, vel: Vec3, fwd: Vec3, up: Vec3) -> Attributes3d {
+    Attributes3d {
+        position: Vector {
+            x: pos.x,
+            y: pos.y,
+            z: -pos.z,
+        },
+        velocity: Vector {
+            x: vel.x,
+            y: vel.y,
+            z: -vel.z,
+        },
+        forward: Vector {
+            x: fwd.x,
+            y: fwd.y,
+            z: -fwd.z,
+        },
+        up: Vector {
+            x: up.x,
+            y: up.y,
+            z: -up.z,
+        },
+    }
+}
+
+impl AudioSinkPlayback for FmodAudioSourcePlayer {
+    fn volume(&self) -> f32 {
+        let (volume, _final_volume) = self.fmod_event.pointer.get_volume().unwrap();
+        volume
+    }
+
+    fn set_volume(&self, volume: f32) {
+        self.fmod_event.pointer.set_volume(volume).unwrap();
+    }
+
+    fn speed(&self) -> f32 {
+        todo!()
+    }
+
+    fn set_speed(&self, speed: f32) {
+        todo!()
+    }
+
+    fn play(&self) {
+        // AudioSinkPlayback does not have a resume function so we go for this
+        if self.is_paused() {
+            self.fmod_event.pointer.set_paused(false).unwrap();
+        } else {
+            self.fmod_event.pointer.start().unwrap();
+        }
+    }
+
+    fn pause(&self) {
+        self.fmod_event.pointer.set_paused(true).unwrap();
+    }
+
+    fn is_paused(&self) -> bool {
+        self.fmod_event.pointer.get_paused().unwrap()
+    }
+
+    fn stop(&self) {
+        // Todo: config stopmode
+        self.fmod_event
+            .pointer
+            .stop(libfmod::StopMode::AllowFadeout)
+            .unwrap();
+    }
+
+    fn empty(&self) -> bool {
+        !self.fmod_event.pointer.is_valid()
     }
 }

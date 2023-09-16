@@ -14,8 +14,12 @@ bevy_mod_sysfail = "3.0.0"
 libfmod = "2.2.607"
 
 [dev-dependencies]
-# The hello_world example needs the default features of bevy
+# The examples need the default features of bevy
 bevy = "0.11.2"
+smooth-bevy-cameras = "0.9.0"
 
 [[example]]
 name = "minimal"
+
+[[example]]
+name = "spatial"
