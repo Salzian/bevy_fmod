@@ -52,9 +52,10 @@ project: `./demo_project`.
 
 ## Versioning
 
-| bevy_fmod | Bevy                                      | FMOD                                                  |
+| bevy_fmod | Bevy                                      | FMOD (tested version, newer may work)                 |
 |-----------|-------------------------------------------|-------------------------------------------------------|
-| 0.1.0     | [![0.11.0][Bevy 0.11.0 img]][Bevy 0.11.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.2.0     | [![0.11.0][Bevy 0.11.0 img]][Bevy 0.11.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.1.0     | [![0.10.0][Bevy 0.11.0 img]][Bevy 0.10.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 | 0.0.1     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10.0] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 
 [Bevy]: https://bevyengine.org

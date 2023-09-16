@@ -3,7 +3,7 @@ name = "bevy_fmod"
 description = "Idiomatic FMOD in Bevy"
 authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 repository = "https://github.com/salzian/bevy_fmod"
-version = "0.1.0"
+version = "0.2.0"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
