@@ -303,3 +303,12 @@ impl AudioSinkPlayback for FmodAudioSourcePlayer {
         !self.fmod_event.pointer.is_valid()
     }
 }
+
+impl Drop for FmodAudioSourcePlayer {
+    fn drop(&mut self) {
+        self.fmod_event
+            .pointer
+            .release()
+            .expect("Error releasing FMOD event instance");
+    }
+}

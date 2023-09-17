@@ -36,9 +36,6 @@ fn spawn_sound(
     mut materials: ResMut<Assets<StandardMaterial>>,
     input: Res<Input<KeyCode>>,
 ) {
-    // Warning: Currently you have to manually release the fmod event instance before you delete the entity.
-    // example: audio_player.fmod_event.pointer.release().unwrap(); on the FmodAudioSourcePlayer component
-    // Otherwise you will have a slow memory leak. todo: fix
     if input.just_pressed(KeyCode::F) {
         commands.spawn((
             FmodAudioSource {
