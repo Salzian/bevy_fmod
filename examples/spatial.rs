@@ -64,16 +64,16 @@ fn stop_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) 
 
 fn play_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::P) {
-        for player in query.iter() {
-            player.play();
+        for audio_player in query.iter() {
+            audio_player.play();
         }
     }
 }
 
 fn toggle_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::T) {
-        for player in query.iter() {
-            player.toggle();
+        for audio_player in query.iter() {
+            audio_player.toggle();
         }
     }
 }
