@@ -262,12 +262,18 @@ impl AudioSinkPlayback for AudioSourcePlayer {
         self.fmod_event.pointer.set_volume(volume).unwrap();
     }
 
+    /// Gets the pitch
     fn speed(&self) -> f32 {
-        todo!()
+        let (pitch, _final_pitch) = self.fmod_event.pointer.get_pitch().unwrap();
+        pitch
     }
 
+    /// Sets the pitch:
+    /// "The pitch multiplier is used to modulate the event instance's pitch.
+    /// The pitch multiplier can be set to any value greater than or equal to zero but
+    /// the final combined pitch is clamped to the range [0.0, 100.0] before being applied."
     fn set_speed(&self, speed: f32) {
-        todo!()
+        self.fmod_event.pointer.set_pitch(speed).unwrap();
     }
 
     fn play(&self) {
