@@ -1,10 +1,10 @@
+use crate::PlaySoundEvent;
 use bevy::app::{App, Plugin};
 use bevy::log::{debug, trace};
 use bevy::prelude::{EventReader, NonSend, PostUpdate, Resource, Startup, Update, World};
 use bevy_mod_sysfail::sysfail;
 use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
 use libfmod::{EventDescription, Studio};
-use play_sound_event::PlaySoundEvent;
 use std::env::var;
 use std::fs::{canonicalize, read_dir};
 use std::path::{Path, PathBuf};

@@ -1,6 +1,3 @@
-extern crate bevy;
-extern crate bevy_fmod;
-
 use bevy::prelude::EventWriter;
 use bevy::DefaultPlugins;
 use bevy::{app::App, prelude::Startup};
