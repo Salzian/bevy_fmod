@@ -1,6 +1,7 @@
-/// Spatial audio. Press F to spawn the audio source
-/// Having a TransformBundle on the FmodAudioSource
-/// and a FmodListener on the camera (for example) is enough to get the spatial audio working.
+//! Spatial audio. Press F to spawn the audio source
+//! Having a TransformBundle on the FmodAudioSource
+//! and a FmodListener on the camera (for example) is enough to get the spatial audio working.
+
 use bevy::app::App;
 use bevy::prelude::{
     default, shape, Assets, AudioSinkPlayback, Camera3dBundle, Color, Commands, Input, KeyCode,
