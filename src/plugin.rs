@@ -1,4 +1,4 @@
-use crate::PlaySoundEvent;
+use crate::{sync_wrapped, PlaySoundEvent};
 use bevy::app::{App, Plugin};
 use bevy::audio::AudioSinkPlayback;
 use bevy::log::{debug, trace};
@@ -33,16 +33,10 @@ pub struct AudioSource {
     pub name: &'static str,
 }
 
-// This should be OK I think since we should only have one event instance per entity
-unsafe impl Sync for EventInstance {}
-unsafe impl Send for EventInstance {}
-
-struct EventInstance(libfmod::EventInstance);
-
 #[derive(Component)]
 pub struct AudioSourcePlayer {
     pub name: &'static str,
-    fmod_event: EventInstance,
+    fmod_event: sync_wrapped::EventInstance,
     previous_position: Vec3,
 }
 
@@ -158,7 +152,7 @@ impl FmodPlugin {
 
             commands.entity(ent).insert(AudioSourcePlayer {
                 name: source.name,
-                fmod_event: EventInstance(instance),
+                fmod_event: sync_wrapped::EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
         }

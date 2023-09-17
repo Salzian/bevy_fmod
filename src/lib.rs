@@ -1,5 +1,6 @@
 mod play_sound_event;
 mod plugin;
+mod sync_wrapped;
 
 pub use crate::play_sound_event::PlaySoundEvent;
 pub use crate::plugin::AudioListener;
