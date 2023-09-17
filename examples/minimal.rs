@@ -1,10 +1,10 @@
 //! This example demonstrates how to use the FmodPlugin to play a sound.
 //! Make sure to follow the instructions in the README.md to set up the demo project.
 
-use bevy::prelude::EventWriter;
+use bevy::prelude::NonSend;
 use bevy::DefaultPlugins;
 use bevy::{app::App, prelude::Startup};
-use bevy_fmod::{FmodPlugin, PlaySoundEvent};
+use bevy_fmod::{FmodPlugin, OneShotPlayer};
 
 fn main() {
     App::new()
@@ -18,6 +18,6 @@ fn main() {
         .run();
 }
 
-fn play_music(mut event_writer: EventWriter<PlaySoundEvent>) {
-    event_writer.send(PlaySoundEvent("event:/return"));
+fn play_music(one_shot_player: NonSend<OneShotPlayer>) {
+    one_shot_player.play_event("event:/return");
 }

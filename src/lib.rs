@@ -7,5 +7,5 @@ mod utils;
 pub use crate::audio_player::AudioListener;
 pub use crate::audio_player::AudioSource;
 pub use crate::audio_player::AudioSourcePlayer;
-pub use crate::play_sound_event::PlaySoundEvent;
+pub use crate::play_sound_event::OneShotPlayer;
 pub use crate::plugin::FmodPlugin;

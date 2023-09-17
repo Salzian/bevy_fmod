@@ -1,17 +1,18 @@
 use crate::audio_player::{AudioListener, AudioSource, AudioSourcePlayer};
+use crate::play_sound_event::OneShotPlayer;
 use crate::sync_wrapped;
-use crate::{utils, PlaySoundEvent};
+use crate::utils;
 use bevy::app::{App, Plugin};
 use bevy::log::{debug, trace};
 use bevy::math::Vec3;
 use bevy::prelude::{
-    Added, Commands, Entity, EventReader, GlobalTransform, NonSend, PostUpdate, Query, Res,
-    Resource, Startup, Update, World,
+    Added, Commands, Entity, GlobalTransform, NonSend, PostUpdate, Query, Res, Resource, Startup,
+    Update, World,
 };
 use bevy::time::Time;
 use bevy_mod_sysfail::sysfail;
 use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
-use libfmod::{EventDescription, Studio};
+use libfmod::Studio;
 use std::env::var;
 use std::fs::{canonicalize, read_dir};
 use std::path::{Path, PathBuf};
@@ -27,20 +28,12 @@ struct Config {
 
 impl Plugin for FmodPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<PlaySoundEvent>()
-            .insert_resource(Config {
-                audio_banks_directory: self.audio_banks_directory,
-            })
-            .add_systems(Startup, Self::startup)
-            .add_systems(
-                Update,
-                (
-                    Self::play_incoming_events,
-                    Self::check_for_new_sources,
-                    Self::update_sources,
-                ),
-            )
-            .add_systems(PostUpdate, Self::update);
+        app.insert_resource(Config {
+            audio_banks_directory: self.audio_banks_directory,
+        })
+        .add_systems(Startup, Self::startup)
+        .add_systems(Update, (Self::check_for_new_sources, Self::update_sources))
+        .add_systems(PostUpdate, Self::update);
     }
 }
 
@@ -64,6 +57,7 @@ impl FmodPlugin {
         debug!("Loading audio banks from: {:?}", path);
 
         Self::load_banks(&studio, path.as_path()).expect("Failed to load audio banks.");
+        world.insert_non_send_resource(OneShotPlayer { studio });
         world.insert_non_send_resource(studio);
     }
 
@@ -132,28 +126,6 @@ impl FmodPlugin {
                 previous_position: Vec3::ZERO,
             });
         }
-    }
-
-    #[sysfail(log(level = "error"))]
-    fn play_incoming_events(
-        mut events: EventReader<PlaySoundEvent>,
-        studio: NonSend<Studio>,
-    ) -> anyhow::Result<()> {
-        for event in events.iter() {
-            let event_description = studio.get_event(event.0)?;
-            Self::play_event(&event_description)?;
-        }
-
-        Ok(())
-    }
-
-    fn play_event(event_description: &EventDescription) -> anyhow::Result<()> {
-        let instance = event_description.create_instance()?;
-
-        instance.start()?;
-        instance.release()?;
-
-        Ok(())
     }
 
     fn init_studio() -> Studio {
