@@ -37,15 +37,14 @@ pub struct AudioSource {
 unsafe impl Sync for UnsafeEventInstance {}
 unsafe impl Send for UnsafeEventInstance {}
 
-// todo: should not be pub eventually
-pub struct UnsafeEventInstance {
-    pub pointer: libfmod::EventInstance,
+struct UnsafeEventInstance {
+    pointer: libfmod::EventInstance,
 }
 
 #[derive(Component)]
 pub struct AudioSourcePlayer {
     pub name: &'static str,
-    pub fmod_event: UnsafeEventInstance,
+    fmod_event: UnsafeEventInstance,
     previous_position: Vec3,
 }
 
