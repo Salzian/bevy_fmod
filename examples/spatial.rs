@@ -20,7 +20,7 @@ fn main() {
         .add_plugins((
             DefaultPlugins,
             FmodPlugin {
-                audio_banks_directory: "./examples/demo_project/Build/Desktop",
+                audio_banks_directory: "./demo_project/Build/Desktop",
             },
         ))
         .add_plugins(LookTransformPlugin)
@@ -42,7 +42,7 @@ fn spawn_sound(
     if input.just_pressed(KeyCode::F) {
         commands.spawn((
             FmodAudioSource {
-                name: "event:/sound",
+                name: "event:/return",
             },
             PbrBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),

@@ -45,7 +45,7 @@ pub struct UnsafeEventInstance {
 #[derive(Component)]
 pub struct FmodAudioSourcePlayer {
     pub name: &'static str,
-    pub fmod_event: UnsafeEventInstance, //todo: arc+mutex?
+    pub fmod_event: UnsafeEventInstance,
     previous_position: Vec3,
 }
 
@@ -292,7 +292,7 @@ impl AudioSinkPlayback for FmodAudioSourcePlayer {
     }
 
     fn stop(&self) {
-        // Todo: config stopmode
+        // Todo: configurable StopMode
         self.fmod_event
             .pointer
             .stop(libfmod::StopMode::AllowFadeout)
