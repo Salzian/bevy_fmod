@@ -14,7 +14,7 @@ use bevy::prelude::{
     Transform, Update, Vec3,
 };
 use bevy::DefaultPlugins;
-use bevy_fmod::{FmodAudioSource, FmodAudioSourcePlayer, FmodListener, FmodPlugin};
+use bevy_fmod::{AudioListener, AudioSource, AudioSourcePlayer, FmodPlugin};
 
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -44,7 +44,7 @@ fn spawn_sound(
 ) {
     if input.just_pressed(KeyCode::F) {
         commands.spawn((
-            FmodAudioSource {
+            AudioSource {
                 name: "event:/return",
             },
             PbrBundle {
@@ -57,7 +57,7 @@ fn spawn_sound(
     }
 }
 
-fn stop_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn stop_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::O) {
         for audio_player in query.iter() {
             audio_player.stop();
@@ -65,7 +65,7 @@ fn stop_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) 
     }
 }
 
-fn play_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn play_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::P) {
         for audio_player in query.iter() {
             audio_player.play();
@@ -73,7 +73,7 @@ fn play_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) 
     }
 }
 
-fn toggle_sound(query: Query<&FmodAudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn toggle_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::T) {
         for audio_player in query.iter() {
             audio_player.toggle();
@@ -105,7 +105,7 @@ fn setup_scene(
     // camera
     commands
         .spawn(Camera3dBundle::default())
-        .insert(FmodListener::default())
+        .insert(AudioListener::default())
         .insert(FpsCameraBundle::new(
             FpsCameraController::default(),
             Vec3::new(-2.0, 5.0, 5.0),

@@ -16,20 +16,20 @@ use std::fs::{canonicalize, read_dir};
 use std::path::{Path, PathBuf};
 
 #[derive(Component)]
-pub struct FmodListener {
+pub struct AudioListener {
     previous_position: Vec3,
 }
 
-impl Default for FmodListener {
+impl Default for AudioListener {
     fn default() -> Self {
-        FmodListener {
+        AudioListener {
             previous_position: Vec3::default(),
         }
     }
 }
 
 #[derive(Component)]
-pub struct FmodAudioSource {
+pub struct AudioSource {
     pub name: &'static str,
 }
 
@@ -43,7 +43,7 @@ pub struct UnsafeEventInstance {
 }
 
 #[derive(Component)]
-pub struct FmodAudioSourcePlayer {
+pub struct AudioSourcePlayer {
     pub name: &'static str,
     pub fmod_event: UnsafeEventInstance,
     previous_position: Vec3,
@@ -101,7 +101,7 @@ impl FmodPlugin {
     }
 
     fn update_sources(
-        mut query: Query<(&GlobalTransform, &mut FmodAudioSourcePlayer)>,
+        mut query: Query<(&GlobalTransform, &mut AudioSourcePlayer)>,
         time: Res<Time>,
     ) {
         for (transform, mut source) in query.iter_mut() {
@@ -126,7 +126,7 @@ impl FmodPlugin {
     #[sysfail(log(level = "error"))]
     fn update(
         studio: NonSend<Studio>,
-        mut query: Query<(&GlobalTransform, &mut FmodListener)>,
+        mut query: Query<(&GlobalTransform, &mut AudioListener)>,
         time: Res<Time>,
     ) -> anyhow::Result<()> {
         if let Ok((transform, mut listener)) = query.get_single_mut() {
@@ -149,7 +149,7 @@ impl FmodPlugin {
 
     fn check_for_new_sources(
         mut commands: Commands,
-        query: Query<(Entity, &FmodAudioSource), Added<FmodAudioSource>>,
+        query: Query<(Entity, &AudioSource), Added<AudioSource>>,
         studio: NonSend<Studio>,
     ) {
         for (ent, source) in query.iter() {
@@ -159,7 +159,7 @@ impl FmodPlugin {
             // Start the effect already
             instance.start().unwrap();
 
-            commands.entity(ent).insert(FmodAudioSourcePlayer {
+            commands.entity(ent).insert(AudioSourcePlayer {
                 name: source.name,
                 fmod_event: UnsafeEventInstance { pointer: instance },
                 previous_position: Vec3::ZERO,
@@ -253,7 +253,7 @@ fn attributes3d(pos: Vec3, vel: Vec3, fwd: Vec3, up: Vec3) -> Attributes3d {
     }
 }
 
-impl AudioSinkPlayback for FmodAudioSourcePlayer {
+impl AudioSinkPlayback for AudioSourcePlayer {
     fn volume(&self) -> f32 {
         let (volume, _final_volume) = self.fmod_event.pointer.get_volume().unwrap();
         volume
@@ -301,7 +301,7 @@ impl AudioSinkPlayback for FmodAudioSourcePlayer {
     }
 }
 
-impl Drop for FmodAudioSourcePlayer {
+impl Drop for AudioSourcePlayer {
     fn drop(&mut self) {
         self.fmod_event
             .pointer
