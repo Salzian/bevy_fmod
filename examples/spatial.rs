@@ -1,6 +1,11 @@
-//! Spatial audio. Press F to spawn the audio source
+//! Spatial audio:
 //! Having a TransformBundle on the FmodAudioSource
 //! and a FmodListener on the camera (for example) is enough to get the spatial audio working.
+//!
+//! Controls:
+//! Use WASD, Space, Shift and the mouse to move around.
+//! Press F to spawn an audio source.
+//! Press O, P and T to stop, play and toggle the sounds, respectively.
 
 use bevy::app::App;
 use bevy::prelude::{

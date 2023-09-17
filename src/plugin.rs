@@ -189,7 +189,6 @@ impl FmodPlugin {
         Ok(())
     }
 
-    ///todo? FMOD may also be configured to use a right-handed coordinate system by passing FMOD_INIT_3D_RIGHTHANDED to System::init.
     fn init_studio() -> Studio {
         let studio = Studio::create().expect("Failed to create FMOD studio");
         studio
@@ -198,8 +197,6 @@ impl FmodPlugin {
         studio
     }
 
-    // Todo: optionally load sample data in advance? https://www.fmod.com/docs/2.00/api/studio-guide.html#sample-data-loading
-    // Or per in-game level for example?
     fn load_banks(studio: &Studio, banks_dir: &Path) -> anyhow::Result<()> {
         // Collect all files within the fmod/Example/Build/Desktop directory
         let files = read_dir(banks_dir)
