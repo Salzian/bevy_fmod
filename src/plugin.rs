@@ -34,17 +34,15 @@ pub struct AudioSource {
 }
 
 // This should be OK I think since we should only have one event instance per entity
-unsafe impl Sync for UnsafeEventInstance {}
-unsafe impl Send for UnsafeEventInstance {}
+unsafe impl Sync for EventInstance {}
+unsafe impl Send for EventInstance {}
 
-struct UnsafeEventInstance {
-    pointer: libfmod::EventInstance,
-}
+struct EventInstance(libfmod::EventInstance);
 
 #[derive(Component)]
 pub struct AudioSourcePlayer {
     pub name: &'static str,
-    fmod_event: UnsafeEventInstance,
+    fmod_event: EventInstance,
     previous_position: Vec3,
 }
 
@@ -116,7 +114,7 @@ impl FmodPlugin {
 
             source
                 .fmod_event
-                .pointer
+                .0
                 .set_3d_attributes(source_attributes)
                 .unwrap();
         }
@@ -160,7 +158,7 @@ impl FmodPlugin {
 
             commands.entity(ent).insert(AudioSourcePlayer {
                 name: source.name,
-                fmod_event: UnsafeEventInstance { pointer: instance },
+                fmod_event: EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
         }
@@ -254,17 +252,17 @@ fn attributes3d(pos: Vec3, vel: Vec3, fwd: Vec3, up: Vec3) -> Attributes3d {
 
 impl AudioSinkPlayback for AudioSourcePlayer {
     fn volume(&self) -> f32 {
-        let (volume, _final_volume) = self.fmod_event.pointer.get_volume().unwrap();
+        let (volume, _final_volume) = self.fmod_event.0.get_volume().unwrap();
         volume
     }
 
     fn set_volume(&self, volume: f32) {
-        self.fmod_event.pointer.set_volume(volume).unwrap();
+        self.fmod_event.0.set_volume(volume).unwrap();
     }
 
     /// Gets the pitch
     fn speed(&self) -> f32 {
-        let (pitch, _final_pitch) = self.fmod_event.pointer.get_pitch().unwrap();
+        let (pitch, _final_pitch) = self.fmod_event.0.get_pitch().unwrap();
         pitch
     }
 
@@ -273,43 +271,43 @@ impl AudioSinkPlayback for AudioSourcePlayer {
     /// The pitch multiplier can be set to any value greater than or equal to zero but
     /// the final combined pitch is clamped to the range [0.0, 100.0] before being applied."
     fn set_speed(&self, speed: f32) {
-        self.fmod_event.pointer.set_pitch(speed).unwrap();
+        self.fmod_event.0.set_pitch(speed).unwrap();
     }
 
     fn play(&self) {
         // AudioSinkPlayback does not have a resume function so we go for this
         if self.is_paused() {
-            self.fmod_event.pointer.set_paused(false).unwrap();
+            self.fmod_event.0.set_paused(false).unwrap();
         } else {
-            self.fmod_event.pointer.start().unwrap();
+            self.fmod_event.0.start().unwrap();
         }
     }
 
     fn pause(&self) {
-        self.fmod_event.pointer.set_paused(true).unwrap();
+        self.fmod_event.0.set_paused(true).unwrap();
     }
 
     fn is_paused(&self) -> bool {
-        self.fmod_event.pointer.get_paused().unwrap()
+        self.fmod_event.0.get_paused().unwrap()
     }
 
     fn stop(&self) {
         // Todo: configurable StopMode
         self.fmod_event
-            .pointer
+            .0
             .stop(libfmod::StopMode::AllowFadeout)
             .unwrap();
     }
 
     fn empty(&self) -> bool {
-        !self.fmod_event.pointer.is_valid()
+        !self.fmod_event.0.is_valid()
     }
 }
 
 impl Drop for AudioSourcePlayer {
     fn drop(&mut self) {
         self.fmod_event
-            .pointer
+            .0
             .release()
             .expect("Error releasing FMOD event instance");
     }
