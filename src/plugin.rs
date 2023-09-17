@@ -1,44 +1,20 @@
-use crate::{sync_wrapped, PlaySoundEvent};
+use crate::audio_player::{AudioListener, AudioSource, AudioSourcePlayer};
+use crate::sync_wrapped;
+use crate::{utils, PlaySoundEvent};
 use bevy::app::{App, Plugin};
-use bevy::audio::AudioSinkPlayback;
 use bevy::log::{debug, trace};
 use bevy::math::Vec3;
 use bevy::prelude::{
-    Added, Commands, Component, Entity, EventReader, GlobalTransform, NonSend, PostUpdate, Query,
-    Res, Resource, Startup, Update, World,
+    Added, Commands, Entity, EventReader, GlobalTransform, NonSend, PostUpdate, Query, Res,
+    Resource, Startup, Update, World,
 };
 use bevy::time::Time;
 use bevy_mod_sysfail::sysfail;
 use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
-use libfmod::{Attributes3d, EventDescription, Studio, Vector};
+use libfmod::{EventDescription, Studio};
 use std::env::var;
 use std::fs::{canonicalize, read_dir};
 use std::path::{Path, PathBuf};
-
-#[derive(Component)]
-pub struct AudioListener {
-    previous_position: Vec3,
-}
-
-impl Default for AudioListener {
-    fn default() -> Self {
-        AudioListener {
-            previous_position: Vec3::default(),
-        }
-    }
-}
-
-#[derive(Component)]
-pub struct AudioSource {
-    pub name: &'static str,
-}
-
-#[derive(Component)]
-pub struct AudioSourcePlayer {
-    pub name: &'static str,
-    fmod_event: sync_wrapped::EventInstance,
-    previous_position: Vec3,
-}
 
 pub struct FmodPlugin {
     pub audio_banks_directory: &'static str,
@@ -104,7 +80,7 @@ impl FmodPlugin {
             let vel = delta / time.delta_seconds();
             source.previous_position = pos;
 
-            let source_attributes = attributes3d(pos, vel, fwd, up);
+            let source_attributes = utils::attributes3d(pos, vel, fwd, up);
 
             source
                 .fmod_event
@@ -129,7 +105,7 @@ impl FmodPlugin {
             let vel = delta / time.delta_seconds();
             listener.previous_position = pos;
 
-            let listener_attributes = attributes3d(pos, vel, fwd, up);
+            let listener_attributes = utils::attributes3d(pos, vel, fwd, up);
 
             studio.set_listener_attributes(0, listener_attributes, None)?;
         }
@@ -216,93 +192,5 @@ impl FmodPlugin {
         }
 
         Ok(())
-    }
-}
-
-fn attributes3d(pos: Vec3, vel: Vec3, fwd: Vec3, up: Vec3) -> Attributes3d {
-    Attributes3d {
-        position: Vector {
-            x: pos.x,
-            y: pos.y,
-            z: -pos.z,
-        },
-        velocity: Vector {
-            x: vel.x,
-            y: vel.y,
-            z: -vel.z,
-        },
-        forward: Vector {
-            x: fwd.x,
-            y: fwd.y,
-            z: -fwd.z,
-        },
-        up: Vector {
-            x: up.x,
-            y: up.y,
-            z: -up.z,
-        },
-    }
-}
-
-impl AudioSinkPlayback for AudioSourcePlayer {
-    fn volume(&self) -> f32 {
-        let (volume, _final_volume) = self.fmod_event.0.get_volume().unwrap();
-        volume
-    }
-
-    fn set_volume(&self, volume: f32) {
-        self.fmod_event.0.set_volume(volume).unwrap();
-    }
-
-    /// Gets the pitch
-    fn speed(&self) -> f32 {
-        let (pitch, _final_pitch) = self.fmod_event.0.get_pitch().unwrap();
-        pitch
-    }
-
-    /// Sets the pitch:
-    /// "The pitch multiplier is used to modulate the event instance's pitch.
-    /// The pitch multiplier can be set to any value greater than or equal to zero but
-    /// the final combined pitch is clamped to the range [0.0, 100.0] before being applied."
-    fn set_speed(&self, speed: f32) {
-        self.fmod_event.0.set_pitch(speed).unwrap();
-    }
-
-    fn play(&self) {
-        // AudioSinkPlayback does not have a resume function so we go for this
-        if self.is_paused() {
-            self.fmod_event.0.set_paused(false).unwrap();
-        } else {
-            self.fmod_event.0.start().unwrap();
-        }
-    }
-
-    fn pause(&self) {
-        self.fmod_event.0.set_paused(true).unwrap();
-    }
-
-    fn is_paused(&self) -> bool {
-        self.fmod_event.0.get_paused().unwrap()
-    }
-
-    fn stop(&self) {
-        // Todo: configurable StopMode
-        self.fmod_event
-            .0
-            .stop(libfmod::StopMode::AllowFadeout)
-            .unwrap();
-    }
-
-    fn empty(&self) -> bool {
-        !self.fmod_event.0.is_valid()
-    }
-}
-
-impl Drop for AudioSourcePlayer {
-    fn drop(&mut self) {
-        self.fmod_event
-            .0
-            .release()
-            .expect("Error releasing FMOD event instance");
     }
 }
