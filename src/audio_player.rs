@@ -1,3 +1,4 @@
+pub mod attributes_3d;
 pub mod audio_listener;
 pub mod audio_source;
 

@@ -2,7 +2,6 @@ mod audio_player;
 mod one_shot_player;
 mod plugin;
 mod sync_wrapped;
-mod utils;
 
 pub use crate::audio_player::audio_listener::AudioListener;
 pub use crate::audio_player::audio_source::AudioSource;

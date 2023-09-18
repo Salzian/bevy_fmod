@@ -1,4 +1,4 @@
-use crate::utils;
+use crate::audio_player::attributes_3d;
 use crate::EventInstance;
 use crate::OneShotPlayer;
 use crate::{AudioListener, AudioPlayer, AudioSource};
@@ -75,7 +75,7 @@ impl FmodPlugin {
             let vel = delta / time.delta_seconds();
             source.previous_position = pos;
 
-            let source_attributes = utils::attributes3d(pos, vel, fwd, up);
+            let source_attributes = attributes_3d::attributes3d(pos, vel, fwd, up);
 
             source.fmod_event.0.set_3d_attributes(source_attributes)?;
         }
@@ -98,7 +98,7 @@ impl FmodPlugin {
             let vel = delta / time.delta_seconds();
             listener.previous_position = pos;
 
-            let listener_attributes = utils::attributes3d(pos, vel, fwd, up);
+            let listener_attributes = attributes_3d::attributes3d(pos, vel, fwd, up);
 
             studio.set_listener_attributes(0, listener_attributes, None)?;
         }
