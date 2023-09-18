@@ -14,7 +14,7 @@ use bevy::prelude::{
     Transform, Update, Vec3,
 };
 use bevy::DefaultPlugins;
-use bevy_fmod::{AudioListener, AudioSource, AudioSourcePlayer, FmodPlugin};
+use bevy_fmod::{AudioListener, AudioPlayer, AudioSource, FmodPlugin};
 
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -55,7 +55,7 @@ fn spawn_sound(
     }
 }
 
-fn stop_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn stop_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::O) {
         for audio_player in query.iter() {
             audio_player.stop();
@@ -63,7 +63,7 @@ fn stop_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     }
 }
 
-fn play_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn play_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::P) {
         for audio_player in query.iter() {
             audio_player.play();
@@ -71,7 +71,7 @@ fn play_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
     }
 }
 
-fn toggle_sound(query: Query<&AudioSourcePlayer>, input: Res<Input<KeyCode>>) {
+fn toggle_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::T) {
         for audio_player in query.iter() {
             audio_player.toggle();

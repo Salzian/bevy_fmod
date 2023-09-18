@@ -1,37 +1,16 @@
+pub mod audio_listener;
+pub mod audio_source;
+
 use crate::EventInstance;
 use bevy::prelude::{AudioSinkPlayback, Component, Vec3};
 
 #[derive(Component)]
-pub struct AudioListener {
-    pub previous_position: Vec3,
-}
-
-impl Default for AudioListener {
-    fn default() -> Self {
-        AudioListener {
-            previous_position: Vec3::default(),
-        }
-    }
-}
-
-#[derive(Component)]
-pub struct AudioSource {
-    pub name: &'static str,
-}
-
-impl From<&'static str> for AudioSource {
-    fn from(name: &'static str) -> Self {
-        AudioSource { name }
-    }
-}
-
-#[derive(Component)]
-pub struct AudioSourcePlayer {
+pub struct AudioPlayer {
     pub fmod_event: EventInstance,
     pub previous_position: Vec3,
 }
 
-impl AudioSinkPlayback for AudioSourcePlayer {
+impl AudioSinkPlayback for AudioPlayer {
     fn volume(&self) -> f32 {
         let (volume, _final_volume) = self.fmod_event.0.get_volume().unwrap();
         volume
@@ -85,7 +64,7 @@ impl AudioSinkPlayback for AudioSourcePlayer {
     }
 }
 
-impl Drop for AudioSourcePlayer {
+impl Drop for AudioPlayer {
     fn drop(&mut self) {
         self.fmod_event
             .0

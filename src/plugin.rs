@@ -1,7 +1,7 @@
 use crate::utils;
 use crate::EventInstance;
 use crate::OneShotPlayer;
-use crate::{AudioListener, AudioSource, AudioSourcePlayer};
+use crate::{AudioListener, AudioPlayer, AudioSource};
 use bevy::app::{App, Plugin};
 use bevy::log::{debug, trace};
 use bevy::math::Vec3;
@@ -61,10 +61,7 @@ impl FmodPlugin {
         world.insert_non_send_resource(studio);
     }
 
-    fn update_sources(
-        mut query: Query<(&GlobalTransform, &mut AudioSourcePlayer)>,
-        time: Res<Time>,
-    ) {
+    fn update_sources(mut query: Query<(&GlobalTransform, &mut AudioPlayer)>, time: Res<Time>) {
         for (transform, mut source) in query.iter_mut() {
             let pos = transform.translation();
             let fwd = transform.forward();
@@ -120,7 +117,7 @@ impl FmodPlugin {
             // Start the effect already
             instance.start().unwrap();
 
-            commands.entity(ent).insert(AudioSourcePlayer {
+            commands.entity(ent).insert(AudioPlayer {
                 fmod_event: EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
