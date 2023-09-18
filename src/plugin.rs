@@ -1,7 +1,7 @@
-use crate::audio_player::{AudioListener, AudioSource, AudioSourcePlayer};
-use crate::play_sound_event::OneShotPlayer;
-use crate::sync_wrapped;
 use crate::utils;
+use crate::EventInstance;
+use crate::OneShotPlayer;
+use crate::{AudioListener, AudioSource, AudioSourcePlayer};
 use bevy::app::{App, Plugin};
 use bevy::log::{debug, trace};
 use bevy::math::Vec3;
@@ -122,7 +122,7 @@ impl FmodPlugin {
 
             commands.entity(ent).insert(AudioSourcePlayer {
                 name: source.name,
-                fmod_event: sync_wrapped::EventInstance(instance),
+                fmod_event: EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
         }

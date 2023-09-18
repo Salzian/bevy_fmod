@@ -9,3 +9,4 @@ pub use crate::audio_player::AudioSource;
 pub use crate::audio_player::AudioSourcePlayer;
 pub use crate::play_sound_event::OneShotPlayer;
 pub use crate::plugin::FmodPlugin;
+pub use crate::sync_wrapped::event_instance::EventInstance;

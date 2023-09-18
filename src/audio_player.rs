@@ -1,4 +1,4 @@
-use crate::sync_wrapped;
+use crate::EventInstance;
 use bevy::prelude::{AudioSinkPlayback, Component, Vec3};
 
 #[derive(Component)]
@@ -22,7 +22,7 @@ pub struct AudioSource {
 #[derive(Component)]
 pub struct AudioSourcePlayer {
     pub name: &'static str,
-    pub fmod_event: sync_wrapped::EventInstance,
+    pub fmod_event: EventInstance,
     pub previous_position: Vec3,
 }
 
