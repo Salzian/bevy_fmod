@@ -28,7 +28,6 @@ impl AudioSinkPlayback for AudioPlayer {
             .expect("Failed to set volume.");
     }
 
-    /// Gets the pitch
     fn speed(&self) -> f32 {
         let (pitch, _final_pitch) = self
             .fmod_event
