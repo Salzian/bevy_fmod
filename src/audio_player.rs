@@ -19,6 +19,12 @@ pub struct AudioSource {
     pub name: &'static str,
 }
 
+impl From<&'static str> for AudioSource {
+    fn from(name: &'static str) -> Self {
+        AudioSource { name }
+    }
+}
+
 #[derive(Component)]
 pub struct AudioSourcePlayer {
     pub fmod_event: EventInstance,
