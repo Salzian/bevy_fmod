@@ -61,7 +61,11 @@ impl FmodPlugin {
         world.insert_non_send_resource(studio);
     }
 
-    fn update_sources(mut query: Query<(&GlobalTransform, &mut AudioPlayer)>, time: Res<Time>) {
+    #[sysfail(log(level = "error"))]
+    fn update_sources(
+        mut query: Query<(&GlobalTransform, &mut AudioPlayer)>,
+        time: Res<Time>,
+    ) -> anyhow::Result<()> {
         for (transform, mut source) in query.iter_mut() {
             let pos = transform.translation();
             let fwd = transform.forward();
@@ -73,12 +77,10 @@ impl FmodPlugin {
 
             let source_attributes = utils::attributes3d(pos, vel, fwd, up);
 
-            source
-                .fmod_event
-                .0
-                .set_3d_attributes(source_attributes)
-                .unwrap();
+            source.fmod_event.0.set_3d_attributes(source_attributes)?;
         }
+
+        Ok(())
     }
 
     #[sysfail(log(level = "error"))]
@@ -105,23 +107,26 @@ impl FmodPlugin {
         Ok(())
     }
 
+    #[sysfail(log(level = "error"))]
     fn check_for_new_sources(
         mut commands: Commands,
         query: Query<(Entity, &AudioSource), Added<AudioSource>>,
         studio: NonSend<Studio>,
-    ) {
+    ) -> anyhow::Result<()> {
         for (ent, source) in query.iter() {
-            let event_description = studio.get_event(source.name).unwrap();
-            let instance = event_description.create_instance().unwrap();
+            let event_description = studio.get_event(source.name)?;
+            let instance = event_description.create_instance()?;
 
             // Start the effect already
-            instance.start().unwrap();
+            instance.start()?;
 
             commands.entity(ent).insert(AudioPlayer {
                 fmod_event: EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
         }
+
+        Ok(())
     }
 
     fn init_studio() -> Studio {

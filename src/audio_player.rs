@@ -12,17 +12,28 @@ pub struct AudioPlayer {
 
 impl AudioSinkPlayback for AudioPlayer {
     fn volume(&self) -> f32 {
-        let (volume, _final_volume) = self.fmod_event.0.get_volume().unwrap();
+        let (volume, _final_volume) = self
+            .fmod_event
+            .0
+            .get_volume()
+            .expect("Failed to get volume.");
         volume
     }
 
     fn set_volume(&self, volume: f32) {
-        self.fmod_event.0.set_volume(volume).unwrap();
+        self.fmod_event
+            .0
+            .set_volume(volume)
+            .expect("Failed to set volume.");
     }
 
     /// Gets the pitch
     fn speed(&self) -> f32 {
-        let (pitch, _final_pitch) = self.fmod_event.0.get_pitch().unwrap();
+        let (pitch, _final_pitch) = self
+            .fmod_event
+            .0
+            .get_pitch()
+            .expect("Failed to get pitch (speed).");
         pitch
     }
 
@@ -31,24 +42,36 @@ impl AudioSinkPlayback for AudioPlayer {
     /// The pitch multiplier can be set to any value greater than or equal to zero but
     /// the final combined pitch is clamped to the range [0.0, 100.0] before being applied."
     fn set_speed(&self, speed: f32) {
-        self.fmod_event.0.set_pitch(speed).unwrap();
+        self.fmod_event
+            .0
+            .set_pitch(speed)
+            .expect("Failed to set pitch (speed).");
     }
 
     fn play(&self) {
         // AudioSinkPlayback does not have a resume function so we go for this
         if self.is_paused() {
-            self.fmod_event.0.set_paused(false).unwrap();
+            self.fmod_event
+                .0
+                .set_paused(false)
+                .expect("Failed to set paused state.");
         } else {
-            self.fmod_event.0.start().unwrap();
+            self.fmod_event.0.start().expect("Failed to start event.");
         }
     }
 
     fn pause(&self) {
-        self.fmod_event.0.set_paused(true).unwrap();
+        self.fmod_event
+            .0
+            .set_paused(true)
+            .expect("Failed to set paused state.");
     }
 
     fn is_paused(&self) -> bool {
-        self.fmod_event.0.get_paused().unwrap()
+        self.fmod_event
+            .0
+            .get_paused()
+            .expect("Failed to get paused state.")
     }
 
     fn stop(&self) {
@@ -56,7 +79,7 @@ impl AudioSinkPlayback for AudioPlayer {
         self.fmod_event
             .0
             .stop(libfmod::StopMode::AllowFadeout)
-            .unwrap();
+            .expect("Failed to stop event,");
     }
 
     fn empty(&self) -> bool {
