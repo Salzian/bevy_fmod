@@ -21,7 +21,6 @@ pub struct AudioSource {
 
 #[derive(Component)]
 pub struct AudioSourcePlayer {
-    pub name: &'static str,
     pub fmod_event: EventInstance,
     pub previous_position: Vec3,
 }

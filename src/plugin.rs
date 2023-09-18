@@ -121,7 +121,6 @@ impl FmodPlugin {
             instance.start().unwrap();
 
             commands.entity(ent).insert(AudioSourcePlayer {
-                name: source.name,
                 fmod_event: EventInstance(instance),
                 previous_position: Vec3::ZERO,
             });
