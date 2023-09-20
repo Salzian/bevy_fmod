@@ -4,7 +4,9 @@ use std::path::{Path, PathBuf};
 
 use bevy::ecs::system::Resource;
 use bevy::log::{debug, trace};
-use libfmod::ffi::{FMOD_INIT_NORMAL, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL};
+use libfmod::ffi::{
+    FMOD_INIT_3D_RIGHTHANDED, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL,
+};
 use libfmod::Studio;
 
 #[derive(Resource, Copy, Clone)]
@@ -69,7 +71,12 @@ fn init_studio() -> Studio {
     let studio = Studio::create().expect("Failed to create FMOD studio");
 
     studio
-        .initialize(1024, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, None)
+        .initialize(
+            1024,
+            FMOD_STUDIO_INIT_NORMAL,
+            FMOD_INIT_3D_RIGHTHANDED,
+            None,
+        )
         .expect("Failed to initialize FMOD studio");
 
     studio
