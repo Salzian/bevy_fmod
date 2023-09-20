@@ -3,7 +3,8 @@ pub mod audio_listener;
 pub mod audio_source;
 
 use crate::EventInstance;
-use bevy::prelude::{AudioSinkPlayback, Component, Vec3};
+use bevy::audio::AudioSinkPlayback;
+use bevy::prelude::{Component, Vec3};
 
 #[derive(Component)]
 pub struct AudioPlayer {

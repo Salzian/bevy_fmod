@@ -1,13 +1,14 @@
-use libfmod::Studio;
+use crate::fmod_studio::FmodStudio;
+use bevy::prelude::Resource;
 
-pub struct OneShotPlayer {
-    pub studio: Studio,
-}
+#[derive(Resource)]
+pub struct OneShotPlayer(pub FmodStudio);
 
 impl OneShotPlayer {
     pub fn play_event(&self, event: &'static str) {
         let event_description = self
-            .studio
+            .0
+             .0
             .get_event(event)
             .expect("Failed to get event description from the event name supplied.");
         let instance = event_description

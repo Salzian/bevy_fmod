@@ -1,4 +1,5 @@
 mod audio_player;
+mod fmod_studio;
 mod one_shot_player;
 mod plugin;
 mod sync_wrapped;
