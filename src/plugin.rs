@@ -1,6 +1,6 @@
 use crate::audio_player::attributes_3d;
+use crate::EventInstance;
 use crate::{AudioListener, AudioPlayer, AudioSource};
-use crate::{EventInstance, OneShotPlayer};
 use bevy::app::{App, Plugin, PostUpdate, Update};
 use bevy::math::Vec3;
 use bevy::prelude::{Added, Commands, Entity, GlobalTransform, Query, Res};
@@ -17,7 +17,6 @@ impl Plugin for FmodPlugin {
     fn build(&self, app: &mut App) {
         let res = FmodStudio::new(self.audio_banks_directory);
         app.insert_resource(res)
-            .insert_resource(OneShotPlayer(res))
             .add_systems(Update, (Self::check_for_new_sources, Self::update_sources))
             .add_systems(PostUpdate, Self::update);
     }

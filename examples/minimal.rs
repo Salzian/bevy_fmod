@@ -2,9 +2,9 @@
 //! Make sure to follow the instructions in the README.md to set up the demo project.
 
 use bevy::app::{App, Startup};
-use bevy::prelude::Res;
+use bevy::prelude::Commands;
 use bevy::DefaultPlugins;
-use bevy_fmod::{FmodPlugin, OneShotPlayer};
+use bevy_fmod::{AudioSource, FmodPlugin};
 
 fn main() {
     App::new()
@@ -18,6 +18,6 @@ fn main() {
         .run();
 }
 
-fn play_music(one_shot_player: Res<OneShotPlayer>) {
-    one_shot_player.play_event("event:/return");
+fn play_music(mut commands: Commands) {
+    commands.spawn(AudioSource::from("event:/return"));
 }
