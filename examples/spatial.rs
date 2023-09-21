@@ -2,6 +2,8 @@
 //! Having a TransformBundle on the FmodAudioSource
 //! and a FmodListener on the camera (for example) is enough to get the spatial audio working.
 //!
+//! Make sure your chosen sound has a spatializer effect on it.
+//!
 //! Controls:
 //! Use WASD, Space, Shift and the mouse to move around.
 //! Press F to spawn an audio source.
@@ -14,19 +16,27 @@ use bevy::prelude::{
     Transform, Update, Vec3,
 };
 use bevy::DefaultPlugins;
-use bevy_fmod::{AudioListener, AudioPlayer, AudioSource, FmodPlugin};
-
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
     LookTransformPlugin,
 };
+
+use bevy_fmod::components::audio_listener::AudioListener;
+use bevy_fmod::components::audio_source::AudioSource;
+use bevy_fmod::components::velocity::Velocity;
+use bevy_fmod::fmod_plugin::FmodPlugin;
+use bevy_fmod::fmod_studio::FmodStudio;
 
 fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
             FmodPlugin {
-                audio_banks_directory: "./demo_project/Build/Desktop",
+                audio_banks_paths: &[
+                    "./bevy_fmod_demo/Build/Desktop/Master.bank",
+                    "./bevy_fmod_demo/Build/Desktop/Master.strings.bank",
+                    "./bevy_fmod_demo/Build/Desktop/Music.bank",
+                ],
             },
         ))
         .add_plugins(LookTransformPlugin)
@@ -40,11 +50,15 @@ fn spawn_sound(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
+    studio: Res<FmodStudio>,
     input: Res<Input<KeyCode>>,
 ) {
+    let event_description = studio.0.get_event("event:/Music/Level 02").unwrap();
+
     if input.just_pressed(KeyCode::F) {
         commands.spawn((
-            AudioSource::from("event:/return"),
+            AudioSource::new(event_description),
+            Velocity::default(),
             PbrBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
                 material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
@@ -55,7 +69,7 @@ fn spawn_sound(
     }
 }
 
-fn stop_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
+fn stop_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::O) {
         for audio_player in query.iter() {
             audio_player.stop();
@@ -63,7 +77,7 @@ fn stop_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
     }
 }
 
-fn play_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
+fn play_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::P) {
         for audio_player in query.iter() {
             audio_player.play();
@@ -71,7 +85,7 @@ fn play_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
     }
 }
 
-fn toggle_sound(query: Query<&AudioPlayer>, input: Res<Input<KeyCode>>) {
+fn toggle_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::T) {
         for audio_player in query.iter() {
             audio_player.toggle();
@@ -103,7 +117,7 @@ fn setup_scene(
     // camera
     commands
         .spawn(Camera3dBundle::default())
-        .insert(AudioListener::default())
+        .insert((AudioListener::default(), Velocity::default()))
         .insert(FpsCameraBundle::new(
             FpsCameraController::default(),
             Vec3::new(-2.0, 5.0, 5.0),

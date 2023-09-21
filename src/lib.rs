@@ -1,11 +1,4 @@
-mod audio_player;
-mod one_shot_player;
-mod plugin;
-mod sync_wrapped;
-
-pub use crate::audio_player::audio_listener::AudioListener;
-pub use crate::audio_player::audio_source::AudioSource;
-pub use crate::audio_player::AudioPlayer;
-pub use crate::one_shot_player::OneShotPlayer;
-pub use crate::plugin::FmodPlugin;
-pub use crate::sync_wrapped::event_instance::EventInstance;
+mod attributes_3d;
+pub mod components;
+pub mod fmod_plugin;
+pub mod fmod_studio;
