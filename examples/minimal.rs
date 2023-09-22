@@ -1,23 +1,41 @@
 //! This example demonstrates how to use the FmodPlugin to play a sound.
 //! Make sure to follow the instructions in the README.md to set up the demo project.
 
-use bevy::app::{App, Startup};
-use bevy::prelude::Commands;
+use bevy::app::PostStartup;
+use bevy::prelude::{App, AudioSinkPlayback, Commands, Component, Query, Res, Startup, With};
 use bevy::DefaultPlugins;
-use bevy_fmod::{AudioSource, FmodPlugin};
+
+use bevy_fmod::components::audio_source::AudioSource;
+use bevy_fmod::fmod_plugin::FmodPlugin;
+use bevy_fmod::fmod_studio::FmodStudio;
 
 fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
             FmodPlugin {
-                audio_banks_directory: "./demo_project/Build/Desktop",
+                audio_banks_paths: &[
+                    "./demo_project/Build/Desktop/Master.bank",
+                    "./demo_project/Build/Desktop/Master.strings.bank",
+                ],
             },
         ))
-        .add_systems(Startup, play_music)
+        .add_systems(Startup, startup)
+        .add_systems(PostStartup, play_music)
         .run();
 }
 
-fn play_music(mut commands: Commands) {
-    commands.spawn(AudioSource::from("event:/return"));
+#[derive(Component)]
+struct MyMusicPlayer;
+
+fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
+    let event_description = studio.0.get_event("event:/Return").unwrap();
+
+    commands
+        .spawn(MyMusicPlayer)
+        .insert(AudioSource::new(event_description));
+}
+
+fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
+    audio_sources.single_mut().play();
 }
