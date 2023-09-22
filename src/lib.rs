@@ -1,6 +1,4 @@
-pub use crate::play_sound_event::PlaySoundEvent;
-pub use crate::plugin::FmodPlugin;
-
-mod fmod_studio;
-mod play_sound_event;
-mod plugin;
+mod attributes_3d;
+pub mod components;
+pub mod fmod_plugin;
+pub mod fmod_studio;
