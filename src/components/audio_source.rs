@@ -36,6 +36,30 @@ impl AudioSource {
                     .unwrap();
             });
     }
+
+    pub fn set_parameter(&self, name: &'static str, value: f32, ignore_seek_speed: bool) {
+        self.event_instance
+            .set_parameter_by_name(name, value, ignore_seek_speed)
+            .expect("Could not set parameter.");
+    }
+
+    pub fn set_parameter_labeled(
+        &self,
+        name: &'static str,
+        label: &'static str,
+        ignore_seek_speed: bool,
+    ) {
+        self.event_instance
+            .set_parameter_by_name_with_label(name, label, ignore_seek_speed)
+            .expect("Could not set parameter by label.");
+    }
+
+    /// Returns (value, final_value)
+    /// Value: "Parameter value as set from the public API."
+    /// Final value: "the final value of the parameter after applying adjustments due to automation, modulation, seek speed, and parameter velocity to value."
+    pub fn get_parameter_value(&self, name: &'static str) -> (f32, f32) {
+        self.event_instance.get_parameter_by_name(name).unwrap()
+    }
 }
 
 impl AudioSinkPlayback for AudioSource {
