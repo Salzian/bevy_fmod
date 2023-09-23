@@ -46,9 +46,9 @@ bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
 
 ## Examples
 
-This repository includes a `hello_world` example. In order to run it, you need
-to [download the demo project][demo_project] (Google Drive link) and place it into the root of the
-project: `./demo_project`.
+FMOD Studio comes with an Examples project. Open it and build the project. Then put the bank files inside the assets folder of this repository.
+You can also configure FMOD Studio to build to a folder you specify.
+Run examples with `cargo run --example`. See the source code of the examples for more details.
 
 ## Versioning
 
