@@ -1,5 +1,8 @@
-//! FMOD local parameter usage
-//! Todo: Add example for setting parameter by label
+//! FMOD local parameter example usage:
+//! Press H and L to change the amount of traffic you can hear.
+//! Press E and M to change the time to Evening and Morning respectively.
+//! Note that because `ignore_seek_speed` is `false` in these examples,
+//! it could take a few seconds before you can hear the changes in these sound effects.
 
 use bevy::prelude::*;
 
@@ -13,41 +16,85 @@ fn main() {
             DefaultPlugins,
             FmodPlugin {
                 audio_banks_paths: &[
-                    "./demo_project/Build/Desktop/Master.bank",
-                    "./demo_project/Build/Desktop/Master.strings.bank",
+                    "./assets/Master.bank",
+                    "./assets/Master.strings.bank",
+                    "./assets/SFX.bank",
                 ],
             },
         ))
         .add_systems(Startup, startup)
         .add_systems(PostStartup, play_music)
-        .add_systems(Update, increase_some_parameter)
+        .add_systems(Update, (set_rain_low, set_rain_high))
+        .add_systems(Update, (set_morning, set_evening))
         .run();
 }
 
 #[derive(Component)]
-struct MyMusicPlayer;
+struct ForestSfxPlayer;
+
+#[derive(Component)]
+struct CountrySfxPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/music").unwrap();
+    let event_description = studio.0.get_event("event:/Ambience/Forest").unwrap();
 
     commands
-        .spawn(MyMusicPlayer)
+        .spawn(ForestSfxPlayer)
+        .insert(AudioSource::new(event_description));
+
+    let event_description = studio.0.get_event("event:/Ambience/Country").unwrap();
+
+    commands
+        .spawn(CountrySfxPlayer)
         .insert(AudioSource::new(event_description));
 }
 
-fn play_music(audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single().play();
+fn play_music(audio_sources: Query<&AudioSource>) {
+    for audio_source in audio_sources.iter() {
+        audio_source.play();
+    }
 }
 
-fn increase_some_parameter(
-    audio_sources: Query<&AudioSource, With<MyMusicPlayer>>,
+fn set_rain_high(
+    audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>,
     input: Res<Input<KeyCode>>,
-    mut value: Local<f32>,
 ) {
-    if input.just_pressed(KeyCode::T) {
-        *value = *value + 0.1;
+    if input.just_pressed(KeyCode::H) {
         for audio_source in audio_sources.iter() {
-            audio_source.set_parameter("parameter_name", *value, true);
+            audio_source.set_parameter("Rain", 1.0, false);
+        }
+    }
+}
+
+fn set_rain_low(
+    audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>,
+    input: Res<Input<KeyCode>>,
+) {
+    if input.just_pressed(KeyCode::L) {
+        for audio_source in audio_sources.iter() {
+            audio_source.set_parameter("Rain", 0.0, false);
+        }
+    }
+}
+
+fn set_evening(
+    audio_sources: Query<&AudioSource, With<CountrySfxPlayer>>,
+    input: Res<Input<KeyCode>>,
+) {
+    if input.just_pressed(KeyCode::E) {
+        for audio_source in audio_sources.iter() {
+            audio_source.set_parameter_labeled("Hour", "Evening", false);
+        }
+    }
+}
+
+fn set_morning(
+    audio_sources: Query<&AudioSource, With<CountrySfxPlayer>>,
+    input: Res<Input<KeyCode>>,
+) {
+    if input.just_pressed(KeyCode::M) {
+        for audio_source in audio_sources.iter() {
+            audio_source.set_parameter_labeled("Hour", "Morning", false);
         }
     }
 }
