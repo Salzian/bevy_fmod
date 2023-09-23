@@ -1,4 +1,5 @@
 target/
+assets/
 *.lib
 *.dll
 demo_project/

@@ -15,8 +15,9 @@ fn main() {
             DefaultPlugins,
             FmodPlugin {
                 audio_banks_paths: &[
-                    "./demo_project/Build/Desktop/Master.bank",
-                    "./demo_project/Build/Desktop/Master.strings.bank",
+                    "./assets/Master.bank",
+                    "./assets/Master.strings.bank",
+                    "./assets/Music.bank",
                 ],
             },
         ))
@@ -29,7 +30,7 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Return").unwrap();
+    let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
 
     commands
         .spawn(MyMusicPlayer)
