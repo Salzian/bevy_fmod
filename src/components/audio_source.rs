@@ -9,7 +9,7 @@ use crate::components::velocity::Velocity;
 
 #[derive(Component)]
 pub struct AudioSource {
-    event_instance: EventInstance,
+    pub event_instance: EventInstance,
 }
 
 impl AudioSource {

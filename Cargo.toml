@@ -27,3 +27,6 @@ name = "minimal"
 
 [[example]]
 name = "spatial"
+
+[[example]]
+name = "parameters"
