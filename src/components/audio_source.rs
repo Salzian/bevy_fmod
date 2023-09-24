@@ -1,6 +1,4 @@
-use bevy::audio::AudioSinkPlayback;
-use bevy::ecs::component::Component;
-use bevy::prelude::{GlobalTransform, Query};
+use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
 use libfmod::StopMode::Immediate;
 use libfmod::{EventDescription, EventInstance, StopMode};
 
