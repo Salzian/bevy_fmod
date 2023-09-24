@@ -1,6 +1,10 @@
-//! FMOD local parameter example usage:
+//! This example demonstrates FMOD parameter usage.
+//! See https://www.fmod.com/docs/2.02/studio/parameters-reference.html for more details.
+//!
+//! Controls:
 //! Press arrow Up and Down to change the amount of rain you can hear.
 //! Press E and M to change the time to Evening and Morning respectively.
+//!
 //! Note that because `ignore_seek_speed` is `false` in these examples,
 //! it could take a few seconds before you can hear the changes in these sound effects.
 
