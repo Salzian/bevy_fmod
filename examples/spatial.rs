@@ -9,13 +9,8 @@
 //! Press F to spawn an audio source.
 //! Press O, P and T to stop, play and toggle the sounds, respectively.
 
-use bevy::app::App;
-use bevy::prelude::{
-    default, shape, Assets, AudioSinkPlayback, Camera3dBundle, Color, Commands, Input, KeyCode,
-    Mesh, PbrBundle, PointLight, PointLightBundle, Query, Res, ResMut, StandardMaterial, Startup,
-    Transform, Update, Vec3,
-};
-use bevy::DefaultPlugins;
+use bevy::prelude::*;
+
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
     LookTransformPlugin,

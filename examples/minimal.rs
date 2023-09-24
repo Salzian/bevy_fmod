@@ -1,9 +1,7 @@
 //! This example demonstrates how to use the FmodPlugin to play a sound.
 //! Make sure to follow the instructions in the README.md to set up the demo project.
 
-use bevy::app::PostStartup;
-use bevy::prelude::{App, AudioSinkPlayback, Commands, Component, Query, Res, Startup, With};
-use bevy::DefaultPlugins;
+use bevy::prelude::*;
 
 use bevy_fmod::components::audio_source::AudioSource;
 use bevy_fmod::fmod_plugin::FmodPlugin;
