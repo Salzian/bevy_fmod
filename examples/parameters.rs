@@ -11,7 +11,7 @@
 //! # Global parameters
 //!
 //! The FMOD example project unfortunately does not have any global parameters, so we can't include
-//! an example of that here.
+//! a runnable example of that here.
 //!
 //! ## Usage
 //!
