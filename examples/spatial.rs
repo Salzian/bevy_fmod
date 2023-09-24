@@ -42,7 +42,7 @@ fn main() {
         .add_plugins(LookTransformPlugin)
         .add_plugins(FpsCameraPlugin::default())
         .add_systems(Startup, setup_scene)
-        .add_systems(Update, (spawn_sound, stop_sound, toggle_sound, play_sound))
+        .add_systems(Update, (spawn_sound, audio_control))
         .run();
 }
 
@@ -69,23 +69,19 @@ fn spawn_sound(
     }
 }
 
-fn stop_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
+fn audio_control(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::O) {
         for audio_player in query.iter() {
             audio_player.stop();
         }
     }
-}
 
-fn play_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::P) {
         for audio_player in query.iter() {
             audio_player.play();
         }
     }
-}
 
-fn toggle_sound(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::T) {
         for audio_player in query.iter() {
             audio_player.toggle();
