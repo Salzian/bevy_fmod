@@ -41,8 +41,10 @@ This requires a free FMOD account.
 
 ```toml
 [dependencies]
-bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
+bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "<bevy_fmod release tag>" }
 ```
+
+Get the latest release tag [on the releases page][GitHub releases].
 
 ## Examples
 
@@ -89,5 +91,7 @@ the source code of the examples for more details.
 [salzian]: https://salzian.dev
 
 [License img]: https://img.shields.io/badge/License-MIT%20OR%20Apache%202.0-informal
+
+[GitHub releases]: https://github.com/Salzian/bevy_fmod/releases/latest
 
 [GitHub release img]: https://img.shields.io/github/v/release/Salzian/bevy_fmod?filter=v*
