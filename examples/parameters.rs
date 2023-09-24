@@ -24,8 +24,7 @@ fn main() {
         ))
         .add_systems(Startup, startup)
         .add_systems(PostStartup, play_music)
-        .add_systems(Update, (set_rain_low, set_rain_high))
-        .add_systems(Update, (set_morning, set_evening))
+        .add_systems(Update, (set_rain, set_hour))
         .run();
 }
 
@@ -55,21 +54,13 @@ fn play_music(audio_sources: Query<&AudioSource>) {
     }
 }
 
-fn set_rain_high(
-    audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>,
-    input: Res<Input<KeyCode>>,
-) {
+fn set_rain(audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::H) {
         for audio_source in audio_sources.iter() {
             audio_source.set_parameter("Rain", 1.0, false);
         }
     }
-}
 
-fn set_rain_low(
-    audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>,
-    input: Res<Input<KeyCode>>,
-) {
     if input.just_pressed(KeyCode::L) {
         for audio_source in audio_sources.iter() {
             audio_source.set_parameter("Rain", 0.0, false);
@@ -77,7 +68,7 @@ fn set_rain_low(
     }
 }
 
-fn set_evening(
+fn set_hour(
     audio_sources: Query<&AudioSource, With<CountrySfxPlayer>>,
     input: Res<Input<KeyCode>>,
 ) {
@@ -86,12 +77,7 @@ fn set_evening(
             audio_source.set_parameter_labeled("Hour", "Evening", false);
         }
     }
-}
 
-fn set_morning(
-    audio_sources: Query<&AudioSource, With<CountrySfxPlayer>>,
-    input: Res<Input<KeyCode>>,
-) {
     if input.just_pressed(KeyCode::M) {
         for audio_source in audio_sources.iter() {
             audio_source.set_parameter_labeled("Hour", "Morning", false);
