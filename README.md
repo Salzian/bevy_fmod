@@ -41,14 +41,20 @@ This requires a free FMOD account.
 
 ```toml
 [dependencies]
-bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
+bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "<bevy_fmod release tag>" }
 ```
+
+Get the latest release tag [on the releases page][GitHub releases].
 
 ## Examples
 
-FMOD Studio comes with an Examples project. Open it and build the project. Then put the bank files inside the assets folder of this repository.
-You can also configure FMOD Studio to build to a folder you specify.
-Run examples with `cargo run --example`. See the source code of the examples for more details.
+To test the examples of this library, clone the repository. FMOD Studio comes with an Examples project. Open it and
+select `File > Save as...`. Save the project as `<bevy_fmod>\assets\audio\demo_project.fspro`.
+Now, build the project (`File > Build`). This will create a folder called `.\assets\audio\demo_project\Build` which is
+used by our examples.
+
+Run examples with `cargo run --example <example_name>`. Find the list of examples in the [Cargo.toml](./Cargo.toml) See
+the source code of the examples for more details.
 
 ## Live Update
 
@@ -99,5 +105,7 @@ cargo run --example minimal --features live-update
 [salzian]: https://salzian.dev
 
 [License img]: https://img.shields.io/badge/License-MIT%20OR%20Apache%202.0-informal
+
+[GitHub releases]: https://github.com/Salzian/bevy_fmod/releases/latest
 
 [GitHub release img]: https://img.shields.io/github/v/release/Salzian/bevy_fmod?filter=v*
