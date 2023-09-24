@@ -15,9 +15,9 @@ fn main() {
             DefaultPlugins,
             FmodPlugin {
                 audio_banks_paths: &[
-                    "./assets/Master.bank",
-                    "./assets/Master.strings.bank",
-                    "./assets/Music.bank",
+                    "./assets/fmod/demo_project/Build/Desktop/Master.bank",
+                    "./assets/fmod/demo_project/Build/Desktop/Master.strings.bank",
+                    "./assets/fmod/demo_project/Build/Desktop/Music.bank",
                 ],
             },
         ))

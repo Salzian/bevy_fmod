@@ -46,9 +46,13 @@ bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "v0.1.0" }
 
 ## Examples
 
-FMOD Studio comes with an Examples project. Open it and build the project. Then put the bank files inside the assets folder of this repository.
-You can also configure FMOD Studio to build to a folder you specify.
-Run examples with `cargo run --example`. See the source code of the examples for more details.
+To test the examples of this library, clone the repository. FMOD Studio comes with an Examples project. Open it and
+select `File > Save as...`. Save the project as `<bevy_fmod>\assets\fmod\demo_project.fspro`.
+Now, build the project (`File > Build`). This will create a folder called `.\assets\fmod\demo_project\Build` which is
+used by our examples.
+
+Run examples with `cargo run --example <example_name>`. Find the list of examples in the [Cargo.toml](./Cargo.toml) See
+the source code of the examples for more details.
 
 ## Versioning
 
