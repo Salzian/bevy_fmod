@@ -1,5 +1,5 @@
 //! FMOD local parameter example usage:
-//! Press H and L to change the amount of traffic you can hear.
+//! Press arrow Up and Down to change the amount of rain you can hear.
 //! Press E and M to change the time to Evening and Morning respectively.
 //! Note that because `ignore_seek_speed` is `false` in these examples,
 //! it could take a few seconds before you can hear the changes in these sound effects.
@@ -55,15 +55,21 @@ fn play_music(audio_sources: Query<&AudioSource>) {
 }
 
 fn set_rain(audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>, input: Res<Input<KeyCode>>) {
-    if input.just_pressed(KeyCode::H) {
+    if input.just_pressed(KeyCode::Up) {
         for audio_source in audio_sources.iter() {
-            audio_source.set_parameter("Rain", 1.0, false);
+            audio_source
+                .event_instance
+                .set_parameter_by_name("Rain", 1.0, false)
+                .expect("Could not set parameter.");
         }
     }
 
-    if input.just_pressed(KeyCode::L) {
+    if input.just_pressed(KeyCode::Down) {
         for audio_source in audio_sources.iter() {
-            audio_source.set_parameter("Rain", 0.0, false);
+            audio_source
+                .event_instance
+                .set_parameter_by_name("Rain", 0.0, false)
+                .expect("Could not set parameter.");
         }
     }
 }
@@ -74,13 +80,19 @@ fn set_hour(
 ) {
     if input.just_pressed(KeyCode::E) {
         for audio_source in audio_sources.iter() {
-            audio_source.set_parameter_labeled("Hour", "Evening", false);
+            audio_source
+                .event_instance
+                .set_parameter_by_name_with_label("Hour", "Evening", false)
+                .expect("Could not set parameter.");
         }
     }
 
     if input.just_pressed(KeyCode::M) {
         for audio_source in audio_sources.iter() {
-            audio_source.set_parameter_labeled("Hour", "Morning", false);
+            audio_source
+                .event_instance
+                .set_parameter_by_name_with_label("Hour", "Morning", false)
+                .expect("Could not set parameter.");
         }
     }
 }
