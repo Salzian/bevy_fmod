@@ -10,17 +10,12 @@
 //! Press O, P and T to stop, play and toggle the sounds, respectively.
 
 use bevy::prelude::*;
-
+use bevy_fmod::prelude::AudioSource;
+use bevy_fmod::prelude::*;
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
     LookTransformPlugin,
 };
-
-use bevy_fmod::components::audio_listener::AudioListener;
-use bevy_fmod::components::audio_source::AudioSource;
-use bevy_fmod::components::velocity::Velocity;
-use bevy_fmod::fmod_plugin::FmodPlugin;
-use bevy_fmod::fmod_studio::FmodStudio;
 
 fn main() {
     App::new()

@@ -9,10 +9,8 @@
 //! See https://www.fmod.com/docs/2.02/studio/parameters-reference.html for more details.
 
 use bevy::prelude::*;
-
-use bevy_fmod::components::audio_source::AudioSource;
-use bevy_fmod::fmod_plugin::FmodPlugin;
-use bevy_fmod::fmod_studio::FmodStudio;
+use bevy_fmod::prelude::AudioSource;
+use bevy_fmod::prelude::*;
 
 fn main() {
     App::new()

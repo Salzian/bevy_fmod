@@ -2,8 +2,7 @@ use std::env::var;
 use std::fs::canonicalize;
 use std::path::{Path, PathBuf};
 
-use bevy::ecs::system::Resource;
-use bevy::log::{debug, trace};
+use bevy::prelude::{debug, trace, Resource};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
