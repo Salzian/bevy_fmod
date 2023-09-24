@@ -56,6 +56,20 @@ used by our examples.
 Run examples with `cargo run --example <example_name>`. Find the list of examples in the [Cargo.toml](./Cargo.toml) See
 the source code of the examples for more details.
 
+## Live Update
+
+> Live update is a way of connecting FMOD Studio to your game as it runs, 
+> allowing you to update and monitor audio content in real time.
+> 
+> <https://www.fmod.com/docs/2.02/studio/editing-during-live-update.html>
+
+To enable live update, you need to enable the `live-update` feature. While you can do so in Cargo.toml, I recommend
+to explicitly enable it with the `--features` flag. This way, you won't accidentally include it in your release builds.
+
+```sh
+cargo run --example minimal --features live-update
+```
+
 ## Versioning
 
 | bevy_fmod | Bevy                                    | FMOD (tested version, newer may work)                 |

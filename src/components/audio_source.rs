@@ -1,6 +1,4 @@
-use bevy::audio::AudioSinkPlayback;
-use bevy::ecs::component::Component;
-use bevy::prelude::{GlobalTransform, Query};
+use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
 use libfmod::StopMode::Immediate;
 use libfmod::{EventDescription, EventInstance, StopMode};
 
@@ -9,7 +7,7 @@ use crate::components::velocity::Velocity;
 
 #[derive(Component)]
 pub struct AudioSource {
-    event_instance: EventInstance,
+    pub event_instance: EventInstance,
 }
 
 impl AudioSource {
