@@ -3,6 +3,8 @@ use std::fs::canonicalize;
 use std::path::{Path, PathBuf};
 
 use bevy::prelude::{debug, trace, Resource};
+#[cfg(feature = "live-update")]
+use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
     FMOD_INIT_3D_RIGHTHANDED, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL,
 };
@@ -51,13 +53,15 @@ impl FmodStudio {
     fn init_studio() -> Studio {
         let studio = Studio::create().expect("Failed to create FMOD studio");
 
+        let studio_flags = FMOD_STUDIO_INIT_NORMAL;
+
+        #[cfg(feature = "live-update")]
+        let studio_flags = studio_flags | FMOD_STUDIO_INIT_LIVEUPDATE;
+
+        debug!("Initializing FMOD studio with flags: {}", studio_flags);
+
         studio
-            .initialize(
-                1024,
-                FMOD_STUDIO_INIT_NORMAL,
-                FMOD_INIT_3D_RIGHTHANDED,
-                None,
-            )
+            .initialize(1024, studio_flags, FMOD_INIT_3D_RIGHTHANDED, None)
             .expect("Failed to initialize FMOD studio");
 
         studio
