@@ -2,7 +2,7 @@
 //! Make sure to follow the instructions in the README.md to set up the demo project.
 
 use bevy::prelude::*;
-
+use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
 
 fn main() {
