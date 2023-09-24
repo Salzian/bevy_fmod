@@ -7,6 +7,32 @@
 //! Note that because `ignore_seek_speed` is `false` in these examples,
 //! it could take a few seconds before you can hear the changes in these sound effects.
 //! See https://www.fmod.com/docs/2.02/studio/parameters-reference.html for more details.
+//!
+//! # Global parameters
+//!
+//! The FMOD example project unfortunately does not have any global parameters, so we can't include
+//! a runnable example of that here.
+//!
+//! ## Usage
+//!
+//! ```rust
+//! fn main() {
+//!     App::new()
+//!         .add_plugins((
+//!             DefaultPlugins,
+//!             FmodPlugin {
+//!                 audio_banks_paths: &["<path to your audio banks>"],
+//!             },
+//!         ))
+//!         // ...
+//!         .add_systems(Update, (set_some_global_parameter))
+//!         .run();
+//! }
+//!
+//! fn set_some_global_parameter(studio: Res<FmodStudio>) {
+//!    studio.0.set_parameter_by_name("SomeGlobalParameter", 0.5, false).unwrap();
+//! }
+//! ```
 
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
