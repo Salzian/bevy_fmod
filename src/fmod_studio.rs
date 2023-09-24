@@ -4,9 +4,10 @@ use std::path::{Path, PathBuf};
 
 use bevy::ecs::system::Resource;
 use bevy::log::{debug, trace};
+#[cfg(feature = "live-update")]
+use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
-    FMOD_INIT_3D_RIGHTHANDED, FMOD_STUDIO_INIT_LIVEUPDATE, FMOD_STUDIO_INIT_NORMAL,
-    FMOD_STUDIO_LOAD_BANK_NORMAL,
+    FMOD_INIT_3D_RIGHTHANDED, FMOD_STUDIO_INIT_NORMAL, FMOD_STUDIO_LOAD_BANK_NORMAL,
 };
 use libfmod::Studio;
 
@@ -53,12 +54,10 @@ impl FmodStudio {
     fn init_studio() -> Studio {
         let studio = Studio::create().expect("Failed to create FMOD studio");
 
-        let mut studio_flags = FMOD_STUDIO_INIT_NORMAL;
+        let studio_flags = FMOD_STUDIO_INIT_NORMAL;
 
         #[cfg(feature = "live-update")]
-        {
-            studio_flags |= FMOD_STUDIO_INIT_LIVEUPDATE;
-        }
+        let studio_flags = studio_flags | FMOD_STUDIO_INIT_LIVEUPDATE;
 
         debug!("Initializing FMOD studio with flags: {}", studio_flags);
 
