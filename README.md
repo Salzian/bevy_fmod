@@ -49,8 +49,8 @@ Get the latest release tag [on the releases page][GitHub releases].
 ## Examples
 
 To test the examples of this library, clone the repository. FMOD Studio comes with an Examples project. Open it and
-select `File > Save as...`. Save the project as `<bevy_fmod>\assets\fmod\demo_project.fspro`.
-Now, build the project (`File > Build`). This will create a folder called `.\assets\fmod\demo_project\Build` which is
+select `File > Save as...`. Save the project as `<bevy_fmod>\assets\audio\demo_project.fspro`.
+Now, build the project (`File > Build`). This will create a folder called `.\assets\audio\demo_project\Build` which is
 used by our examples.
 
 Run examples with `cargo run --example <example_name>`. Find the list of examples in the [Cargo.toml](./Cargo.toml) See
