@@ -20,8 +20,12 @@ Learn more [here][FMOD attribution].
 
 ## Supported platforms
 
-Currently, this crate is only tested and developed for Windows (non-UWP). More platforms are not planned for the near
-future. Pull requests are welcome.
+Currently, this crate is only tested and developed for Windows (non-UWP). More platforms are planned eventually.
+
+MacOS: https://github.com/Salzian/bevy_fmod/issues/2  
+Linux: https://github.com/Salzian/bevy_fmod/issues/3
+
+Pull requests are welcome.
 
 ## External dependencies
 
