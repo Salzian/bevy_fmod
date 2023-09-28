@@ -2,7 +2,8 @@
 //! Having a TransformBundle on the FmodAudioSource
 //! and a FmodListener on the camera (for example) is enough to get the spatial audio working.
 //!
-//! Make sure your chosen sound has a spatializer effect on it.
+//! Make sure your chosen sound has a spatializer effect on it, using FMOD Studio.
+//! The Velocity components are only needed if you want to enable the Doppler effect.
 //!
 //! Controls:
 //! Use WASD, Space, Shift and the mouse to move around.

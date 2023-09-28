@@ -1,3 +1,4 @@
+use bevy::math::Vec3;
 use bevy::prelude::{Component, GlobalTransform, Query, Res, With};
 
 use crate::attributes_3d::attributes3d;
@@ -9,18 +10,24 @@ pub struct AudioListener;
 
 impl AudioListener {
     pub(crate) fn update_3d_attributes(
-        query: Query<(&Velocity, &GlobalTransform), With<AudioListener>>,
+        query: Query<(&GlobalTransform, Option<&Velocity>), With<AudioListener>>,
         studio: Res<FmodStudio>,
     ) {
         match query.get_single() {
-            Ok((velocity, transform)) => {
+            Ok((transform, velocity)) => {
+                let mut velo = Vec3::ZERO;
+
+                if let Some(vel) = velocity {
+                    velo = vel.current_velocity;
+                }
+
                 studio
                     .0
                     .set_listener_attributes(
                         0,
                         attributes3d(
                             transform.translation(),
-                            velocity.current_velocity,
+                            velo,
                             transform.forward(),
                             transform.up(),
                         ),

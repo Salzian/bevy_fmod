@@ -1,3 +1,4 @@
+use bevy::math::Vec3;
 use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
 use libfmod::StopMode::Immediate;
 use libfmod::{EventDescription, EventInstance, StopMode};
@@ -18,16 +19,22 @@ impl AudioSource {
     }
 
     pub(crate) fn update_3d_attributes(
-        mut query: Query<(&AudioSource, &Velocity, &GlobalTransform)>,
+        mut query: Query<(&AudioSource, &GlobalTransform, Option<&Velocity>)>,
     ) {
         query
             .iter_mut()
-            .for_each(|(audio_source, velocity, transform)| {
+            .for_each(|(audio_source, transform, velocity)| {
+                let mut velo = Vec3::ZERO;
+
+                if let Some(vel) = velocity {
+                    velo = vel.current_velocity;
+                }
+
                 audio_source
                     .event_instance
                     .set_3d_attributes(attributes3d(
                         transform.translation(),
-                        velocity.current_velocity,
+                        velo,
                         transform.forward(),
                         transform.up(),
                     ))
