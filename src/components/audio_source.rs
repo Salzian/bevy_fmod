@@ -23,18 +23,18 @@ impl AudioSource {
     ) {
         query
             .iter_mut()
-            .for_each(|(audio_source, transform, velocity)| {
-                let mut velo = Vec3::ZERO;
+            .for_each(|(audio_source, transform, vel_component)| {
+                let mut velocity = Vec3::ZERO;
 
-                if let Some(vel) = velocity {
-                    velo = vel.current_velocity;
+                if let Some(vel_component) = vel_component {
+                    velocity = vel_component.current_velocity;
                 }
 
                 audio_source
                     .event_instance
                     .set_3d_attributes(attributes3d(
                         transform.translation(),
-                        velo,
+                        velocity,
                         transform.forward(),
                         transform.up(),
                     ))
