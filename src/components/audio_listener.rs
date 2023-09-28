@@ -13,29 +13,26 @@ impl AudioListener {
         query: Query<(&GlobalTransform, Option<&Velocity>), With<AudioListener>>,
         studio: Res<FmodStudio>,
     ) {
-        match query.get_single() {
-            Ok((transform, velocity)) => {
-                let mut velo = Vec3::ZERO;
+        if let Ok((transform, velocity)) = query.get_single() {
+            let mut velo = Vec3::ZERO;
 
-                if let Some(vel) = velocity {
-                    velo = vel.current_velocity;
-                }
-
-                studio
-                    .0
-                    .set_listener_attributes(
-                        0,
-                        attributes3d(
-                            transform.translation(),
-                            velo,
-                            transform.forward(),
-                            transform.up(),
-                        ),
-                        None,
-                    )
-                    .unwrap();
+            if let Some(vel) = velocity {
+                velo = vel.current_velocity;
             }
-            _ => {}
+
+            studio
+                .0
+                .set_listener_attributes(
+                    0,
+                    attributes3d(
+                        transform.translation(),
+                        velo,
+                        transform.forward(),
+                        transform.up(),
+                    ),
+                    None,
+                )
+                .unwrap();
         }
     }
 }
