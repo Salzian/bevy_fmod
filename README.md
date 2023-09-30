@@ -44,12 +44,9 @@ This requires a free FMOD account.
 
 ### Linux
 - Download the "FMOD Engine" package for Linux. Make sure to select [a compatible version](#versioning).
-- Create a new folder `fmod-api` in `/usr/lib/<target_arch>/`.
-- Extract the contents from the following FMOD Engine folders into it:
-  - `api/core/lib/<target_arch>/`
-  - `api/studio/lib/<target_arch>/`
+- Create a new folder `fmod` in the root of your project.
+- Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
-- Note that currently this build script will not work together with Bevy's dynamic_linking feature.
 
 ## Usage
 
