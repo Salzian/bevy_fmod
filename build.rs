@@ -12,7 +12,13 @@
 fn main() {
     #[cfg(target_os = "linux")]
     {
-        let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+        let mut target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+
+        // Account for the naming mismatch between FMOD library folders and the target architecture
+        if target_arch == "aarch64" {
+            target_arch = "arm64".into();
+        }
+
         let api_loc = [
             format!("./fmod/api/core/lib/{target_arch}"),
             format!("./fmod/api/studio/lib/{target_arch}"),
