@@ -11,6 +11,7 @@
 
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
+use bevy_fmod::prelude::SpatialAudioBundle;
 use bevy_fmod::prelude::*;
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -47,8 +48,7 @@ fn spawn_sound(
 
     if input.just_pressed(KeyCode::F) {
         commands.spawn((
-            AudioSource::new(event_description),
-            Velocity::default(),
+            SpatialAudioBundle::new(event_description),
             PbrBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
                 material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
@@ -103,7 +103,7 @@ fn setup_scene(
     // camera
     commands
         .spawn(Camera3dBundle::default())
-        .insert((AudioListener::default(), Velocity::default()))
+        .insert(SpatialListenerBundle::default())
         .insert(FpsCameraBundle::new(
             FpsCameraController::default(),
             Vec3::new(-2.0, 5.0, 5.0),
