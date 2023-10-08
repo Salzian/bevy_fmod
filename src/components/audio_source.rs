@@ -61,7 +61,11 @@ impl AudioSinkPlayback for AudioSource {
     }
 
     fn play(&self) {
-        self.event_instance.start().unwrap();
+        if self.event_instance.get_paused().unwrap() {
+            self.event_instance.set_paused(false).unwrap();
+        } else {
+            self.event_instance.start().unwrap();
+        }
     }
 
     fn pause(&self) {
