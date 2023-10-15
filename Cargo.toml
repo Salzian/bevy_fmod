@@ -26,6 +26,9 @@ live-update = []
 name = "minimal"
 
 [[example]]
+name = "audio_control"
+
+[[example]]
 name = "spatial"
 
 [[example]]
