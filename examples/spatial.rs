@@ -47,15 +47,14 @@ fn spawn_sound(
     let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
 
     if input.just_pressed(KeyCode::F) {
-        commands.spawn((
-            SpatialAudioBundle::new(event_description),
-            PbrBundle {
+        commands
+            .spawn(SpatialAudioBundle::new(event_description))
+            .insert(PbrBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
                 material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
                 transform: Transform::from_xyz(-1.0, 0.0, 1.0).with_scale(Vec3::splat(0.2)),
                 ..default()
-            },
-        ));
+            });
     }
 }
 
