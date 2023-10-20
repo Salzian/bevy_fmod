@@ -43,11 +43,11 @@ This requires a free FMOD account.
     - `api/studio/lib/x64/fmodstudio_vc.lib`: **rename to `fmodstudio.lib`**
 
 ### Linux
+Below are the steps for a fairly minimal method to link the libraries. See the comments in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more information.
 - Download the "FMOD Engine" package for Linux. Make sure to select [a compatible version](#versioning).
 - Create a new folder `fmod` in the root of your project.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
-- Note that this is just an example, you are free to setup the folders and build methods as you wish.
 
 ## Usage
 
