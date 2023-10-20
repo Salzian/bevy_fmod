@@ -20,10 +20,10 @@ Learn more [here][FMOD attribution].
 
 ## Supported platforms
 
-Currently, this crate is only tested and developed for Windows (non-UWP). More platforms are planned eventually.
+Currently, this crate is only tested and developed for Windows (non-UWP) and Linux. More platforms are planned eventually.
 
 MacOS: https://github.com/Salzian/bevy_fmod/issues/2  
-Linux: https://github.com/Salzian/bevy_fmod/issues/3
+Web: https://github.com/Salzian/bevy_fmod/issues/51
 
 Pull requests are welcome.
 
@@ -33,6 +33,7 @@ This crate does not bundle the required FMOD libraries. You will need to downloa
 libraries [here][FMOD libraries download].
 This requires a free FMOD account.
 
+### Windows
 - Download the "FMOD Engine" package for Windows. Make sure to select [a compatible version](#versioning).
 - Install the package.
 - You need the following 4 files in the root of your rust project:
@@ -40,6 +41,15 @@ This requires a free FMOD account.
     - `api/core/lib/x64/fmod_vc.lib`: **rename to `fmod.lib`**
     - `api/studio/lib/x64/fmodstudio.dll`
     - `api/studio/lib/x64/fmodstudio_vc.lib`: **rename to `fmodstudio.lib`**
+
+### Linux
+
+Below are the steps for a fairly minimal method to link the libraries. See the comments in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more information.
+
+- Download the "FMOD Engine" package for Linux. Make sure to select [a compatible version](#versioning).
+- Create a new folder `fmod` in the root of your project.
+- Extract the `api` folder into it.
+- Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
 
 ## Usage
 
