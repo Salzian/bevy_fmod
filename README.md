@@ -47,6 +47,7 @@ This requires a free FMOD account.
 - Create a new folder `fmod` in the root of your project.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
+- Note that this is just an example, you are free to setup the folders and build methods as you wish.
 
 ## Usage
 
