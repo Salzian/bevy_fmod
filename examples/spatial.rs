@@ -57,7 +57,10 @@ fn setup_scene(
 
     // Camera
     commands
-        .spawn(Camera3dBundle::default())
+        .spawn(Camera3dBundle {
+            transform: Transform::from_xyz(0.0, 0.0, 4.0),
+            ..default()
+        })
         .insert((AudioListener::default(), Velocity::default()));
 
     // FMOD audio event
@@ -85,8 +88,8 @@ fn orbit_audio_source(
     mut audio_sources: Query<&mut Transform, With<AudioSource>>,
 ) {
     for mut audio_source in audio_sources.iter_mut() {
-        audio_source.translation.x = time.elapsed_seconds().sin() * 3.0;
-        audio_source.translation.z = time.elapsed_seconds().cos() * 3.0;
+        audio_source.translation.x = time.elapsed_seconds().sin() * 2.0;
+        audio_source.translation.z = time.elapsed_seconds().cos() * 2.0;
     }
 }
 
