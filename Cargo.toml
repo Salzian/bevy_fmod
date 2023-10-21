@@ -16,7 +16,6 @@ libfmod = "2.206.2"
 [dev-dependencies]
 # The examples need the default features of bevy
 bevy = { version = "0.11.2", default-features = true }
-smooth-bevy-cameras = "0.9.0"
 
 [features]
 default = []

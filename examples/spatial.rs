@@ -5,15 +5,11 @@
 //! Make sure your chosen sound has a spatializer assigned to it in FMOD Studio.
 //!
 //! Controls:
-//! Use WASD, Space, Shift and the mouse to move around.
+//! Use the arrow keys to move around.
 
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
-use smooth_bevy_cameras::{
-    controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
-    LookTransformPlugin,
-};
 
 fn main() {
     App::new()
@@ -27,10 +23,10 @@ fn main() {
                 ],
             },
         ))
-        .add_plugins(LookTransformPlugin)
-        .add_plugins(FpsCameraPlugin::default())
         .add_systems(Startup, setup_scene)
         .add_systems(PostStartup, play_music)
+        .add_systems(Update, orbit_audio_source)
+        .add_systems(Update, update_listener)
         .run();
 }
 
@@ -44,6 +40,7 @@ fn setup_scene(
     commands.spawn(PbrBundle {
         mesh: meshes.add(shape::Plane::from_size(5.0).into()),
         material: materials.add(Color::rgb(0.3, 0.5, 0.3).into()),
+        transform: Transform::from_xyz(0.0, -1.0, 0.0),
         ..default()
     });
     // Light
@@ -59,13 +56,7 @@ fn setup_scene(
     // Camera
     commands
         .spawn(Camera3dBundle::default())
-        .insert((AudioListener::default(), Velocity::default()))
-        .insert(FpsCameraBundle::new(
-            FpsCameraController::default(),
-            Vec3::new(-2.0, 5.0, 5.0),
-            Vec3::new(0., 0., 0.),
-            Vec3::Y,
-        ));
+        .insert((AudioListener::default(), Velocity::default()));
     // Audio source
     let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
 
@@ -75,7 +66,7 @@ fn setup_scene(
         PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
             material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
-            transform: Transform::from_xyz(-1.0, 0.0, 1.0).with_scale(Vec3::splat(0.2)),
+            transform: Transform::from_scale(Vec3::splat(0.2)),
             ..default()
         },
     ));
@@ -83,4 +74,37 @@ fn setup_scene(
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
     audio_sources.single_mut().play();
+}
+
+fn orbit_audio_source(
+    time: Res<Time>,
+    mut audio_sources: Query<&mut Transform, With<AudioSource>>,
+) {
+    for mut audio_source in audio_sources.iter_mut() {
+        audio_source.translation.x = time.elapsed_seconds().sin() * 3.0;
+        audio_source.translation.z = time.elapsed_seconds().cos() * 3.0;
+    }
+}
+
+fn update_listener(
+    keyboard: Res<Input<KeyCode>>,
+    time: Res<Time>,
+    mut listeners: Query<&mut Transform, With<AudioListener>>,
+) {
+    let mut transform = listeners.single_mut();
+
+    let speed = 4.;
+
+    if keyboard.pressed(KeyCode::Right) {
+        transform.translation.x += speed * time.delta_seconds();
+    }
+    if keyboard.pressed(KeyCode::Left) {
+        transform.translation.x -= speed * time.delta_seconds();
+    }
+    if keyboard.pressed(KeyCode::Down) {
+        transform.translation.z += speed * time.delta_seconds();
+    }
+    if keyboard.pressed(KeyCode::Up) {
+        transform.translation.z -= speed * time.delta_seconds();
+    }
 }
