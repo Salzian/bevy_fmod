@@ -2,6 +2,10 @@ use bevy::app::{App, Plugin, Update};
 use bevy::math::Vec3;
 use bevy::prelude::{Component, FixedTime, GlobalTransform, Query, Res};
 
+/// Automatic velocity updates for [`AudioListener`] and [`AudioSource`]
+///
+/// Make sure to add this component to your listener and source entities in order
+/// to enable the Doppler effect.
 #[derive(Component, Default)]
 pub struct Velocity {
     last_position: Vec3,

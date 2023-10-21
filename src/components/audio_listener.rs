@@ -5,6 +5,7 @@ use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 use crate::fmod_studio::FmodStudio;
 
+/// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component, Default)]
 pub struct AudioListener;
 

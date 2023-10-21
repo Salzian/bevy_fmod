@@ -6,6 +6,7 @@ use libfmod::{EventDescription, EventInstance, StopMode};
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 
+/// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component)]
 pub struct AudioSource {
     pub event_instance: EventInstance,
