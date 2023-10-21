@@ -43,6 +43,7 @@ fn setup_scene(
         transform: Transform::from_xyz(0.0, -1.0, 0.0),
         ..default()
     });
+
     // Light
     commands.spawn(PointLightBundle {
         point_light: PointLight {
@@ -53,13 +54,16 @@ fn setup_scene(
         transform: Transform::from_xyz(4.0, 8.0, 4.0),
         ..default()
     });
+
     // Camera
     commands
         .spawn(Camera3dBundle::default())
         .insert((AudioListener::default(), Velocity::default()));
-    // Audio source
+
+    // FMOD audio event
     let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
 
+    // Audio source: Orbiting cube
     commands.spawn((
         AudioSource::new(event_description),
         Velocity::default(),
