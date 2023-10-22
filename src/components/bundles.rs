@@ -19,19 +19,9 @@ impl SpatialAudioBundle {
     }
 }
 
-#[derive(Bundle)]
+#[derive(Bundle, Default)]
 pub struct SpatialListenerBundle {
     audio_listener: AudioListener,
     velocity: Velocity,
     transform: Transform,
-}
-
-impl Default for SpatialListenerBundle {
-    fn default() -> Self {
-        SpatialListenerBundle {
-            audio_listener: AudioListener::default(),
-            velocity: Velocity::default(),
-            transform: Transform::default(),
-        }
-    }
 }
