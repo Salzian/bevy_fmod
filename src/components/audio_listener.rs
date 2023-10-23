@@ -1,34 +1,39 @@
+use bevy::math::Vec3;
 use bevy::prelude::{Component, GlobalTransform, Query, Res, With};
 
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 use crate::fmod_studio::FmodStudio;
 
+/// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component, Default)]
 pub struct AudioListener;
 
 impl AudioListener {
     pub(crate) fn update_3d_attributes(
-        query: Query<(&Velocity, &GlobalTransform), With<AudioListener>>,
+        query: Query<(&GlobalTransform, Option<&Velocity>), With<AudioListener>>,
         studio: Res<FmodStudio>,
     ) {
-        match query.get_single() {
-            Ok((velocity, transform)) => {
-                studio
-                    .0
-                    .set_listener_attributes(
-                        0,
-                        attributes3d(
-                            transform.translation(),
-                            velocity.current_velocity,
-                            transform.forward(),
-                            transform.up(),
-                        ),
-                        None,
-                    )
-                    .unwrap();
+        if let Ok((transform, vel_component)) = query.get_single() {
+            let mut velocity = Vec3::ZERO;
+
+            if let Some(vel_component) = vel_component {
+                velocity = vel_component.current_velocity;
             }
-            _ => {}
+
+            studio
+                .0
+                .set_listener_attributes(
+                    0,
+                    attributes3d(
+                        transform.translation(),
+                        velocity,
+                        transform.forward(),
+                        transform.up(),
+                    ),
+                    None,
+                )
+                .unwrap();
         }
     }
 }
