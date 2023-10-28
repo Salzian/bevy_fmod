@@ -1,4 +1,4 @@
-use bevy::app::{App, Plugin, Update};
+use bevy::app::{App, FixedUpdate, Plugin};
 use bevy::math::Vec3;
 use bevy::prelude::{Component, GlobalTransform, Query, Res, Time};
 
@@ -20,7 +20,6 @@ impl VelocityPlugin {
         velocity.iter_mut().for_each(|(mut velocity, transform)| {
             let current_position = transform.translation();
             let delta_position = current_position - velocity.last_position;
-            println!("time delta Update: {}", time.delta().as_secs_f32());
             velocity.current_velocity = delta_position / time.delta().as_secs_f32();
             velocity.last_position = current_position;
         })
@@ -29,6 +28,6 @@ impl VelocityPlugin {
 
 impl Plugin for VelocityPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, Self::update_velocity);
+        app.add_systems(FixedUpdate, Self::update_velocity);
     }
 }

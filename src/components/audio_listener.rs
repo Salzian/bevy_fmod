@@ -21,10 +21,6 @@ impl AudioListener {
                 velocity = vel_component.current_velocity;
             }
 
-            println!("{}", transform.translation());
-            println!("{}", velocity);
-            println!("{}", transform.forward());
-            println!("{}", transform.up());
             studio
                 .0
                 .set_listener_attributes(
