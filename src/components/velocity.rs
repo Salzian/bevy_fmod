@@ -15,6 +15,7 @@ impl VelocityPlugin {
         velocity.iter_mut().for_each(|(mut velocity, transform)| {
             let current_position = transform.translation();
             let delta_position = current_position - velocity.last_position;
+            println!("time delta Update: {}", time.delta().as_secs_f32());
             velocity.current_velocity = delta_position / time.delta().as_secs_f32();
             velocity.last_position = current_position;
         })

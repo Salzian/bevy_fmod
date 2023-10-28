@@ -14,6 +14,10 @@ impl AudioListener {
     ) {
         match query.get_single() {
             Ok((velocity, transform)) => {
+                println!("{}", transform.translation());
+                println!("{}", velocity.current_velocity);
+                println!("{}", transform.forward());
+                println!("{}", transform.up());
                 studio
                     .0
                     .set_listener_attributes(
