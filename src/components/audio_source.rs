@@ -1,3 +1,4 @@
+use bevy::math::Vec3;
 use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
 use libfmod::StopMode::Immediate;
 use libfmod::{EventDescription, EventInstance, StopMode};
@@ -5,6 +6,7 @@ use libfmod::{EventDescription, EventInstance, StopMode};
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 
+/// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component)]
 pub struct AudioSource {
     pub event_instance: EventInstance,
@@ -18,16 +20,22 @@ impl AudioSource {
     }
 
     pub(crate) fn update_3d_attributes(
-        mut query: Query<(&AudioSource, &Velocity, &GlobalTransform)>,
+        mut query: Query<(&AudioSource, &GlobalTransform, Option<&Velocity>)>,
     ) {
         query
             .iter_mut()
-            .for_each(|(audio_source, velocity, transform)| {
+            .for_each(|(audio_source, transform, vel_component)| {
+                let mut velocity = Vec3::ZERO;
+
+                if let Some(vel_component) = vel_component {
+                    velocity = vel_component.current_velocity;
+                }
+
                 audio_source
                     .event_instance
                     .set_3d_attributes(attributes3d(
                         transform.translation(),
-                        velocity.current_velocity,
+                        velocity,
                         transform.forward(),
                         transform.up(),
                     ))

@@ -1,14 +1,13 @@
 //! Spatial audio:
-//! Having a TransformBundle on the FmodAudioSource
-//! and a FmodListener on the camera (for example) is enough to get the spatial audio working.
-//!
-//! Make sure your chosen sound has a spatializer assigned to it in FMOD Studio.
+//! The spatial audio bundles provide all the components necessary for spatial audio.
+//! Make sure your sound has a spatializer assigned to it in FMOD Studio.
 //!
 //! Controls:
 //! Use WASD, Space, Shift and the mouse to move around.
 
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
+use bevy_fmod::prelude::SpatialAudioBundle;
 use bevy_fmod::prelude::*;
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -59,7 +58,7 @@ fn setup_scene(
     // Camera
     commands
         .spawn(Camera3dBundle::default())
-        .insert((AudioListener::default(), Velocity::default()))
+        .insert(SpatialListenerBundle::default())
         .insert(FpsCameraBundle::new(
             FpsCameraController::default(),
             Vec3::new(-2.0, 5.0, 5.0),
@@ -69,16 +68,14 @@ fn setup_scene(
     // Audio source
     let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
 
-    commands.spawn((
-        AudioSource::new(event_description),
-        Velocity::default(),
-        PbrBundle {
+    commands
+        .spawn(SpatialAudioBundle::new(event_description))
+        .insert(PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
             material: materials.add(Color::rgb(0.8, 0.7, 0.6).into()),
             transform: Transform::from_xyz(-1.0, 0.0, 1.0).with_scale(Vec3::splat(0.2)),
             ..default()
-        },
-    ));
+        });
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
