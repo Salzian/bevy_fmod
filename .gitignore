@@ -6,3 +6,4 @@ assets/
 *.so.*
 demo_project/
 Cargo.lock
+.vscode/
