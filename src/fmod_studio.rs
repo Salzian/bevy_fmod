@@ -2,7 +2,7 @@ use std::env::var;
 use std::fs::canonicalize;
 use std::path::{Path, PathBuf};
 
-use crate::components::audio_source::AudioSource as BevyFmodAudioSource;
+use crate::components::audio_source::AudioSource;
 use bevy::prelude::{debug, trace, Resource};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
@@ -68,11 +68,11 @@ impl FmodStudio {
         studio
     }
 
-    pub fn build_audio_source_from_path(&self, path: &str) -> BevyFmodAudioSource {
+    pub fn build_audio_source(&self, path_or_id: &str) -> AudioSource {
         let event_description = self
             .0
-            .get_event(path)
-            .expect("The event is expected to exist in the FMOD project.");
-        BevyFmodAudioSource::new(event_description)
+            .get_event(path_or_id)
+            .expect("Failed to get FMOD event from path or ID.");
+        AudioSource::new(event_description)
     }
 }
