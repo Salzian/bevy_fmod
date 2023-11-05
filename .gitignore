@@ -7,3 +7,4 @@ assets/
 demo_project/
 Cargo.lock
 .vscode/
+.idea/
