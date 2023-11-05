@@ -26,11 +26,9 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
-
     commands
         .spawn(MyMusicPlayer)
-        .insert(AudioSource::new(event_description));
+        .insert(studio.build_audio_source("event:/Music/Level 03"));
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
