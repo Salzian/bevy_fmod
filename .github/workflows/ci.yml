@@ -6,34 +6,57 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup Cache
         uses: ./.github/actions/setup-cache-action
+
       - name: Compile Project
         run: cargo build
 
   test:
     needs: build
-    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup Cache
         uses: ./.github/actions/setup-cache-action
+
       - name: Execute Tests
         run: cargo test
 
   lint:
     needs: build
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup Cache
         uses: ./.github/actions/setup-cache-action
+
       - name: Lint with Clippy
         run: cargo clippy -- -D warnings
