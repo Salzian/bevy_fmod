@@ -22,10 +22,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Cache
+      - name: Setup cache
         uses: ./.github/actions/setup-cache-action
 
-      - name: Compile Project
+      - if: matrix.os == 'ubuntu-latest'
+        name: Install ALSA dependencies
+        run: sudo apt install -y libasound2-dev
+
+      - name: Compile project
         run: cargo build
 
   test:
@@ -41,10 +45,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Cache
+      - name: Setup cache
         uses: ./.github/actions/setup-cache-action
 
-      - name: Execute Tests
+      - name: Execute tests
         run: cargo test
 
   lint:
@@ -55,8 +59,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Cache
+      - name: Setup vache
         uses: ./.github/actions/setup-cache-action
 
-      - name: Lint with Clippy
+      - name: Lint with clippy
         run: cargo clippy -- -D warnings
