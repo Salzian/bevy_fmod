@@ -1,0 +1,16 @@
+name: 'Setup Cache'
+description: 'Sets up caching for Rust projects'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Cache for Registry and Build Artifacts
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          cargo-${{ runner.os }}-
