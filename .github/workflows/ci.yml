@@ -15,7 +15,7 @@ jobs:
       - name: Setup Cache
         uses: ./.github/actions/setup-cache-action
       - name: Compile Project
-        run: cargo build --verbose
+        run: cargo build
 
   test:
     needs: build
@@ -26,7 +26,7 @@ jobs:
       - name: Setup Cache
         uses: ./.github/actions/setup-cache-action
       - name: Execute Tests
-        run: cargo test --verbose
+        run: cargo test
 
   lint:
     needs: build
