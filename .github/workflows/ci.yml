@@ -49,8 +49,8 @@ jobs:
         uses: ./.github/actions/setup-cache-action
 
       - if: matrix.os == 'ubuntu-latest'
-        name: Install ALSA dependencies
-        run: sudo apt install -y libasound2-dev
+        name: Install platform dependencies
+        run: sudo apt install -y libasound2-dev libudev-dev
 
       - name: Execute tests
         run: cargo test
