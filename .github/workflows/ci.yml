@@ -26,13 +26,18 @@ jobs:
         uses: ./.github/actions/setup-cache-action
 
       - if: matrix.os == 'ubuntu-latest'
-        name: Install ALSA dependencies
+        name: [Ubuntu] Install platform dependencies
         run: sudo apt install -y libasound2-dev
 
       - name: Compile project
         run: cargo build
 
   test:
+    # This job is currently disabled because it requires the FMOD libraries to be present.
+    # We will revisit this once we actually have any tests.
+
+    if: false
+
     needs: build
 
     strategy:
@@ -49,7 +54,7 @@ jobs:
         uses: ./.github/actions/setup-cache-action
 
       - if: matrix.os == 'ubuntu-latest'
-        name: Install platform dependencies
+        name: [Ubuntu] Install platform dependencies
         run: sudo apt install -y libasound2-dev libudev-dev
 
       - name: Execute tests
