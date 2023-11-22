@@ -32,33 +32,31 @@ jobs:
       - name: Compile project
         run: cargo build
 
-  test:
-    # This job is currently disabled because it requires the FMOD libraries to be present.
-    # We will revisit this once we actually have any tests.
+  # This job is currently disabled because it requires the FMOD libraries to be present.
+  # We will revisit this once we actually have any tests.
+  #test:
 
-    if: false
+  #  needs: build
 
-    needs: build
+  #  strategy:
+  #    fail-fast: true
+  #    matrix:
+  #      os: [ windows-latest, macos-latest, ubuntu-latest ]
 
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ windows-latest, macos-latest, ubuntu-latest ]
+  #  runs-on: ${{ matrix.os }}
 
-    runs-on: ${{ matrix.os }}
+  #  steps:
+  #    - uses: actions/checkout@v3
 
-    steps:
-      - uses: actions/checkout@v3
+  #    - name: Setup cache
+  #      uses: ./.github/actions/setup-cache-action
 
-      - name: Setup cache
-        uses: ./.github/actions/setup-cache-action
+  #    - if: matrix.os == 'ubuntu-latest'
+  #      name: [Ubuntu] Install platform dependencies
+  #      run: sudo apt install -y libasound2-dev libudev-dev
 
-      - if: matrix.os == 'ubuntu-latest'
-        name: [Ubuntu] Install platform dependencies
-        run: sudo apt install -y libasound2-dev libudev-dev
-
-      - name: Execute tests
-        run: cargo test
+  #    - name: Execute tests
+  #      run: cargo test
 
   lint:
     needs: build
