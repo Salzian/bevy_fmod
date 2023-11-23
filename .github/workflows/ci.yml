@@ -20,14 +20,15 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Install platform dependencies
+        uses: ./.github/actions/install-platform-dependencies
+        with:
+          os: ${{ matrix.os }}
+
       - uses: actions/checkout@v3
 
       - name: Setup cache
         uses: ./.github/actions/setup-cache-action
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: (Ubuntu) Install platform dependencies
-        run: sudo apt install -y libasound2-dev
 
       - name: Compile project
         run: cargo build
@@ -72,6 +73,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install platform dependencies
+        uses: ./.github/actions/install-platform-dependencies
+        with:
+          os: ${{ matrix.os }}
+
       - uses: actions/checkout@v3
 
       - name: Setup cache
