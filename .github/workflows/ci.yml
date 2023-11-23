@@ -32,6 +32,14 @@ jobs:
       - name: Compile project
         run: cargo build
 
+      - name: Upload build artifacts
+        # Only used by the lint job right now, which only runs on Ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-${{ matrix.os }}
+          path: target/
+
   # This job is currently disabled because it requires the FMOD libraries to be present.
   # We will revisit this once we actually have any tests.
   #test:
@@ -68,6 +76,12 @@ jobs:
 
       - name: Setup cache
         uses: ./.github/actions/setup-cache-action
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-ubuntu-latest
+          path: target/
 
       - name: Lint with clippy
         run: cargo clippy -- -D warnings
