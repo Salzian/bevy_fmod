@@ -20,12 +20,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install platform dependencies
         uses: ./.github/actions/install-platform-dependencies
         with:
           os: ${{ matrix.os }}
-
-      - uses: actions/checkout@v3
 
       - name: Setup cache
         uses: ./.github/actions/setup-cache-action
@@ -73,12 +73,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install platform dependencies
         uses: ./.github/actions/install-platform-dependencies
         with:
           os: ${{ matrix.os }}
-
-      - uses: actions/checkout@v3
 
       - name: Setup cache
         uses: ./.github/actions/setup-cache-action
