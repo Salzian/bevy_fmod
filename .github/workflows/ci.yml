@@ -78,7 +78,7 @@ jobs:
       - name: Install platform dependencies
         uses: ./.github/actions/install-platform-dependencies
         with:
-          os: ${{ matrix.os }}
+          os: ubuntu-latest
 
       - name: Setup cache
         uses: ./.github/actions/setup-cache-action
