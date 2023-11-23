@@ -1,4 +1,4 @@
-name: CI
+name: Rust CI Workflow
 
 on:
   push:
@@ -6,18 +6,74 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  CARGO_TERM_COLOR: always
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install platform dependencies
+        uses: ./.github/actions/install-platform-dependencies
+        with:
+          os: ${{ matrix.os }}
+
+      - name: Setup cache
+        uses: ./.github/actions/setup-cache-action
+
+      - name: Compile project
+        run: cargo build
+
+  # This job is currently disabled because it requires the FMOD libraries to be present.
+  # We will revisit this once we actually have any tests.
+  #test:
+
+  #  needs: build
+
+  #  strategy:
+  #    fail-fast: true
+  #    matrix:
+  #      os: [ windows-latest, macos-latest, ubuntu-latest ]
+
+  #  runs-on: ${{ matrix.os }}
+
+  #  steps:
+  #    - uses: actions/checkout@v3
+
+  #    - name: Setup cache
+  #      uses: ./.github/actions/setup-cache-action
+
+  #    - if: matrix.os == 'ubuntu-latest'
+  #      name: (Ubuntu) Install platform dependencies
+  #      run: sudo apt install -y libasound2-dev libudev-dev
+
+  #    - name: Execute tests
+  #      run: cargo test
+
+  lint:
+    needs: build
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-      - name: Build the project
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
+      - uses: actions/checkout@v3
+
+      - name: Install platform dependencies
+        uses: ./.github/actions/install-platform-dependencies
+        with:
+          os: ubuntu-latest
+
+      - name: Setup cache
+        uses: ./.github/actions/setup-cache-action
+
+      - name: Lint with clippy
+        run: cargo clippy -- -D warnings
