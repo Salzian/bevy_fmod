@@ -1,11 +1,11 @@
 [package]
-name = "bevy_fmod"
+ authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 description = "Idiomatic FMOD in Bevy"
-authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
 edition = "2021"
+license = "MIT OR Apache-2.0"
+name = "bevy_fmod"
 repository = "https://github.com/salzian/bevy_fmod"
 version = "0.3.0"
-license = "MIT OR Apache-2.0"
 
 [dependencies]
   anyhow = "1.0"
@@ -16,6 +16,9 @@ libfmod = "~2.206.2"
 [dev-dependencies]
 # The examples need the default features of bevy
 bevy = { version = "0.11", default-features = true }
+
+[build-dependencies]
+bevy_fmod_dynamic_bundler = { path = "dynamic_bundler" }
 
 [features]
 default = []

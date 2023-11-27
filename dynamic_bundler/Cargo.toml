@@ -1,0 +1,5 @@
+[package]
+name = "bevy_fmod_dynamic_bundler"
+description = "Bundles dynamic libraries into the build directory."
+version = "0.0.0"
+publish = false

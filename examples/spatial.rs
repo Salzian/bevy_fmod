@@ -84,8 +84,8 @@ fn orbit_audio_source(
     mut audio_sources: Query<&mut Transform, With<AudioSource>>,
 ) {
     for mut audio_source in audio_sources.iter_mut() {
-        audio_source.translation.x = time.elapsed_seconds().sin() * 2.0;
-        audio_source.translation.z = time.elapsed_seconds().cos() * 2.0;
+        audio_source.translation.x = time.elapsed_seconds().sin() * 10.0;
+        audio_source.translation.z = time.elapsed_seconds().cos() * 10.0;
     }
 }
 
