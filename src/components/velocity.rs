@@ -22,6 +22,7 @@ impl VelocityPlugin {
         mut last_delta: Local<f32>,
     ) {
         let delta_time = *last_delta;
+        *last_delta = time.delta().as_secs_f32();
 
         velocity.iter_mut().for_each(|(mut velocity, transform)| {
             let current_position = transform.translation();
@@ -32,8 +33,6 @@ impl VelocityPlugin {
                 velocity.last_position = current_position;
             }
         });
-
-        *last_delta = time.delta().as_secs_f32();
     }
 }
 
