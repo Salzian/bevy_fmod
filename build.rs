@@ -10,6 +10,8 @@
 /// If you are running your executable directly (no IDE, no cargo) see https://www.hpc.dtu.dk/?page_id=1180
 
 fn main() {
+    bevy_fmod_dynamic_bundler::bundle_libraries("./vendor");
+
     #[cfg(target_os = "linux")]
     {
         let mut target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
