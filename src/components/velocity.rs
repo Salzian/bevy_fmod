@@ -1,6 +1,6 @@
 use bevy::app::{App, Plugin, Update};
 use bevy::math::Vec3;
-use bevy::prelude::{Component, FixedTime, GlobalTransform, Query, Res};
+use bevy::prelude::{Component, GlobalTransform, Local, Query, Res, Time};
 
 /// Automatic velocity updates for [`AudioListener`] and [`AudioSource`]
 ///
@@ -18,14 +18,23 @@ pub(crate) struct VelocityPlugin;
 impl VelocityPlugin {
     fn update_velocity(
         mut velocity: Query<(&mut Velocity, &GlobalTransform)>,
-        time: Res<FixedTime>,
+        time: Res<Time>,
+        mut last_delta: Local<f32>,
     ) {
+        let delta_time = *last_delta;
+        *last_delta = time.delta_seconds();
+
+        if delta_time == 0.0 {
+            return;
+        }
+
         velocity.iter_mut().for_each(|(mut velocity, transform)| {
             let current_position = transform.translation();
             let delta_position = current_position - velocity.last_position;
-            velocity.current_velocity = delta_position / time.period.as_secs_f32();
+
+            velocity.current_velocity = delta_position / delta_time;
             velocity.last_position = current_position;
-        })
+        });
     }
 }
 
