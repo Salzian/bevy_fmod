@@ -16,7 +16,10 @@ pub struct FmodStudio(pub Studio);
 impl FmodStudio {
     pub(crate) fn new(banks_paths: &[&'static str]) -> Self {
         let studio = Self::init_studio();
-        let project_root = var("CARGO_MANIFEST_DIR").unwrap_or_else(env::current_dir());
+        let project_root: PathBuf = match var("CARGO_MANIFEST_DIR") {
+            Ok(path) => path.into(),
+            Err(_) => std::env::current_dir().unwrap(),
+        };
 
         banks_paths.iter().for_each(|bank_path| {
             let mut path = canonicalize(Path::new(bank_path))
