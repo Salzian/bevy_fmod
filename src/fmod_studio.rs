@@ -16,18 +16,24 @@ pub struct FmodStudio(pub Studio);
 impl FmodStudio {
     pub(crate) fn new(banks_paths: &[&'static str]) -> Self {
         let studio = Self::init_studio();
-        let project_root: PathBuf = match var("CARGO_MANIFEST_DIR") {
-            Ok(path) => path.into(),
-            Err(_) => std::env::current_dir().unwrap(),
-        };
 
         banks_paths.iter().for_each(|bank_path| {
-            let mut path = canonicalize(Path::new(bank_path))
-                .expect("Failed to canonicalize provided audio banks directory path.");
+            println!("{} tes test", bank_path);
+            let mut path: PathBuf = bank_path.into();
 
-            trace!("Canonicalized audio banks directory path: {:?}", path);
+            trace!("audio banks directory path: {:?}", path);
 
             if path.is_relative() {
+                let project_root: PathBuf = match var("CARGO_MANIFEST_DIR") {
+                    Ok(path) => path.into(),
+                    Err(_) => std::env::current_exe()
+                        .expect("unable to resolve executed binary path")
+                        .parent()
+                        .expect("binary must be in a resolvable directory")
+                        .to_path_buf(),
+                    // Err(_) => std::env::current_dir().unwrap(),
+                };
+
                 let relative_path = path;
                 path = PathBuf::new();
                 path.push(project_root.clone());
@@ -35,6 +41,9 @@ impl FmodStudio {
             }
 
             debug!("Loading audio banks from: {:?}", path);
+
+            let path = canonicalize(path)
+                .expect("Failed to canonicalize provided audio banks directory path.");
 
             Self::load_bank(&studio, path.as_path());
         });
