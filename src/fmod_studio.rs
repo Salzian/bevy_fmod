@@ -18,7 +18,6 @@ impl FmodStudio {
         let studio = Self::init_studio();
 
         banks_paths.iter().for_each(|bank_path| {
-            println!("{} tes test", bank_path);
             let mut path: PathBuf = bank_path.into();
 
             trace!("audio banks directory path: {:?}", path);
@@ -31,7 +30,6 @@ impl FmodStudio {
                         .parent()
                         .expect("binary must be in a resolvable directory")
                         .to_path_buf(),
-                    // Err(_) => std::env::current_dir().unwrap(),
                 };
 
                 let relative_path = path;
