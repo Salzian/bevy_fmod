@@ -7,7 +7,6 @@
 
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
-use bevy_fmod::prelude::SpatialAudioBundle;
 use bevy_fmod::prelude::*;
 
 fn main() {
@@ -46,7 +45,6 @@ fn setup_scene(
     // Light
     commands.spawn(PointLightBundle {
         point_light: PointLight {
-            intensity: 1500.0,
             shadows_enabled: true,
             ..default()
         },
