@@ -1,7 +1,7 @@
 # bevy_fmod
 
-![Latest compatible Bevy version][Bevy 0.11.2 img]
-![Latest compatible FMOD version][FMOD 2.02.12 img]
+![Latest compatible Bevy version][Bevy 0.13 img]
+![Latest compatible FMOD version][FMOD 2.02.20 img]
 ![License][License img]
 ![GitHub release][GitHub release img]
 
@@ -72,9 +72,9 @@ the source code of the examples for more details.
 
 ## Live Update
 
-> Live update is a way of connecting FMOD Studio to your game as it runs, 
+> Live update is a way of connecting FMOD Studio to your game as it runs,
 > allowing you to update and monitor audio content in real time.
-> 
+>
 > <https://www.fmod.com/docs/2.02/studio/editing-during-live-update.html>
 
 To enable live update, you need to enable the `live-update` feature. While you can do so in Cargo.toml, I recommend
@@ -86,21 +86,27 @@ cargo run --example minimal --features live-update
 
 ## Versioning
 
-| bevy_fmod | Bevy                                    | FMOD (tested version, newer may work)                 |
-|-----------|-----------------------------------------|-------------------------------------------------------|
-| 0.2.0     | [![0.11.2][Bevy 0.11.2 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.1.0     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.0.1     | [![0.10.0][Bevy 0.10.0 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| bevy_fmod | Bevy                                  | FMOD (tested version, newer may work)                 |
+|-----------|---------------------------------------|-------------------------------------------------------|
+| 0.4.0     | [![0.13][Bevy 0.13 img]][Bevy 0.13]   | [![2.02.20][FMOD 2.02.20 img]][FMOD revision history] |
+| 0.3.0     | [![0.11.2][Bevy 0.11 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.2.0     | [![0.11.2][Bevy 0.11 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.1.0     | [![0.10.0][Bevy 0.10 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
+| 0.0.1     | [![0.10.0][Bevy 0.10 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
 
 [Bevy]: https://bevyengine.org
 
 [Bevy 0.10]: https://bevyengine.org/news/bevy-0-10/
 
+[Bevy 0.10 img]: https://img.shields.io/badge/Bevy-0.10-232326
+
 [Bevy 0.11]: https://bevyengine.org/news/bevy-0-11/
 
-[Bevy 0.10.0 img]: https://img.shields.io/badge/Bevy-0.10.0-232326
+[Bevy 0.11 img]: https://img.shields.io/badge/Bevy-0.11-232326
 
-[Bevy 0.11.2 img]: https://img.shields.io/badge/Bevy-0.11.2-232326
+[Bevy 0.13]: https://bevyengine.org/news/bevy-0-13/
+
+[Bevy 0.13 img]: https://img.shields.io/badge/Bevy-0.13-232326
 
 [FMOD licensing]: https://fmod.com/licensing
 
@@ -111,6 +117,8 @@ cargo run --example minimal --features live-update
 [FMOD revision history]: https://www.fmod.com/docs/2.02/studio/welcome-to-fmod-studio-revision-history.html
 
 [FMOD 2.02.12 img]: https://img.shields.io/badge/FMOD-2.02.12-black
+
+[FMOD 2.02.20 img]: https://img.shields.io/badge/FMOD-2.02.20-black
 
 [libfmod]: https://github.com/lebedec/libfmod
 
