@@ -44,9 +44,9 @@ fn main() {
             DefaultPlugins,
             FmodPlugin {
                 audio_banks_paths: &[
-                    "./assets/Master.bank",
-                    "./assets/Master.strings.bank",
-                    "./assets/SFX.bank",
+                    "./assets/audio/demo_project/Build/Desktop/Master.bank",
+                    "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+                    "./assets/audio/demo_project/Build/Desktop/SFX.bank",
                 ],
             },
         ))
