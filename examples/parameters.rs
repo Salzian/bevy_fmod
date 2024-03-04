@@ -63,13 +63,13 @@ struct ForestSfxPlayer;
 struct CountrySfxPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Ambience/Forest").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Forest").unwrap();
 
     commands
         .spawn(ForestSfxPlayer)
         .insert(AudioSource::new(event_description));
 
-    let event_description = studio.0.get_event("event:/Ambience/Country").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Country").unwrap();
 
     commands
         .spawn(CountrySfxPlayer)
