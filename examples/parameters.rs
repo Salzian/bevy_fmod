@@ -89,7 +89,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowUp) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 1.0, false)
                 .expect("Could not set parameter.");
         }
@@ -98,7 +97,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowDown) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 0.0, false)
                 .expect("Could not set parameter.");
         }
@@ -112,7 +110,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyE) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Evening", false)
                 .expect("Could not set parameter.");
         }
@@ -121,7 +118,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyM) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Morning", false)
                 .expect("Could not set parameter.");
         }
