@@ -38,9 +38,9 @@ This requires a free FMOD account.
 - Install the package.
 - You need the following 4 files in the root of your rust project:
     - `api/core/lib/x64/fmod.dll`
-    - `api/core/lib/x64/fmod_vc.lib`: **rename to `fmod.lib`**
+    - `api/core/lib/x64/fmod_vc.lib`
     - `api/studio/lib/x64/fmodstudio.dll`
-    - `api/studio/lib/x64/fmodstudio_vc.lib`: **rename to `fmodstudio.lib`**
+    - `api/studio/lib/x64/fmodstudio_vc.lib`
 
 ### Linux
 

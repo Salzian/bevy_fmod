@@ -44,9 +44,9 @@ fn main() {
             DefaultPlugins,
             FmodPlugin {
                 audio_banks_paths: &[
-                    "./assets/Master.bank",
-                    "./assets/Master.strings.bank",
-                    "./assets/SFX.bank",
+                    "./assets/audio/demo_project/Build/Desktop/Master.bank",
+                    "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+                    "./assets/audio/demo_project/Build/Desktop/SFX.bank",
                 ],
             },
         ))
@@ -82,8 +82,11 @@ fn play_music(audio_sources: Query<&AudioSource>) {
     }
 }
 
-fn set_rain(audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>, input: Res<Input<KeyCode>>) {
-    if input.just_pressed(KeyCode::Up) {
+fn set_rain(
+    audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>,
+    input: Res<ButtonInput<KeyCode>>,
+) {
+    if input.just_pressed(KeyCode::ArrowUp) {
         for audio_source in audio_sources.iter() {
             audio_source
                 .event_instance
@@ -92,7 +95,7 @@ fn set_rain(audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>, input: Re
         }
     }
 
-    if input.just_pressed(KeyCode::Down) {
+    if input.just_pressed(KeyCode::ArrowDown) {
         for audio_source in audio_sources.iter() {
             audio_source
                 .event_instance
@@ -104,9 +107,9 @@ fn set_rain(audio_sources: Query<&AudioSource, With<ForestSfxPlayer>>, input: Re
 
 fn set_hour(
     audio_sources: Query<&AudioSource, With<CountrySfxPlayer>>,
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
 ) {
-    if input.just_pressed(KeyCode::E) {
+    if input.just_pressed(KeyCode::KeyE) {
         for audio_source in audio_sources.iter() {
             audio_source
                 .event_instance
@@ -115,7 +118,7 @@ fn set_hour(
         }
     }
 
-    if input.just_pressed(KeyCode::M) {
+    if input.just_pressed(KeyCode::KeyM) {
         for audio_source in audio_sources.iter() {
             audio_source
                 .event_instance

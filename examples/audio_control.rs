@@ -42,20 +42,20 @@ fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
     audio_sources.single_mut().play();
 }
 
-fn audio_control(query: Query<&AudioSource>, input: Res<Input<KeyCode>>) {
-    if input.just_pressed(KeyCode::S) {
+fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
+    if input.just_pressed(KeyCode::KeyS) {
         for audio_player in query.iter() {
             audio_player.stop();
         }
     }
 
-    if input.just_pressed(KeyCode::P) {
+    if input.just_pressed(KeyCode::KeyP) {
         for audio_player in query.iter() {
             audio_player.play();
         }
     }
 
-    if input.just_pressed(KeyCode::T) {
+    if input.just_pressed(KeyCode::KeyT) {
         for audio_player in query.iter() {
             audio_player.toggle();
         }
