@@ -1,6 +1,6 @@
 use crate::prelude::{AudioListener, AudioSource, Velocity};
 use bevy::prelude::{Bundle, Transform};
-use libfmod::EventDescription;
+use libfmod::{EventDescription, StopMode};
 
 #[derive(Bundle)]
 pub struct SpatialAudioBundle {
@@ -10,9 +10,9 @@ pub struct SpatialAudioBundle {
 }
 
 impl SpatialAudioBundle {
-    pub fn new(event_description: EventDescription) -> Self {
+    pub fn new(event_description: EventDescription, stop_mode: Option<StopMode>) -> Self {
         SpatialAudioBundle {
-            audio_source: AudioSource::new(event_description),
+            audio_source: AudioSource::new(event_description, stop_mode),
             velocity: Velocity::default(),
             transform: Transform::default(),
         }

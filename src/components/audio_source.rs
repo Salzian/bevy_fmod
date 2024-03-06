@@ -1,6 +1,5 @@
 use bevy::math::Vec3;
 use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
-use libfmod::StopMode::Immediate;
 use libfmod::{EventDescription, EventInstance, StopMode};
 
 use crate::attributes_3d::attributes3d;
@@ -10,12 +9,15 @@ use crate::components::velocity::Velocity;
 #[derive(Component)]
 pub struct AudioSource {
     pub event_instance: EventInstance,
+    pub stop_mode: Option<StopMode>,
 }
 
 impl AudioSource {
-    pub fn new(event_description: EventDescription) -> Self {
+    /// Without a `stop_mode` the event will keep playing to the end if the entity is despawned.
+    pub fn new(event_description: EventDescription, stop_mode: Option<StopMode>) -> Self {
         Self {
             event_instance: event_description.create_instance().unwrap(),
+            stop_mode,
         }
     }
 
@@ -88,7 +90,10 @@ impl AudioSinkPlayback for AudioSource {
 
 impl Drop for AudioSource {
     fn drop(&mut self) {
-        self.event_instance.stop(Immediate).unwrap();
+        if let Some(stop_mode) = self.stop_mode {
+            self.event_instance.stop(stop_mode).unwrap();
+        }
+
         self.event_instance.release().unwrap();
     }
 }
