@@ -67,13 +67,13 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 
     commands
         .spawn(ForestSfxPlayer)
-        .insert(AudioSource::new(event_description));
+        .insert(AudioSource::new(event_description, None));
 
     let event_description = studio.0.get_event("event:/Ambience/Country").unwrap();
 
     commands
         .spawn(CountrySfxPlayer)
-        .insert(AudioSource::new(event_description));
+        .insert(AudioSource::new(event_description, None));
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {
