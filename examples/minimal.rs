@@ -14,6 +14,7 @@ fn main() {
                     "./assets/audio/demo_project/Build/Desktop/Master.bank",
                     "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
                     "./assets/audio/demo_project/Build/Desktop/Music.bank",
+                    "./assets/audio/demo_project/Build/Desktop/SFX.bank",
                 ],
             },
         ))
@@ -26,6 +27,10 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
+    // Play once and forget about it:
+    studio.play_event_at(Transform::default(), "event:/Weapons/Explosion");
+
+    // Or create a controllable FMOD event and attach it to an entity:
     let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
 
     commands

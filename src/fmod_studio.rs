@@ -2,7 +2,8 @@ use std::env::var;
 use std::fs::canonicalize;
 use std::path::{Path, PathBuf};
 
-use bevy::prelude::{debug, trace, Resource};
+use crate::attributes_3d::attributes3d;
+use bevy::prelude::{debug, trace, Resource, Transform, Vec3};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
@@ -65,5 +66,22 @@ impl FmodStudio {
             .expect("Failed to initialize FMOD studio");
 
         studio
+    }
+
+    pub fn play_event_at(&self, transform: Transform, path_or_id: &str) {
+        let event_description = self.0.get_event(path_or_id).unwrap();
+        let event_instance = event_description.create_instance().unwrap();
+
+        event_instance
+            .set_3d_attributes(attributes3d(
+                transform.translation,
+                Vec3::ZERO,
+                transform.forward().into(),
+                transform.up().into(),
+            ))
+            .unwrap();
+
+        event_instance.start().unwrap();
+        event_instance.release().unwrap();
     }
 }
