@@ -14,7 +14,7 @@ impl SpatialAudioBundle {
         SpatialAudioBundle {
             audio_source: AudioSource::new(event_description),
             velocity: Velocity::default(),
-            transform: TransformBundle::default()
+            transform: TransformBundle::default(),
         }
     }
 }
