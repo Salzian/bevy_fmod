@@ -8,12 +8,13 @@ use crate::fmod_studio::FmodStudio;
 
 pub struct FmodPlugin {
     pub audio_banks_paths: &'static [&'static str],
+    pub plugin_paths: &'static [&'static str],
 }
 
 impl Plugin for FmodPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(VelocityPlugin)
-            .insert_resource(FmodStudio::new(self.audio_banks_paths))
+            .insert_resource(FmodStudio::new(self.audio_banks_paths, self.plugin_paths))
             .add_systems(
                 Update,
                 (
@@ -30,5 +31,12 @@ impl FmodPlugin {
     fn update(studio: Res<FmodStudio>) -> anyhow::Result<()> {
         studio.0.update()?;
         Ok(())
+    }
+
+    pub fn from_audio_bank_paths(paths: &'static [&'static str]) -> Self {
+        FmodPlugin {
+            audio_banks_paths: paths,
+            plugin_paths: &[],
+        }
     }
 }

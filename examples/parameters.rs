@@ -42,13 +42,11 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            FmodPlugin {
-                audio_banks_paths: &[
-                    "./assets/audio/demo_project/Build/Desktop/Master.bank",
-                    "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
-                    "./assets/audio/demo_project/Build/Desktop/SFX.bank",
-                ],
-            },
+            FmodPlugin::from_audio_bank_paths(&[
+                "./assets/audio/demo_project/Build/Desktop/Master.bank",
+                "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+                "./assets/audio/demo_project/Build/Desktop/SFX.bank",
+            ]),
         ))
         .add_systems(Startup, startup)
         .add_systems(PostStartup, play_music)
