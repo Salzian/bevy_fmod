@@ -8,7 +8,7 @@ use crate::fmod_studio::FmodStudio;
 
 pub struct FmodPlugin {
     pub audio_banks_paths: &'static [&'static str],
-    pub plugin_paths: &'static [&'static str],
+    pub plugin_paths: Option<&'static [&'static str]>,
 }
 
 impl Plugin for FmodPlugin {
@@ -36,17 +36,7 @@ impl FmodPlugin {
     pub fn from_audio_banks(paths: &'static [&'static str]) -> Self {
         FmodPlugin {
             audio_banks_paths: paths,
-            plugin_paths: &[],
-        }
-    }
-
-    pub fn from(
-        audio_banks_paths: &'static [&'static str],
-        plugin_paths: &'static [&'static str],
-    ) -> Self {
-        FmodPlugin {
-            audio_banks_paths,
-            plugin_paths,
+            plugin_paths: None,
         }
     }
 }

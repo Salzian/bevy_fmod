@@ -13,17 +13,19 @@ use libfmod::{Studio, System};
 pub struct FmodStudio(pub Studio);
 
 impl FmodStudio {
-    pub(crate) fn new(banks_paths: &[&'static str], plugin_paths: &[&'static str]) -> Self {
+    pub(crate) fn new(banks_paths: &[&'static str], plugin_paths: Option<&[&'static str]>) -> Self {
         let studio = Self::init_studio();
         let studio_core = studio.get_core_system().unwrap();
 
-        plugin_paths.iter().for_each(|plugin_path| {
-            let path = canonicalize(Path::new(plugin_path))
-                .expect("Failed to canonicalize provided audio banks directory path.");
+        if let Some(plugin_paths) = plugin_paths {
+            plugin_paths.iter().for_each(|plugin_path| {
+                let path = canonicalize(Path::new(plugin_path))
+                    .expect("Failed to canonicalize provided audio banks directory path.");
 
-            debug!("Loading FMOD plugins from: {:?}", path);
-            Self::load_plugin(studio_core, path.as_path());
-        });
+                debug!("Loading FMOD plugins from: {:?}", path);
+                Self::load_plugin(studio_core, path.as_path());
+            });
+        }
 
         banks_paths.iter().for_each(|bank_path| {
             let path = canonicalize(Path::new(bank_path))
