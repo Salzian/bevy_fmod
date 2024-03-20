@@ -13,7 +13,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            FmodPlugin::from_audio_banks(&[
+            FmodPlugin::new(&[
                 "./assets/audio/demo_project/Build/Desktop/Master.bank",
                 "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
                 "./assets/audio/demo_project/Build/Desktop/Music.bank",
