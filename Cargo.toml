@@ -11,7 +11,7 @@ license = "MIT OR Apache-2.0"
 anyhow = "1.0"
 bevy = { version = "0.13", default-features = false, features = ["bevy_audio"] }
 bevy_mod_sysfail = "3.0"
-libfmod = "~2.206.2"
+libfmod = "~2.222.1"
 
 [dev-dependencies]
 # The examples need the default features of bevy
