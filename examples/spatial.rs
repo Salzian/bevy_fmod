@@ -35,7 +35,7 @@ fn setup_scene(
     // Plane
     commands.spawn(PbrBundle {
         mesh: meshes.add(Plane3d::default().mesh().size(5.0, 5.0)),
-        material: materials.add(Color::rgb(0.3, 0.5, 0.3)),
+        material: materials.add(Color::srgb(0.3, 0.5, 0.3)),
         transform: Transform::from_xyz(0.0, -1.0, 0.0),
         ..default()
     });
@@ -65,7 +65,7 @@ fn setup_scene(
         .spawn(SpatialAudioBundle::new(event_description))
         .insert(PbrBundle {
             mesh: meshes.add(Cuboid::default()),
-            material: materials.add(Color::rgb(0.8, 0.7, 0.6)),
+            material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
             transform: Transform::from_scale(Vec3::splat(0.2)),
             ..default()
         });

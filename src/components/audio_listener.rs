@@ -28,8 +28,8 @@ impl AudioListener {
                     attributes3d(
                         transform.translation(),
                         velocity,
-                        transform.forward(),
-                        transform.up(),
+                        *transform.forward(),
+                        *transform.up(),
                     ),
                     None,
                 )

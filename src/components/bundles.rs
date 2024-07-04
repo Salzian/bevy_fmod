@@ -1,5 +1,5 @@
 use crate::prelude::{AudioListener, AudioSource, Velocity};
-use bevy::{prelude::Bundle, transform::TransformBundle};
+use bevy::prelude::{Bundle, TransformBundle};
 use libfmod::EventDescription;
 
 #[derive(Bundle)]
