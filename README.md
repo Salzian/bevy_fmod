@@ -20,7 +20,8 @@ Learn more [here][FMOD attribution].
 
 ## Supported platforms
 
-Currently, this crate is only tested and developed for Windows (non-UWP) and Linux. More platforms are planned eventually.
+Currently, this crate is only tested and developed for Windows (non-UWP) and Linux. More platforms are planned
+eventually.
 
 MacOS: https://github.com/Salzian/bevy_fmod/issues/2  
 Web: https://github.com/Salzian/bevy_fmod/issues/51
@@ -34,6 +35,7 @@ libraries [here][FMOD libraries download].
 This requires a free FMOD account.
 
 ### Windows
+
 - Download the "FMOD Engine" package for Windows. Make sure to select [a compatible version](#versioning).
 - Install the package.
 - You need the following 4 files in the root of your rust project:
@@ -42,14 +44,41 @@ This requires a free FMOD account.
     - `api/studio/lib/x64/fmodstudio.dll`
     - `api/studio/lib/x64/fmodstudio_vc.lib`
 
-### Linux
+### MacOS & Linux
 
-Below are the steps for a fairly minimal method to link the libraries. See the comments in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more information.
+Download the libraries of the platform(s) you want to support [here][FMOD libraries download]. Depending on the
+platform,
+you will either receive an installer, a disk image or a compressed archive. Install, open or unpack these files.
 
-- Download the "FMOD Engine" package for Linux. Make sure to select [a compatible version](#versioning).
-- Create a new folder `fmod` in the root of your project.
-- Extract the `api` folder into it.
-- Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
+Within the extracted files, you will find a folder called `api`. Now create a new folder called `vendor/fmod` in the
+root of
+your project. For each platform you want to support, create a folder in `vendor/fmod`:
+
+| Platform | Folder name |
+|----------|-------------|
+| MacOS    | `macos`     |
+| Linux    | `linux`     |
+
+Copy the contents of the `api` folder into the respective platform folder. The folder structure should look like this:
+
+```
+root
+└── vendor
+    └── fmod
+        ├── macos
+        │   └── api
+        │       ├── core
+        │       └── studio
+        └── linux
+            └── api
+                ├── core
+                └── studio
+```
+
+You can ignore the `fsbank` folder.
+
+Lastly, copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build
+script.
 
 ## Usage
 
