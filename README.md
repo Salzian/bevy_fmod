@@ -1,7 +1,6 @@
 # bevy_fmod
 
-![Latest compatible Bevy version][Bevy 0.13 img]
-![Latest compatible FMOD version][FMOD 2.02.20 img]
+![Latest compatible Bevy version][Bevy badge]
 ![License][License img]
 ![GitHub release][GitHub release img]
 
@@ -36,7 +35,7 @@ This requires a free FMOD account.
 
 ### Windows
 
-- Download the "FMOD Engine" package for Windows. Make sure to select [a compatible version](#versioning).
+- Download the "FMOD Engine" package for Windows.
 - Install the package.
 - You need the following 4 files in the root of your rust project:
     - `api/core/lib/x64/fmod.dll`
@@ -52,7 +51,8 @@ you will either receive an installer, a disk image or a compressed archive. Inst
 
 Within the extracted files, you will find a folder called `api`. Now create a new folder called `vendor/fmod` in the
 root of
-your project. For each platform you want to support, create a folder in `vendor/fmod`:
+your project. For each platform you want to support, create a folder
+in `vendor/fmod`:
 
 | Platform | Folder name |
 |----------|-------------|
@@ -113,29 +113,9 @@ to explicitly enable it with the `--features` flag. This way, you won't accident
 cargo run --example minimal --features live-update
 ```
 
-## Versioning
-
-| bevy_fmod | Bevy                                  | FMOD (tested version, newer may work)                 |
-|-----------|---------------------------------------|-------------------------------------------------------|
-| 0.4.0     | [![0.13][Bevy 0.13 img]][Bevy 0.13]   | [![2.02.20][FMOD 2.02.20 img]][FMOD revision history] |
-| 0.3.0     | [![0.11.2][Bevy 0.11 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.2.0     | [![0.11.2][Bevy 0.11 img]][Bevy 0.11] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.1.0     | [![0.10.0][Bevy 0.10 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-| 0.0.1     | [![0.10.0][Bevy 0.10 img]][Bevy 0.10] | [![2.02.12][FMOD 2.02.12 img]][FMOD revision history] |
-
 [Bevy]: https://bevyengine.org
 
-[Bevy 0.10]: https://bevyengine.org/news/bevy-0-10/
-
-[Bevy 0.10 img]: https://img.shields.io/badge/Bevy-0.10-232326
-
-[Bevy 0.11]: https://bevyengine.org/news/bevy-0-11/
-
-[Bevy 0.11 img]: https://img.shields.io/badge/Bevy-0.11-232326
-
-[Bevy 0.13]: https://bevyengine.org/news/bevy-0-13/
-
-[Bevy 0.13 img]: https://img.shields.io/badge/Bevy-0.13-232326
+[Bevy badge]: https://img.shields.io/badge/Bevy-0.14-232326
 
 [FMOD licensing]: https://fmod.com/licensing
 
