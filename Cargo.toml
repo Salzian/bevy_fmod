@@ -7,6 +7,8 @@ repository = "https://github.com/salzian/bevy_fmod"
 version = "0.5.0"
 license = "MIT OR Apache-2.0"
 
+exclude = [".github", ".idea"]
+
 [dependencies]
 anyhow = "1.0"
 bevy = { version = "0.14", default-features = false, features = ["bevy_audio"] }

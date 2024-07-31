@@ -43,42 +43,31 @@ This requires a free FMOD account.
     - `api/studio/lib/x64/fmodstudio.dll`
     - `api/studio/lib/x64/fmodstudio_vc.lib`
 
-### MacOS & Linux
+### MacOS
 
-Download the libraries of the platform(s) you want to support [here][FMOD libraries download]. Depending on the
-platform,
-you will either receive an installer, a disk image or a compressed archive. Install, open or unpack these files.
+- Download the "FMOD Engine" package for MacOS.
+- Move `api/core/lib/libfmod.dylib` and `api/studio/lib/libfmodstudio.dylib` to `vendor/fmod/macos` (or similar).
+- In your project, create a `.cargo/config.toml` file with the following content:
 
-Within the extracted files, you will find a folder called `api`. Now create a new folder called `vendor/fmod` in the
-root of
-your project. For each platform you want to support, create a folder
-in `vendor/fmod`:
-
-| Platform | Folder name |
-|----------|-------------|
-| MacOS    | `macos`     |
-| Linux    | `linux`     |
-
-Copy the contents of the `api` folder into the respective platform folder. The folder structure should look like this:
-
-```
-root
-└── vendor
-    └── fmod
-        ├── macos
-        │   └── api
-        │       ├── core
-        │       └── studio
-        └── linux
-            └── api
-                ├── core
-                └── studio
+```toml
+[target.'cfg(target_os = "macos")']
+rustflags = [
+    # Linking during build  
+    "-L", "./vendor/fmod/macos",
+    # Dynamic linking during runtime
+    "-C", "link-arg=-Wl,-rpath,./vendor/fmod/macos",
+]
 ```
 
-You can ignore the `fsbank` folder.
+### Linux
 
-Lastly, copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build
-script.
+Below are the steps for a fairly minimal method to link the libraries. See the comments
+in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more information.
+
+- Download the "FMOD Engine" package for Linux.
+- Create a new folder `fmod` in the root of your project.
+- Extract the `api` folder into it.
+- Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
 
 ## Usage
 

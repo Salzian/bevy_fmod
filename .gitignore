@@ -6,5 +6,4 @@ assets/
 *.so.*
 demo_project/
 Cargo.lock
-vendor/
 .DS_Store
