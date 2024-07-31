@@ -20,8 +20,8 @@ fn main() {
         }
 
         let api_loc = [
-            format!("./vendor/fmod/linux/api/core/lib/{target_arch}"),
-            format!("./vendor/fmod/linux/api/studio/lib/{target_arch}"),
+            format!("./fmod/api/core/lib/{target_arch}"),
+            format!("./fmod/api/studio/lib/{target_arch}"),
         ];
         for loc in api_loc {
             println!("cargo:rustc-link-search={loc}");
