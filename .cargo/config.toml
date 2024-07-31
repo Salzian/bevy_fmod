@@ -1,0 +1,5 @@
+[target.aarch64-apple-darwin]
+rustflags = [
+    "-L", "native=./vendor/macos",
+    "-C", "link-arg=-Wl,-rpath,./vendor/macos",
+]
