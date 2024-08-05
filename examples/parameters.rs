@@ -42,13 +42,11 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            FmodPlugin {
-                audio_banks_paths: &[
-                    "./assets/audio/demo_project/Build/Desktop/Master.bank",
-                    "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
-                    "./assets/audio/demo_project/Build/Desktop/SFX.bank",
-                ],
-            },
+            FmodPlugin::new(&[
+                "./assets/audio/demo_project/Build/Desktop/Master.bank",
+                "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+                "./assets/audio/demo_project/Build/Desktop/SFX.bank",
+            ]),
         ))
         .add_systems(Startup, startup)
         .add_systems(PostStartup, play_music)
@@ -63,13 +61,13 @@ struct ForestSfxPlayer;
 struct CountrySfxPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Ambience/Forest").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Forest").unwrap();
 
     commands
         .spawn(ForestSfxPlayer)
         .insert(AudioSource::new(event_description, None));
 
-    let event_description = studio.0.get_event("event:/Ambience/Country").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Country").unwrap();
 
     commands
         .spawn(CountrySfxPlayer)
@@ -78,7 +76,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 
 fn play_music(audio_sources: Query<&AudioSource>) {
     for audio_source in audio_sources.iter() {
-        audio_source.play();
+        audio_source.start().unwrap();
     }
 }
 
@@ -89,7 +87,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowUp) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 1.0, false)
                 .expect("Could not set parameter.");
         }
@@ -98,7 +95,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowDown) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 0.0, false)
                 .expect("Could not set parameter.");
         }
@@ -112,7 +108,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyE) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Evening", false)
                 .expect("Could not set parameter.");
         }
@@ -121,7 +116,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyM) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Morning", false)
                 .expect("Could not set parameter.");
         }

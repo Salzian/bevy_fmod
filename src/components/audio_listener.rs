@@ -22,14 +22,13 @@ impl AudioListener {
             }
 
             studio
-                .0
                 .set_listener_attributes(
                     0,
                     attributes3d(
                         transform.translation(),
                         velocity,
-                        transform.forward(),
-                        transform.up(),
+                        *transform.forward(),
+                        *transform.up(),
                     ),
                     None,
                 )

@@ -14,13 +14,11 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            FmodPlugin {
-                audio_banks_paths: &[
-                    "./assets/audio/demo_project/Build/Desktop/Master.bank",
-                    "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
-                    "./assets/audio/demo_project/Build/Desktop/Music.bank",
-                ],
-            },
+            FmodPlugin::new(&[
+                "./assets/audio/demo_project/Build/Desktop/Master.bank",
+                "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+                "./assets/audio/demo_project/Build/Desktop/Music.bank",
+            ]),
         ))
         .add_systems(Startup, setup_scene)
         .add_systems(PostStartup, play_music)
@@ -38,7 +36,7 @@ fn setup_scene(
     // Plane
     commands.spawn(PbrBundle {
         mesh: meshes.add(Plane3d::default().mesh().size(5.0, 5.0)),
-        material: materials.add(Color::rgb(0.3, 0.5, 0.3)),
+        material: materials.add(Color::srgb(0.3, 0.5, 0.3)),
         transform: Transform::from_xyz(0.0, -1.0, 0.0),
         ..default()
     });
@@ -62,7 +60,7 @@ fn setup_scene(
         });
 
     // Audio source: Orbiting cube
-    let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
+    let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
 
     commands
         .spawn(SpatialAudioBundle::new(
@@ -71,14 +69,14 @@ fn setup_scene(
         ))
         .insert(PbrBundle {
             mesh: meshes.add(Cuboid::default()),
-            material: materials.add(Color::rgb(0.8, 0.7, 0.6)),
+            material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
             transform: Transform::from_scale(Vec3::splat(0.2)),
             ..default()
         });
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn orbit_audio_source(
