@@ -1,9 +1,7 @@
 use bevy::prelude::{App, Plugin, PostUpdate, Res, Update};
 use bevy_mod_sysfail::sysfail;
 
-use crate::components::audio_listener::AudioListener;
-use crate::components::audio_source::AudioSource;
-use crate::components::velocity::VelocityPlugin;
+use crate::components::{AudioListener, AudioSource, VelocityPlugin};
 use crate::fmod_studio::FmodStudio;
 
 pub struct FmodPlugin {
@@ -15,10 +13,18 @@ pub struct FmodPlugin {
     pub plugin_paths: Option<&'static [&'static str]>,
 }
 
+// If the plugin fails to initialize, there is no point in continuing the application.
+#[allow(clippy::expect_used)]
 impl Plugin for FmodPlugin {
+    /// # Panics
+    ///
+    /// Panics if the FMOD Studio instance could not be initialized.
     fn build(&self, app: &mut App) {
+        let fmod_studio = FmodStudio::new(self.audio_banks_paths, self.plugin_paths)
+            .expect("Failed to initialize FMOD Studio");
+
         app.add_plugins(VelocityPlugin)
-            .insert_resource(FmodStudio::new(self.audio_banks_paths, self.plugin_paths))
+            .insert_resource(fmod_studio)
             .add_systems(
                 Update,
                 (
