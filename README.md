@@ -35,7 +35,7 @@ This requires a free FMOD account.
 
 ### Windows
 
-- Download the "FMOD Engine" package for Windows.
+- Download the "FMOD Studio" and ""FMOD Engine" package for Windows.
 - Install the package.
 - You need the following 4 files in the root of your rust project:
     - `api/core/lib/x64/fmod.dll`
@@ -43,12 +43,33 @@ This requires a free FMOD account.
     - `api/studio/lib/x64/fmodstudio.dll`
     - `api/studio/lib/x64/fmodstudio_vc.lib`
 
+### MacOS
+
+- Download the "FMOD Studio" and "FMOD Engine" package for MacOS.
+- Move these files:
+    - `api/core/lib/libfmod.dylib`
+    - `api/studio/lib/libfmodL.dylib` (debugging only)
+    - `api/studio/lib/libfmodstudio.dylib`
+    - `api/studio/lib/libfmodstudioL.dylib` (debugging only)  
+      to `./vendor/fmod/macos` (or similar).
+- In your project, create a `.cargo/config.toml` file with the following content:
+
+```toml
+[target.'cfg(target_os = "macos")']
+rustflags = [
+    # Linking during build  
+    "-L", "./vendor/fmod/macos",
+    # Dynamic linking during runtime
+    "-C", "link-arg=-Wl,-rpath,./vendor/fmod/macos",
+]
+```
+
 ### Linux
 
 Below are the steps for a fairly minimal method to link the libraries. See the comments
 in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more information.
 
-- Download the "FMOD Engine" package for Linux.
+- Download the "FMOD Studio" and "FMOD Engine" package for Linux.
 - Create a new folder `fmod` in the root of your project.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
