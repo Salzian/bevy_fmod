@@ -76,7 +76,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 
 fn play_music(audio_sources: Query<&AudioSource>) {
     for audio_source in audio_sources.iter() {
-        audio_source.play();
+        audio_source.start().unwrap();
     }
 }
 

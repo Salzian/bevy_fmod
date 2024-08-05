@@ -8,6 +8,7 @@
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
+use libfmod::StopMode;
 
 fn main() {
     App::new()
@@ -37,19 +38,19 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
     if input.just_pressed(KeyCode::KeyS) {
         for audio_player in query.iter() {
-            audio_player.stop();
+            audio_player.stop(StopMode::AllowFadeout).unwrap();
         }
     }
 
     if input.just_pressed(KeyCode::KeyP) {
         for audio_player in query.iter() {
-            audio_player.play();
+            audio_player.start().unwrap();
         }
     }
 

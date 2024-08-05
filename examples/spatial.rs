@@ -72,7 +72,7 @@ fn setup_scene(
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn orbit_audio_source(
