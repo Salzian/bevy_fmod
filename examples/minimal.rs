@@ -24,7 +24,7 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
+    let event_description = studio.get_event("event:/Music/Level 03").unwrap();
 
     commands
         .spawn(MyMusicPlayer)
@@ -32,5 +32,5 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }

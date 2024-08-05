@@ -1,7 +1,7 @@
 use std::fs::canonicalize;
 use std::path::Path;
 
-use bevy::prelude::{debug, Resource};
+use bevy::prelude::{debug, Deref, DerefMut, Resource};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
@@ -9,7 +9,7 @@ use libfmod::ffi::{
 };
 use libfmod::{Studio, System};
 
-#[derive(Resource)]
+#[derive(Resource, Deref, DerefMut)]
 pub struct FmodStudio(pub Studio);
 
 impl FmodStudio {

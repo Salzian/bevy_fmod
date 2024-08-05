@@ -59,7 +59,7 @@ fn setup_scene(
         });
 
     // Audio source: Orbiting cube
-    let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
+    let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
 
     commands
         .spawn(SpatialAudioBundle::new(event_description))
@@ -72,7 +72,7 @@ fn setup_scene(
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn orbit_audio_source(
