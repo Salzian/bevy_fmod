@@ -28,7 +28,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 
     commands
         .spawn(MyMusicPlayer)
-        .insert(AudioSource::new(event_description, None));
+        .insert(AudioSource::from(event_description));
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
