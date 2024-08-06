@@ -8,7 +8,6 @@
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
-use libfmod::StopMode;
 
 fn main() {
     App::new()
@@ -62,11 +61,9 @@ fn setup_scene(
     // Audio source: Orbiting cube
     let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
 
+    let audio_source = AudioSource::from(event_description);
     commands
-        .spawn(SpatialAudioBundle::new(
-            event_description,
-            Some(StopMode::Immediate),
-        ))
+        .spawn(SpatialAudioBundle::from(audio_source))
         .insert(PbrBundle {
             mesh: meshes.add(Cuboid::default()),
             material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
