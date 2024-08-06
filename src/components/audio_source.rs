@@ -1,13 +1,14 @@
 use bevy::math::Vec3;
-use bevy::prelude::{AudioSinkPlayback, Component, GlobalTransform, Query};
+use bevy::prelude::{Component, Deref, DerefMut, GlobalTransform, Query};
 use libfmod::{EventDescription, EventInstance, StopMode};
 
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 
 /// See the [`Velocity`] component for information on enabling the Doppler effect.
-#[derive(Component)]
+#[derive(Component, Deref, DerefMut)]
 pub struct AudioSource {
+    #[deref]
     pub event_instance: EventInstance,
     pub stop_mode: Option<StopMode>,
 }
@@ -34,66 +35,68 @@ impl AudioSource {
                 }
 
                 audio_source
-                    .event_instance
                     .set_3d_attributes(attributes3d(
                         transform.translation(),
                         velocity,
-                        transform.forward(),
-                        transform.up(),
+                        *transform.forward(),
+                        *transform.up(),
                     ))
                     .unwrap();
             });
     }
 }
 
-impl AudioSinkPlayback for AudioSource {
-    fn volume(&self) -> f32 {
-        self.event_instance.get_volume().unwrap().0
+impl AudioSource {
+    #[deprecated = "Use `AudioSource::get_volume` instead."]
+    pub fn volume(&self) -> f32 {
+        self.get_volume().unwrap().0
     }
 
-    fn set_volume(&self, volume: f32) {
+    #[deprecated = "Use `AudioSource::set_volume` instead."]
+    pub fn set_volume(&self, volume: f32) {
         self.event_instance.set_volume(volume).unwrap();
     }
 
-    fn speed(&self) -> f32 {
-        self.event_instance.get_pitch().unwrap().0
+    #[deprecated = "Use `AudioSource::get_pitch` instead."]
+    pub fn speed(&self) -> f32 {
+        self.get_pitch().unwrap().0
     }
 
-    fn set_speed(&self, speed: f32) {
-        self.event_instance.set_pitch(speed).unwrap();
+    #[deprecated = "Use `AudioSource::set_pitch` instead."]
+    pub fn set_speed(&self, speed: f32) {
+        self.set_pitch(speed).unwrap();
     }
 
-    fn play(&self) {
-        if self.event_instance.get_paused().unwrap() {
-            self.event_instance.set_paused(false).unwrap();
+    #[deprecated = "Use `AudioSource::start` instead."]
+    pub fn play(&self) {
+        if self.get_paused().unwrap() {
+            self.set_paused(false).unwrap();
         } else {
-            self.event_instance.start().unwrap();
+            self.start().unwrap();
         }
     }
 
-    fn pause(&self) {
-        self.event_instance.set_paused(true).unwrap();
+    #[deprecated = "Use `AudioSource::set_paused(bool)` instead."]
+    pub fn pause(&self) {
+        self.set_paused(true).unwrap();
     }
 
-    fn is_paused(&self) -> bool {
-        self.event_instance.get_paused().unwrap()
+    #[deprecated = "Use `AudioSource::get_paused` instead."]
+    pub fn is_paused(&self) -> bool {
+        self.get_paused().unwrap()
     }
 
-    fn stop(&self) {
-        self.event_instance.stop(StopMode::AllowFadeout).unwrap();
-    }
-
-    fn empty(&self) -> bool {
-        self.event_instance.is_valid()
+    pub fn toggle(&self) {
+        self.set_paused(!self.get_paused().unwrap()).unwrap();
     }
 }
 
 impl Drop for AudioSource {
     fn drop(&mut self) {
         if let Some(stop_mode) = self.stop_mode {
-            self.event_instance.stop(stop_mode).unwrap();
+            self.stop(stop_mode).unwrap();
         }
 
-        self.event_instance.release().unwrap();
+        self.release().unwrap();
     }
 }
