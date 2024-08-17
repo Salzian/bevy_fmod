@@ -1,6 +1,6 @@
 use crate::prelude::{AudioListener, AudioSource, Velocity};
 use bevy::prelude::{Bundle, TransformBundle};
-use libfmod::EventDescription;
+use libfmod::{EventDescription, StopMode};
 
 #[derive(Bundle)]
 pub struct SpatialAudioBundle {
@@ -10,9 +10,23 @@ pub struct SpatialAudioBundle {
 }
 
 impl SpatialAudioBundle {
+    #[deprecated = "Use `AudioSource::from` instead."]
     pub fn new(event_description: EventDescription) -> Self {
         SpatialAudioBundle {
-            audio_source: AudioSource::new(event_description),
+            audio_source: AudioSource {
+                event_instance: event_description.create_instance().unwrap(),
+                despawn_stop_mode: StopMode::AllowFadeout,
+            },
+            velocity: Velocity::default(),
+            transform: TransformBundle::default(),
+        }
+    }
+}
+
+impl From<AudioSource> for SpatialAudioBundle {
+    fn from(value: AudioSource) -> Self {
+        SpatialAudioBundle {
+            audio_source: value,
             velocity: Velocity::default(),
             transform: TransformBundle::default(),
         }
