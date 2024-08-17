@@ -39,6 +39,7 @@ impl FmodPlugin {
         Ok(())
     }
 
+    #[must_use]
     pub fn new(audio_banks_paths: &'static [&'static str]) -> Self {
         FmodPlugin {
             audio_banks_paths,
