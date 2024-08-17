@@ -37,6 +37,7 @@
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
+use libfmod::StopMode;
 
 fn main() {
     App::new()
@@ -63,15 +64,17 @@ struct CountrySfxPlayer;
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
     let event_description = studio.get_event("event:/Ambience/Forest").unwrap();
 
-    commands
-        .spawn(ForestSfxPlayer)
-        .insert(AudioSource::from(event_description));
+    commands.spawn(ForestSfxPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
 
     let event_description = studio.get_event("event:/Ambience/Country").unwrap();
 
-    commands
-        .spawn(CountrySfxPlayer)
-        .insert(AudioSource::from(event_description));
+    commands.spawn(CountrySfxPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {

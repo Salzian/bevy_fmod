@@ -7,8 +7,12 @@ use libfmod::{EventInstance, StopMode};
 /// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component, Deref, DerefMut)]
 pub struct AudioSource {
+    /// The [EventInstance] that is playing the audio. Create an instance from an
+    /// [EventDescription](libfmod::EventDescription) using
+    /// [EventDescription::create_instance](libfmod::EventDescription::create_instance).
     #[deref]
     pub event_instance: EventInstance,
+    /// The [StopMode] to use when the entity despawns.
     pub despawn_stop_mode: StopMode,
 }
 
