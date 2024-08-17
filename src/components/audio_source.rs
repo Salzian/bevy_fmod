@@ -1,27 +1,22 @@
-use bevy::math::Vec3;
-use bevy::prelude::{Component, Deref, DerefMut, GlobalTransform, Query};
-use libfmod::{EventDescription, EventInstance, StopMode};
-
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
+use bevy::math::Vec3;
+use bevy::prelude::{Component, Deref, DerefMut, GlobalTransform, Query};
+use libfmod::{EventInstance, StopMode};
 
 /// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component, Deref, DerefMut)]
 pub struct AudioSource {
+    /// The [EventInstance] that is playing the audio. Create an instance from an
+    /// [EventDescription](libfmod::EventDescription) using
+    /// [EventDescription::create_instance](libfmod::EventDescription::create_instance).
     #[deref]
     pub event_instance: EventInstance,
-    pub stop_mode: Option<StopMode>,
+    /// The [StopMode] to use when the entity despawns.
+    pub despawn_stop_mode: StopMode,
 }
 
 impl AudioSource {
-    /// Without a `stop_mode` the event will keep playing to the end if the entity is despawned.
-    pub fn new(event_description: EventDescription, stop_mode: Option<StopMode>) -> Self {
-        Self {
-            event_instance: event_description.create_instance().unwrap(),
-            stop_mode,
-        }
-    }
-
     pub(crate) fn update_3d_attributes(
         mut query: Query<(&AudioSource, &GlobalTransform, Option<&Velocity>)>,
     ) {
@@ -44,9 +39,7 @@ impl AudioSource {
                     .unwrap();
             });
     }
-}
 
-impl AudioSource {
     #[deprecated = "Use `AudioSource::get_volume` instead."]
     pub fn volume(&self) -> f32 {
         self.get_volume().unwrap().0
@@ -87,16 +80,8 @@ impl AudioSource {
     }
 
     pub fn toggle(&self) {
-        self.set_paused(!self.get_paused().unwrap()).unwrap();
-    }
-}
-
-impl Drop for AudioSource {
-    fn drop(&mut self) {
-        if let Some(stop_mode) = self.stop_mode {
-            self.stop(stop_mode).unwrap();
-        }
-
-        self.release().unwrap();
+        self.event_instance
+            .set_paused(!self.event_instance.get_paused().unwrap())
+            .unwrap();
     }
 }
