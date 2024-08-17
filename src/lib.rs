@@ -1,4 +1,4 @@
-#![deny(clippy::wildcard_imports)]
+#![deny(clippy::wildcard_imports, missing_docs)]
 
 mod attributes_3d;
 pub mod components;
