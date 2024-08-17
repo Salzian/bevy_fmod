@@ -9,6 +9,10 @@ use libfmod::ffi::{
 };
 use libfmod::{Studio, System};
 
+/// A resource that wraps the `Studio` object from the FMOD library.
+///
+/// This struct provides convenient access to the FMOD Studio API within the Bevy ECS.
+/// It derives `Deref` and `DerefMut` to allow direct access to the inner `Studio` object.
 #[derive(Resource, Deref, DerefMut)]
 pub struct FmodStudio(pub Studio);
 

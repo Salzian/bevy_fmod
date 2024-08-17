@@ -7,12 +7,13 @@ use crate::components::audio_source::AudioSource;
 use crate::components::velocity::VelocityPlugin;
 use crate::fmod_studio::FmodStudio;
 
+/// Initializes the FMOD Studio API and provides systems to update the audio sources and listeners.
 pub struct FmodPlugin {
     /// Paths to the audio banks which are usually in the Build folder of the FMOD project.
     pub audio_banks_paths: &'static [&'static str],
 
     /// Optionally you can provide paths to FMOD plugins which will then be loaded automatically.
-    /// For more information see: https://www.fmod.com/docs/2.01/api/core-guide.html#dynamic
+    /// For more information see: <https://www.fmod.com/docs/2.01/api/core-guide.html#dynamic>
     pub plugin_paths: Option<&'static [&'static str]>,
 }
 
