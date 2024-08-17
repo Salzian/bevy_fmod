@@ -2,11 +2,14 @@ use bevy::app::{App, Plugin, Update};
 use bevy::math::Vec3;
 use bevy::prelude::{Component, GlobalTransform, Local, Query, Res, Time};
 
-/// Automatic velocity updates for [`AudioListener`] and [`AudioSource`]
+/// Automatic velocity updates for
+/// [`AudioListener`](crate::components::audio_listener::AudioListener) and
+/// [`AudioSource`](crate::components::audio_source::AudioSource) components.
 ///
 /// Make sure to add this component to your listener and source entities in order
-/// to enable the Doppler effect. The recommended way to do this is to use the [`SpatialAudioBundle`]
-/// and [`SpatialListenerBundle`].
+/// to enable the Doppler effect. The recommended way to do this is to use the
+/// [`SpatialAudioBundle`](crate::components::bundles::SpatialAudioBundle) and
+/// [`SpatialListenerBundle`](crate::components::bundles::SpatialListenerBundle).
 #[derive(Component, Default)]
 pub struct Velocity {
     last_position: Vec3,
