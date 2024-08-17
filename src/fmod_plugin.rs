@@ -1,6 +1,6 @@
 use bevy::app::PreStartup;
+use bevy::log::error;
 use bevy::prelude::{App, Plugin, PostUpdate, Res, Update, World};
-use bevy_mod_sysfail::sysfail;
 
 use crate::components::audio_listener::AudioListener;
 use crate::components::audio_source::AudioSource;
@@ -34,10 +34,10 @@ impl Plugin for FmodPlugin {
 }
 
 impl FmodPlugin {
-    #[sysfail(log(level = "error"))]
-    fn update(studio: Res<FmodStudio>) -> anyhow::Result<()> {
-        studio.update()?;
-        Ok(())
+    fn update(studio: Res<FmodStudio>) {
+        studio
+            .update()
+            .unwrap_or_else(|e| error!("Failed to tick FMOD Studio: {}", e));
     }
 
     #[must_use]

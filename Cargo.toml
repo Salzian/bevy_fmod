@@ -10,7 +10,6 @@ license = "MIT OR Apache-2.0"
 [dependencies]
 anyhow = "1.0"
 bevy = { version = "0.14", default-features = false }
-bevy_mod_sysfail = "3.0"
 libfmod = "2.222.3"
 
 [dev-dependencies.bevy]
