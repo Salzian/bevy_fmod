@@ -1,7 +1,7 @@
 use std::fs::canonicalize;
 use std::path::Path;
 
-use bevy::prelude::{debug, Resource};
+use bevy::prelude::{debug, Deref, DerefMut, Resource};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
 use libfmod::ffi::{
@@ -9,7 +9,11 @@ use libfmod::ffi::{
 };
 use libfmod::{Studio, System};
 
-#[derive(Resource)]
+/// A resource that wraps the `Studio` object from the FMOD library.
+///
+/// This struct provides convenient access to the FMOD Studio API within the Bevy ECS.
+/// It derives `Deref` and `DerefMut` to allow direct access to the inner `Studio` object.
+#[derive(Resource, Deref, DerefMut)]
 pub struct FmodStudio(pub Studio);
 
 impl FmodStudio {

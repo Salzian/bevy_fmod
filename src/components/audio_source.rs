@@ -1,24 +1,22 @@
-use bevy::math::Vec3;
-use bevy::prelude::{Component, GlobalTransform, Query};
-use libfmod::StopMode::Immediate;
-use libfmod::{EventDescription, EventInstance, StopMode};
-
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
+use bevy::math::Vec3;
+use bevy::prelude::{Component, Deref, DerefMut, GlobalTransform, Query};
+use libfmod::{EventInstance, StopMode};
 
 /// See the [`Velocity`] component for information on enabling the Doppler effect.
-#[derive(Component)]
+#[derive(Component, Deref, DerefMut)]
 pub struct AudioSource {
+    /// The [EventInstance] that is playing the audio. Create an instance from an
+    /// [EventDescription](libfmod::EventDescription) using
+    /// [EventDescription::create_instance](libfmod::EventDescription::create_instance).
+    #[deref]
     pub event_instance: EventInstance,
+    /// The [StopMode] to use when the entity despawns.
+    pub despawn_stop_mode: StopMode,
 }
 
 impl AudioSource {
-    pub fn new(event_description: EventDescription) -> Self {
-        Self {
-            event_instance: event_description.create_instance().unwrap(),
-        }
-    }
-
     pub(crate) fn update_3d_attributes(
         mut query: Query<(&AudioSource, &GlobalTransform, Option<&Velocity>)>,
     ) {
@@ -32,7 +30,6 @@ impl AudioSource {
                 }
 
                 audio_source
-                    .event_instance
                     .set_3d_attributes(attributes3d(
                         transform.translation(),
                         velocity,
@@ -42,61 +39,49 @@ impl AudioSource {
                     .unwrap();
             });
     }
-}
 
-impl AudioSource {
+    #[deprecated = "Use `AudioSource::get_volume` instead."]
     pub fn volume(&self) -> f32 {
-        self.event_instance.get_volume().unwrap().0
+        self.get_volume().unwrap().0
     }
 
+    #[deprecated = "Use `AudioSource::set_volume` instead."]
     pub fn set_volume(&self, volume: f32) {
         self.event_instance.set_volume(volume).unwrap();
     }
 
+    #[deprecated = "Use `AudioSource::get_pitch` instead."]
     pub fn speed(&self) -> f32 {
-        self.event_instance.get_pitch().unwrap().0
+        self.get_pitch().unwrap().0
     }
 
+    #[deprecated = "Use `AudioSource::set_pitch` instead."]
     pub fn set_speed(&self, speed: f32) {
-        self.event_instance.set_pitch(speed).unwrap();
+        self.set_pitch(speed).unwrap();
     }
 
+    #[deprecated = "Use `AudioSource::start` instead."]
     pub fn play(&self) {
-        if self.event_instance.get_paused().unwrap() {
-            self.event_instance.set_paused(false).unwrap();
+        if self.get_paused().unwrap() {
+            self.set_paused(false).unwrap();
         } else {
-            self.event_instance.start().unwrap();
+            self.start().unwrap();
         }
     }
 
+    #[deprecated = "Use `AudioSource::set_paused(bool)` instead."]
     pub fn pause(&self) {
-        self.event_instance.set_paused(true).unwrap();
+        self.set_paused(true).unwrap();
     }
 
+    #[deprecated = "Use `AudioSource::get_paused` instead."]
     pub fn is_paused(&self) -> bool {
-        self.event_instance.get_paused().unwrap()
-    }
-
-    pub fn stop(&self) {
-        self.event_instance.stop(StopMode::AllowFadeout).unwrap();
-    }
-
-    pub fn empty(&self) -> bool {
-        self.event_instance.is_valid()
+        self.get_paused().unwrap()
     }
 
     pub fn toggle(&self) {
-        if self.is_paused() {
-            self.play();
-        } else {
-            self.pause();
-        }
-    }
-}
-
-impl Drop for AudioSource {
-    fn drop(&mut self) {
-        self.event_instance.stop(Immediate).unwrap();
-        self.event_instance.release().unwrap();
+        self.event_instance
+            .set_paused(!self.event_instance.get_paused().unwrap())
+            .unwrap();
     }
 }

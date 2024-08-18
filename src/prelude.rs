@@ -1,3 +1,11 @@
+//! Re-exports the most commonly used types, traits, and functions in this crate.
+//!
+//! ## Usage
+//!
+//! ```
+//! use bevy_fmod::prelude::*;
+//! ```
+
 pub use crate::components::audio_listener::AudioListener;
 pub use crate::components::audio_source::AudioSource;
 pub use crate::components::bundles::SpatialAudioBundle;

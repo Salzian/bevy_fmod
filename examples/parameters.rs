@@ -37,6 +37,7 @@
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
+use libfmod::StopMode;
 
 fn main() {
     App::new()
@@ -61,22 +62,24 @@ struct ForestSfxPlayer;
 struct CountrySfxPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Ambience/Forest").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Forest").unwrap();
 
-    commands
-        .spawn(ForestSfxPlayer)
-        .insert(AudioSource::new(event_description));
+    commands.spawn(ForestSfxPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
 
-    let event_description = studio.0.get_event("event:/Ambience/Country").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Country").unwrap();
 
-    commands
-        .spawn(CountrySfxPlayer)
-        .insert(AudioSource::new(event_description));
+    commands.spawn(CountrySfxPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {
     for audio_source in audio_sources.iter() {
-        audio_source.play();
+        audio_source.start().unwrap();
     }
 }
 
@@ -87,7 +90,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowUp) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 1.0, false)
                 .expect("Could not set parameter.");
         }
@@ -96,7 +98,6 @@ fn set_rain(
     if input.just_pressed(KeyCode::ArrowDown) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name("Rain", 0.0, false)
                 .expect("Could not set parameter.");
         }
@@ -110,7 +111,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyE) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Evening", false)
                 .expect("Could not set parameter.");
         }
@@ -119,7 +119,6 @@ fn set_hour(
     if input.just_pressed(KeyCode::KeyM) {
         for audio_source in audio_sources.iter() {
             audio_source
-                .event_instance
                 .set_parameter_by_name_with_label("Hour", "Morning", false)
                 .expect("Could not set parameter.");
         }

@@ -22,8 +22,8 @@ Learn more [here][FMOD attribution].
 Currently, this crate is only tested and developed for Windows (non-UWP) and Linux. More platforms are planned
 eventually.
 
-MacOS: https://github.com/Salzian/bevy_fmod/issues/2  
-Web: https://github.com/Salzian/bevy_fmod/issues/51
+MacOS: <https://github.com/Salzian/bevy_fmod/issues/2>  
+Web: <https://github.com/Salzian/bevy_fmod/issues/51>
 
 Pull requests are welcome.
 
@@ -57,7 +57,7 @@ in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) for more 
 
 ```toml
 [dependencies]
-bevy_fmod = { git = "https://github.com/Salzian/bevy_fmod.git", tag = "<bevy_fmod release tag>" }
+bevy_fmod = "0.5.0" 
 ```
 
 Get the latest release tag [on the releases page][GitHub releases].
