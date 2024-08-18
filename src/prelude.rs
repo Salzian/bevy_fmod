@@ -13,3 +13,4 @@ pub use crate::components::bundles::SpatialListenerBundle;
 pub use crate::components::velocity::Velocity;
 pub use crate::fmod_plugin::FmodPlugin;
 pub use crate::fmod_studio::FmodStudio;
+pub use libfmod::StopMode;
