@@ -8,7 +8,7 @@
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
-use libfmod::StopMode;
+pub use libfmod::StopMode;
 
 fn main() {
     App::new()
