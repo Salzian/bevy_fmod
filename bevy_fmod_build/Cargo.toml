@@ -1,0 +1,12 @@
+[package]
+name = "bevy_fmod_build"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.89"
+libfmod = { version = "2.222.4", features = ["logging"] }
+log = "0.4.22"
+proc-macro2 = "1.0.86"
+quote = "1.0.37"
+rayon = "1.10.0"

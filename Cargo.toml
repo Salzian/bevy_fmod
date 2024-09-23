@@ -1,3 +1,9 @@
+[workspace]
+resolver = "2"
+members = [
+    "bevy_fmod_build"
+]
+
 [package]
 name = "bevy_fmod"
 description = "Idiomatic FMOD in Bevy"
@@ -19,6 +25,9 @@ features = [
     "bevy_winit",
     "multi_threaded"
 ]
+
+[build-dependencies]
+bevy_fmod_build = { path = "bevy_fmod_build" }
 
 [features]
 default = []

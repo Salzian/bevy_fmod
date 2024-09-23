@@ -1,3 +1,5 @@
+use std::error::Error;
+
 /// This build script is needed to run the examples on Linux.
 /// Feel free to copy this to your own Bevy project.
 ///
@@ -9,7 +11,7 @@
 ///
 /// If you are running your executable directly (no IDE, no cargo) see https://www.hpc.dtu.dk/?page_id=1180
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
     #[cfg(target_os = "linux")]
     {
         let mut target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
@@ -28,4 +30,12 @@ fn main() {
             println!("cargo:rustc-env=LD_RUN_PATH={loc}");
         }
     }
+
+    bevy_fmod_build::build_metadata(&[
+        "./assets/audio/demo_project/Build/Desktop/Master.bank",
+        "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
+        "./assets/audio/demo_project/Build/Desktop/Music.bank",
+    ]);
+
+    Ok(())
 }
