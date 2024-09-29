@@ -48,7 +48,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/SFX.bank",
             ]),
         ))
-        .add_systems(Startup, startup)
+        .add_systems(Startup, (startup, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, (set_rain, set_hour))
         .run();
@@ -122,4 +122,15 @@ fn set_hour(
                 .expect("Could not set parameter.");
         }
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(Camera2dBundle::default());
+    commands.spawn(TextBundle::from_sections([
+        TextSection::from("Controls: \n"),
+        TextSection::from("Arrow Up: Increase Rain \n"),
+        TextSection::from("Arrow Down: Decrease Rain \n"),
+        TextSection::from("E: Change time to Evening \n"),
+        TextSection::from("M: Change time to Morning \n"),
+    ]));
 }
