@@ -35,6 +35,9 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
         event_instance: event_description.create_instance().unwrap(),
         despawn_stop_mode: StopMode::AllowFadeout,
     });
+
+    // In this case only needed to show the controls:
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
@@ -62,7 +65,6 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(Camera2dBundle::default());
     commands.spawn(TextBundle::from_sections([
         TextSection::from("Controls: \n"),
         TextSection::from("S: Stop \n"),
