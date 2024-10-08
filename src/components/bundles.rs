@@ -20,7 +20,7 @@ impl SpatialAudioBundle {
     /// # Arguments
     ///
     /// * `event_description` - An [`EventDescription`] that provides the necessary information to
-    /// create an [`AudioSource`].
+    ///   create an [`AudioSource`].
     ///
     /// # Returns
     ///

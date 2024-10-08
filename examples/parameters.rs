@@ -48,7 +48,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/SFX.bank",
             ]),
         ))
-        .add_systems(Startup, startup)
+        .add_systems(Startup, (startup, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, (set_rain, set_hour))
         .run();
@@ -74,6 +74,9 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
         event_instance: event_description.create_instance().unwrap(),
         despawn_stop_mode: StopMode::AllowFadeout,
     });
+
+    // In this case only needed to show the controls:
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {
@@ -122,4 +125,14 @@ fn set_hour(
                 .expect("Could not set parameter.");
         }
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(TextBundle::from_sections([
+        TextSection::from("Controls: \n"),
+        TextSection::from("Arrow Up: Increase Rain \n"),
+        TextSection::from("Arrow Down: Decrease Rain \n"),
+        TextSection::from("E: Change time to Evening \n"),
+        TextSection::from("M: Change time to Morning \n"),
+    ]));
 }
