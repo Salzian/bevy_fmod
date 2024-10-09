@@ -19,7 +19,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/Music.bank",
             ]),
         ))
-        .add_systems(Startup, startup)
+        .add_systems(Startup, (startup, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, audio_control)
         .run();
@@ -35,6 +35,9 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
         event_instance: event_description.create_instance().unwrap(),
         despawn_stop_mode: StopMode::AllowFadeout,
     });
+
+    // In this case only needed to show the controls:
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
@@ -59,4 +62,13 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
             audio_player.toggle();
         }
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(TextBundle::from_sections([
+        TextSection::from("Controls: \n"),
+        TextSection::from("S: Stop \n"),
+        TextSection::from("P: Play \n"),
+        TextSection::from("T: Toggle \n"),
+    ]));
 }

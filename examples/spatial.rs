@@ -19,7 +19,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/Music.bank",
             ]),
         ))
-        .add_systems(Startup, setup_scene)
+        .add_systems(Startup, (setup_scene, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, orbit_audio_source)
         .add_systems(Update, update_listener)
@@ -111,4 +111,10 @@ fn update_listener(
     if keyboard.pressed(KeyCode::ArrowUp) {
         transform.translation.z -= speed * time.delta_seconds();
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(TextBundle::from(
+        "Controls: Use the arrow keys to move around",
+    ));
 }
