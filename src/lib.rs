@@ -13,3 +13,6 @@ pub mod prelude;
 pub use fmod_plugin::FmodPlugin;
 #[doc(inline)]
 pub use fmod_studio::FmodStudio;
+
+// Re-export libfmod for plugin authors:
+pub use libfmod;
