@@ -24,13 +24,14 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
+    let event_description = studio.get_event("event:/Music/Level 03").unwrap();
 
-    commands
-        .spawn(MyMusicPlayer)
-        .insert(AudioSource::new(event_description));
+    commands.spawn(MyMusicPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }

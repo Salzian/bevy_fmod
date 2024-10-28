@@ -28,8 +28,8 @@ terms. Learn more [here][FMOD attribution].
 Currently, this crate is only tested and developed for Windows (non-UWP) and
 Linux. More platforms are planned eventually.
 
-MacOS: https://github.com/Salzian/bevy_fmod/issues/2  
-Web: https://github.com/Salzian/bevy_fmod/issues/51
+MacOS: <https://github.com/Salzian/bevy_fmod/issues/2>  
+Web: <https://github.com/Salzian/bevy_fmod/issues/51>
 
 Pull requests are welcome.
 
@@ -64,9 +64,9 @@ My Game/
 - In the dmg file, open the `FMOD Programmers API` folder.
 - You will need these files:
     - `api/core/lib/libfmod.dylib`
-  - `api/core/lib/libfmodL.dylib` (debugging only)
-    - `api/studio/lib/libfmodstudio.dylib`
-  - `api/studio/lib/libfmodstudioL.dylib` (debugging only)
+    - `api/core/lib/libfmodL.dylib` (debugging only)
+        - `api/studio/lib/libfmodstudio.dylib`
+    - `api/studio/lib/libfmodstudioL.dylib` (debugging only)
 
 Linking on MacOS is a bit different to Windows, as the defaults of the OS are
 not as straight forward as Windows. Also, Windows seems to take parent
@@ -81,8 +81,8 @@ look at this `.cargo/config.toml`:
 ```toml
 [target.aarch64-apple-darwin]
 rustflags = [
-  "-L", "native=./vendor/fmod",
-  "-C", "link-arg=-Wl,-rpath,./vendor/fmod",
+    "-L", "native=./vendor/fmod",
+    "-C", "link-arg=-Wl,-rpath,./vendor/fmod",
 ]
 ```
 
@@ -138,9 +138,16 @@ for more information.
 - Download the "FMOD Studio" and "FMOD Engine" package for Linux.
 - Create a new folder `fmod` in the root of your project.
 - Extract the `api` folder into it.
-- Copy the contents
-  of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into
-  your own build script.
+- Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
+
+## Usage
+
+```toml
+[dependencies]
+bevy_fmod = "0.5.0" 
+```
+
+Get the latest release tag [on the releases page][GitHub releases].
 
 ## Examples
 

@@ -19,7 +19,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/Music.bank",
             ]),
         ))
-        .add_systems(Startup, setup_scene)
+        .add_systems(Startup, (setup_scene, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, orbit_audio_source)
         .add_systems(Update, update_listener)
@@ -59,10 +59,15 @@ fn setup_scene(
         });
 
     // Audio source: Orbiting cube
-    let event_description = studio.0.get_event("event:/Music/Radio Station").unwrap();
+    let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
+
+    let audio_source = AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    };
 
     commands
-        .spawn(SpatialAudioBundle::new(event_description))
+        .spawn(SpatialAudioBundle::from(audio_source))
         .insert(PbrBundle {
             mesh: meshes.add(Cuboid::default()),
             material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
@@ -72,7 +77,7 @@ fn setup_scene(
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn orbit_audio_source(
@@ -106,4 +111,10 @@ fn update_listener(
     if keyboard.pressed(KeyCode::ArrowUp) {
         transform.translation.z -= speed * time.delta_seconds();
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(TextBundle::from(
+        "Controls: Use the arrow keys to move around",
+    ));
 }

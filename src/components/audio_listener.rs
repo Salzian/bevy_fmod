@@ -5,6 +5,8 @@ use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
 use crate::fmod_studio::FmodStudio;
 
+/// Component that represents an audio listener in 3D space.
+///
 /// See the [`Velocity`] component for information on enabling the Doppler effect.
 #[derive(Component, Default)]
 pub struct AudioListener;
@@ -22,7 +24,6 @@ impl AudioListener {
             }
 
             studio
-                .0
                 .set_listener_attributes(
                     0,
                     attributes3d(

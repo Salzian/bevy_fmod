@@ -19,7 +19,7 @@ fn main() {
                 "./assets/audio/demo_project/Build/Desktop/Music.bank",
             ]),
         ))
-        .add_systems(Startup, startup)
+        .add_systems(Startup, (startup, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, audio_control)
         .run();
@@ -29,27 +29,31 @@ fn main() {
 struct MyMusicPlayer;
 
 fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.0.get_event("event:/Music/Level 03").unwrap();
+    let event_description = studio.get_event("event:/Music/Level 03").unwrap();
 
-    commands
-        .spawn(MyMusicPlayer)
-        .insert(AudioSource::new(event_description));
+    commands.spawn(MyMusicPlayer).insert(AudioSource {
+        event_instance: event_description.create_instance().unwrap(),
+        despawn_stop_mode: StopMode::AllowFadeout,
+    });
+
+    // In this case only needed to show the controls:
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single_mut().play();
+    audio_sources.single_mut().start().unwrap();
 }
 
 fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
     if input.just_pressed(KeyCode::KeyS) {
         for audio_player in query.iter() {
-            audio_player.stop();
+            audio_player.stop(StopMode::AllowFadeout).unwrap();
         }
     }
 
     if input.just_pressed(KeyCode::KeyP) {
         for audio_player in query.iter() {
-            audio_player.play();
+            audio_player.start().unwrap();
         }
     }
 
@@ -58,4 +62,13 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
             audio_player.toggle();
         }
     }
+}
+
+fn display_controls(mut commands: Commands) {
+    commands.spawn(TextBundle::from_sections([
+        TextSection::from("Controls: \n"),
+        TextSection::from("S: Stop \n"),
+        TextSection::from("P: Play \n"),
+        TextSection::from("T: Toggle \n"),
+    ]));
 }
