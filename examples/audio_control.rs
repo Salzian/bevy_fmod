@@ -37,7 +37,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
     });
 
     // In this case only needed to show the controls:
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d::default());
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
@@ -65,10 +65,11 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(TextBundle::from_sections([
-        TextSection::from("Controls: \n"),
-        TextSection::from("S: Stop \n"),
-        TextSection::from("P: Play \n"),
-        TextSection::from("T: Toggle \n"),
-    ]));
+    let text_entity = commands.spawn(Text::default()).id();
+    commands.entity(text_entity).with_children(|parent| {
+        parent.spawn(TextSpan::new("Controls: \n"));
+        parent.spawn(TextSpan::new("S: Stop \n"));
+        parent.spawn(TextSpan::new("P: Play \n"));
+        parent.spawn(TextSpan::new("T: Toggle \n"));
+    });
 }

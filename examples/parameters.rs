@@ -76,7 +76,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
     });
 
     // In this case only needed to show the controls:
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d::default());
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {
@@ -128,11 +128,13 @@ fn set_hour(
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(TextBundle::from_sections([
-        TextSection::from("Controls: \n"),
-        TextSection::from("Arrow Up: Increase Rain \n"),
-        TextSection::from("Arrow Down: Decrease Rain \n"),
-        TextSection::from("E: Change time to Evening \n"),
-        TextSection::from("M: Change time to Morning \n"),
-    ]));
+    let text_entity = commands.spawn(Text::default()).id();
+    commands.entity(text_entity).with_children(|parent| {
+        parent.spawn(TextSpan::new("Controls: \n"));
+        parent.spawn(TextSpan::new("Arrow Up: Increase Rain \n"));
+        parent.spawn(TextSpan::new("Arrow Down: Decrease Rain \n"));
+        parent.spawn(TextSpan::new("E: Change time to Evening \n"));
+        parent.spawn(TextSpan::new("M: Change time to Morning \n"));
+    });
 }
+
