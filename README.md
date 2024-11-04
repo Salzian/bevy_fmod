@@ -28,7 +28,6 @@ terms. Learn more [here][FMOD attribution].
 Currently, this crate is only tested and developed for Windows (non-UWP) and
 Linux. More platforms are planned eventually.
 
-MacOS: <https://github.com/Salzian/bevy_fmod/issues/2>  
 Web: <https://github.com/Salzian/bevy_fmod/issues/51>
 
 Pull requests are welcome.
@@ -43,19 +42,35 @@ libraries [here][FMOD libraries download]. This requires a free FMOD account.
 
 The linking process on Windows is straight forward. Download and install the
 "FMOD Engine" for Windows. When installing, a folder will be created with FMOD
-libraries. Copy the followin g files into root of your project:
+libraries. Copy the following files into root of your project:
 
-> [!WARNING]
-> TODO: Update this section with the correct file names.
+- `api/core/lib/x64/fmod.dll`
+- `api/studio/lib/x64/fmodstudio.dll`
 
-When publishing your game, you will need to include the non-debugging versions
-of the libraries in the same directory as the executable.
+When publishing your game, you will need to include these libraries in the same
+directory as the executable.
+
+> [!CAUTION]
+>
+> The `libfmod` crate requires you to suffix the libraries with `_vc` like this:
+>
+> - `fmod_vc.dll`
+> - `fmodstudio_vc.dll`
+>
+> This is only necessary for Windows. I don't know the background of this
+> requirement, but it was too little of a problem to investigate further.
+>
+> For the nerds that want to dive deeper, this behavior is defined in the crates
+> [build.rs](https://github.com/lebedec/libfmod/blob/8974d07e7c34aa6c94fc598d491931471d6d1799/libfmod/build.rs)
+> file.
+
+The final game will ship with the following structure:
 
 ```
 My Game/
 ├── My Game.exe
-├── fmod.dll
-└── fmodstudio.dll
+├── fmod_vc.dll
+└── fmodstudio_vc.dll
 ```
 
 ### MacOS
@@ -64,9 +79,7 @@ My Game/
 - In the dmg file, open the `FMOD Programmers API` folder.
 - You will need these files:
     - `api/core/lib/libfmod.dylib`
-    - `api/core/lib/libfmodL.dylib` (debugging only)
-        - `api/studio/lib/libfmodstudio.dylib`
-    - `api/studio/lib/libfmodstudioL.dylib` (debugging only)
+  - `api/studio/lib/libfmodstudio.dylib`
 
 Linking on MacOS is a bit different to Windows, as the defaults of the OS are
 not as straight forward as Windows. Also, Windows seems to take parent
