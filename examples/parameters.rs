@@ -128,8 +128,7 @@ fn set_hour(
 }
 
 fn display_controls(mut commands: Commands) {
-    let text_entity = commands.spawn(Text::default()).id();
-    commands.entity(text_entity).with_children(|parent| {
+    commands.spawn(Text::default()).with_children(|parent| {
         parent.spawn(TextSpan::new("Controls: \n"));
         parent.spawn(TextSpan::new("Arrow Up: Increase Rain \n"));
         parent.spawn(TextSpan::new("Arrow Down: Decrease Rain \n"));
@@ -137,4 +136,3 @@ fn display_controls(mut commands: Commands) {
         parent.spawn(TextSpan::new("M: Change time to Morning \n"));
     });
 }
-

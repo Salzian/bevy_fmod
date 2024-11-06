@@ -33,30 +33,25 @@ fn setup_scene(
     studio: Res<FmodStudio>,
 ) {
     // Plane
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Plane3d::default().mesh().size(5.0, 5.0)),
-        material: materials.add(Color::srgb(0.3, 0.5, 0.3)),
-        transform: Transform::from_xyz(0.0, -1.0, 0.0),
-        ..default()
-    });
+    commands.spawn((
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(5.0, 5.0))),
+        MeshMaterial3d(materials.add(Color::srgb(0.3, 0.5, 0.3))),
+        Transform::from_xyz(0.0, -1.0, 0.0),
+    ));
 
     // Light
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
+    commands.spawn((
+        PointLight {
             shadows_enabled: true,
             ..default()
         },
-        transform: Transform::from_xyz(4.0, 8.0, 4.0),
-        ..default()
-    });
+        Transform::from_xyz(4.0, 8.0, 4.0),
+    ));
 
     // Camera
     commands
         .spawn(SpatialListenerBundle::default())
-        .insert(Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 0.0, 4.0),
-            ..default()
-        });
+        .insert((Camera3d::default(), Transform::from_xyz(0.0, 0.0, 4.0)));
 
     // Audio source: Orbiting cube
     let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
@@ -68,12 +63,11 @@ fn setup_scene(
 
     commands
         .spawn(SpatialAudioBundle::from(audio_source))
-        .insert(PbrBundle {
-            mesh: meshes.add(Cuboid::default()),
-            material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
-            transform: Transform::from_scale(Vec3::splat(0.2)),
-            ..default()
-        });
+        .insert((
+            Mesh3d(meshes.add(Cuboid::default())),
+            MeshMaterial3d(materials.add(Color::srgb(0.8, 0.7, 0.6))),
+            Transform::from_scale(Vec3::splat(0.2)),
+        ));
 }
 
 fn play_music(mut audio_sources: Query<&AudioSource>) {
@@ -85,8 +79,8 @@ fn orbit_audio_source(
     mut audio_sources: Query<&mut Transform, With<AudioSource>>,
 ) {
     for mut audio_source in audio_sources.iter_mut() {
-        audio_source.translation.x = time.elapsed_seconds().sin() * 2.0;
-        audio_source.translation.z = time.elapsed_seconds().cos() * 2.0;
+        audio_source.translation.x = time.elapsed_secs().sin() * 2.0;
+        audio_source.translation.z = time.elapsed_secs().cos() * 2.0;
     }
 }
 
@@ -100,21 +94,19 @@ fn update_listener(
     let speed = 4.;
 
     if keyboard.pressed(KeyCode::ArrowRight) {
-        transform.translation.x += speed * time.delta_seconds();
+        transform.translation.x += speed * time.delta_secs();
     }
     if keyboard.pressed(KeyCode::ArrowLeft) {
-        transform.translation.x -= speed * time.delta_seconds();
+        transform.translation.x -= speed * time.delta_secs();
     }
     if keyboard.pressed(KeyCode::ArrowDown) {
-        transform.translation.z += speed * time.delta_seconds();
+        transform.translation.z += speed * time.delta_secs();
     }
     if keyboard.pressed(KeyCode::ArrowUp) {
-        transform.translation.z -= speed * time.delta_seconds();
+        transform.translation.z -= speed * time.delta_secs();
     }
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(TextBundle::from(
-        "Controls: Use the arrow keys to move around",
-    ));
+    commands.spawn(Text::from("Controls: Use the arrow keys to move around"));
 }

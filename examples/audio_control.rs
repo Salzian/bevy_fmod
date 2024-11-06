@@ -65,8 +65,7 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
 }
 
 fn display_controls(mut commands: Commands) {
-    let text_entity = commands.spawn(Text::default()).id();
-    commands.entity(text_entity).with_children(|parent| {
+    commands.spawn(Text::default()).with_children(|parent| {
         parent.spawn(TextSpan::new("Controls: \n"));
         parent.spawn(TextSpan::new("S: Stop \n"));
         parent.spawn(TextSpan::new("P: Play \n"));
