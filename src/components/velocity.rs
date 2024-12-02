@@ -25,7 +25,7 @@ impl VelocityPlugin {
         mut last_delta: Local<f32>,
     ) {
         let delta_time = *last_delta;
-        *last_delta = time.delta_seconds();
+        *last_delta = time.delta_secs();
 
         if delta_time == 0.0 {
             return;

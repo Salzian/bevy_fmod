@@ -3,7 +3,7 @@
 //! For more information on bundles, see the [`Bundle`] trait.
 
 use crate::prelude::{AudioListener, AudioSource, Velocity};
-use bevy::prelude::{Bundle, TransformBundle};
+use bevy::prelude::{Bundle, Transform};
 use libfmod::{EventDescription, StopMode};
 
 /// A bundle that includes all components required for emitting spatial audio.
@@ -11,7 +11,7 @@ use libfmod::{EventDescription, StopMode};
 pub struct SpatialAudioBundle {
     audio_source: AudioSource,
     velocity: Velocity,
-    transform: TransformBundle,
+    transform: Transform,
 }
 
 impl SpatialAudioBundle {
@@ -33,7 +33,7 @@ impl SpatialAudioBundle {
                 despawn_stop_mode: StopMode::AllowFadeout,
             },
             velocity: Velocity::default(),
-            transform: TransformBundle::default(),
+            transform: Transform::default(),
         }
     }
 }
@@ -43,7 +43,7 @@ impl From<AudioSource> for SpatialAudioBundle {
         SpatialAudioBundle {
             audio_source: value,
             velocity: Velocity::default(),
-            transform: TransformBundle::default(),
+            transform: Transform::default(),
         }
     }
 }
@@ -53,5 +53,5 @@ impl From<AudioSource> for SpatialAudioBundle {
 pub struct SpatialListenerBundle {
     audio_listener: AudioListener,
     velocity: Velocity,
-    transform: TransformBundle,
+    transform: Transform,
 }
