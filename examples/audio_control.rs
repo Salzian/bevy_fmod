@@ -69,6 +69,6 @@ fn display_controls(mut commands: Commands) {
         parent.spawn(TextSpan::new("Controls: \n"));
         parent.spawn(TextSpan::new("S: Stop \n"));
         parent.spawn(TextSpan::new("P: Play \n"));
-        parent.spawn(TextSpan::new("T: Toggle \n"));
+        parent.spawn(TextSpan::new("T: Toggle Play/Pause \n"));
     });
 }
