@@ -153,15 +153,6 @@ for more information.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
 
-## Usage
-
-```toml
-[dependencies]
-bevy_fmod = "0.5.0" 
-```
-
-Get the latest release tag [on the releases page][GitHub releases].
-
 ## Examples
 
 To test the examples of this library, clone the repository. FMOD Studio comes
