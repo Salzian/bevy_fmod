@@ -1,6 +1,6 @@
 # bevy_fmod
 
-[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.14.2-232326)](https://crates.io/crates/bevy/0.14.2)
+[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.16.0-232326)](https://crates.io/crates/bevy/0.16.0)
 [![bevy_fmod on crates.io](https://img.shields.io/crates/v/bevy_fmod)](https://crates.io/crates/bevy_fmod)
 
 This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate
