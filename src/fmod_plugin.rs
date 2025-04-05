@@ -52,7 +52,8 @@ impl FmodPlugin {
 fn register_component_hooks(world: &mut World) {
     world
         .register_component_hooks::<AudioSource>()
-        .on_remove(|mut world, entity, _| {
+        .on_remove(|mut world, hook_context| {
+            let entity = hook_context.entity;
             let mut entity_mut = world.entity_mut(entity);
             let audio_source = entity_mut.get_mut::<AudioSource>().unwrap();
             let event_instance = audio_source.event_instance;

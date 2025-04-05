@@ -16,7 +16,7 @@ impl AudioListener {
         query: Query<(&GlobalTransform, Option<&Velocity>), With<AudioListener>>,
         studio: Res<FmodStudio>,
     ) {
-        if let Ok((transform, vel_component)) = query.get_single() {
+        if let Ok((transform, vel_component)) = query.single() {
             let mut velocity = Vec3::ZERO;
 
             if let Some(vel_component) = vel_component {

@@ -70,8 +70,8 @@ fn setup_scene(
         ));
 }
 
-fn play_music(mut audio_sources: Query<&AudioSource>) {
-    audio_sources.single_mut().start().unwrap();
+fn play_music(audio_sources: Single<&AudioSource>) {
+    audio_sources.start().unwrap();
 }
 
 fn orbit_audio_source(
@@ -87,10 +87,8 @@ fn orbit_audio_source(
 fn update_listener(
     keyboard: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
-    mut listeners: Query<&mut Transform, With<AudioListener>>,
+    mut transform: Single<&mut Transform, With<AudioListener>>,
 ) {
-    let mut transform = listeners.single_mut();
-
     let speed = 4.;
 
     if keyboard.pressed(KeyCode::ArrowRight) {

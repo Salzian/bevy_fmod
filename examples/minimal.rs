@@ -32,6 +32,6 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
     });
 }
 
-fn play_music(mut audio_sources: Query<&AudioSource, With<MyMusicPlayer>>) {
-    audio_sources.single_mut().start().unwrap();
+fn play_music(audio_source: Single<&AudioSource, With<MyMusicPlayer>>) {
+    audio_source.start().unwrap();
 }
