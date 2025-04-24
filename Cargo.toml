@@ -14,11 +14,11 @@ exclude = [
 ]
 
 [dependencies]
-bevy = { version = "0.16.0-rc.3", default-features = false, features = ["bevy_log"] }
+bevy = { version = "0.16", default-features = false, features = ["bevy_log"] }
 libfmod = "~2.222.6"
 
 [dev-dependencies.bevy]
-version = "0.16.0-rc.3"
+version = "0.16"
 features = [
     "bevy_core_pipeline",
     "bevy_render",
