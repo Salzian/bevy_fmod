@@ -2,7 +2,7 @@
 name = "bevy_fmod"
 description = "Idiomatic FMOD in Bevy"
 authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
-edition = "2021"
+edition = "2024"
 repository = "https://github.com/salzian/bevy_fmod"
 version = "0.7.0"
 license = "MIT OR Apache-2.0"
@@ -14,11 +14,11 @@ exclude = [
 ]
 
 [dependencies]
-bevy = { version = "0.15", default-features = false }
+bevy = { version = "0.16", default-features = false, features = ["bevy_log"] }
 libfmod = "~2.222.6"
 
 [dev-dependencies.bevy]
-version = "0.15"
+version = "0.16"
 features = [
     "bevy_core_pipeline",
     "bevy_render",
