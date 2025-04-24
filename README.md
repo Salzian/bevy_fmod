@@ -66,7 +66,7 @@ directory as the executable.
 
 The final game will ship with the following structure:
 
-```
+```text
 My Game/
 ├── My Game.exe
 ├── fmod_vc.dll
@@ -121,7 +121,7 @@ look in the `vendor/fmod` directory of your project for the libraries.
 
 By the end, your project structure should look like this:
 
-```
+```text
 my_game/
 ├── .cargo/
 │   └── config.toml

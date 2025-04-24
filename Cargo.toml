@@ -1,34 +1,19 @@
-[package]
-name = "bevy_fmod"
-description = "Idiomatic FMOD in Bevy"
-authors = ["Fabian 'Salzian' Fritzsche <bevy_fmod@salzian.dev>"]
-edition = "2024"
-repository = "https://github.com/salzian/bevy_fmod"
-version = "0.7.0"
-license = "MIT OR Apache-2.0"
-
-exclude = [
-    ".cargo",
-    ".github",
-    ".idea"
-]
-
 [dependencies]
-bevy = { version = "0.16", default-features = false, features = ["bevy_log"] }
 libfmod = "~2.222.6"
 
-[dev-dependencies.bevy]
+[dependencies.bevy]
+default-features = false
+features = ["bevy_log"]
 version = "0.16"
+
+[dev-dependencies.bevy]
 features = [
     "bevy_core_pipeline",
     "bevy_render",
     "bevy_winit",
-    "multi_threaded"
+    "multi_threaded",
 ]
-
-[features]
-default = []
-live-update = []
+version = "0.16"
 
 [[example]]
 name = "minimal"
@@ -42,3 +27,29 @@ name = "spatial"
 [[example]]
 name = "parameters"
 
+[features]
+default = []
+live-update = []
+
+[package]
+categories = [
+    "game-development",
+    "multimedia::audio",
+]
+description = "Idiomatic FMOD in Bevy"
+edition = "2024"
+exclude = [
+    ".cargo",
+    ".github",
+    ".idea",
+]
+keywords = [
+    "bevy",
+    "fmod",
+    "audio",
+    "gamedev",
+]
+license = "MIT OR Apache-2.0"
+name = "bevy_fmod"
+repository = "https://github.com/salzian/bevy_fmod"
+version = "0.8.0"
