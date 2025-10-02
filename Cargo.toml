@@ -28,8 +28,9 @@ name = "spatial"
 name = "parameters"
 
 [features]
-default = []
+default = ["utilities"]
 live-update = []
+utilities = ["bevy/bevy_window"]
 
 [package]
 categories = [

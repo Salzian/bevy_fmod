@@ -8,6 +8,8 @@ pub mod fmod_plugin;
 #[doc(hidden)]
 pub mod fmod_studio;
 pub mod prelude;
+#[cfg(feature = "utilities")]
+pub mod utilities;
 
 #[doc(inline)]
 pub use fmod_plugin::FmodPlugin;
