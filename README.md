@@ -101,8 +101,8 @@ look at this `.cargo/config.toml`:
 ```toml
 [target.aarch64-apple-darwin]
 rustflags = [
-    "-L", "native=./vendor/fmod/macos",
-    "-C", "link-arg=-Wl,-rpath,./vendor/fmod/macos",
+    "-L", "native=./vendor/fmod",
+    "-C", "link-arg=-Wl,-rpath,./vendor/fmod",
 ]
 ```
 
@@ -123,8 +123,8 @@ is fine when publishing the game, as you can just use the Windows method and put
 the libraries in the same directory as the executable. However, during
 development, the executable is in the `target/debug` directory, which gets
 generated automatically by cargo and does not contain the libraries. The
-`"-C", "link-arg=-Wl,-rpath,./vendor/fmod/macos"` flag will tell the executable to
-look in the `vendor/fmod/macos` directory of your project for the libraries.
+`"-C", "link-arg=-Wl,-rpath,./vendor/fmod"` flag will tell the executable to
+look in the `vendor/fmod` directory of your project for the libraries.
 
 By the end, your project structure should look like this:
 
