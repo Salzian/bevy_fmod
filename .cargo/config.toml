@@ -1,5 +1,5 @@
 [target.aarch64-apple-darwin]
 rustflags = [
-    "-L", "native=./vendor",
-    "-C", "link-arg=-Wl,-rpath,./vendor",
+    "-L", "native=./vendor/fmod",
+    "-C", "link-arg=-Wl,-rpath,./vendor/fmod",
 ]
