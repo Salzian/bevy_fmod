@@ -20,3 +20,17 @@ fn to_fmod_vec(bevy_vec: Vec3) -> Vector {
         z: bevy_vec.z,
     }
 }
+
+pub trait ToFmodVecExt {
+    fn to_fmod_vec(self) -> Vector;
+}
+
+impl ToFmodVecExt for Vec3 {
+    fn to_fmod_vec(self) -> Vector {
+        Vector {
+            x: self.x,
+            y: self.y,
+            z: self.z,
+        }
+    }
+}

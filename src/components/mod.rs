@@ -10,11 +10,15 @@ pub mod audio_listener;
 pub mod audio_source;
 pub mod bundles;
 #[doc(hidden)]
+pub mod geometry;
+#[doc(hidden)]
 pub mod velocity;
 
 #[doc(inline)]
 pub use audio_listener::AudioListener;
 #[doc(inline)]
 pub use audio_source::AudioSource;
+#[doc(inline)]
+pub use geometry::Geometry;
 #[doc(inline)]
 pub use velocity::Velocity;
