@@ -40,45 +40,6 @@ impl AudioSource {
             });
     }
 
-    #[deprecated = "Use `AudioSource::get_volume` instead."]
-    pub fn volume(&self) -> f32 {
-        self.get_volume().unwrap().0
-    }
-
-    #[deprecated = "Use `AudioSource::set_volume` instead."]
-    pub fn set_volume(&self, volume: f32) {
-        self.event_instance.set_volume(volume).unwrap();
-    }
-
-    #[deprecated = "Use `AudioSource::get_pitch` instead."]
-    pub fn speed(&self) -> f32 {
-        self.get_pitch().unwrap().0
-    }
-
-    #[deprecated = "Use `AudioSource::set_pitch` instead."]
-    pub fn set_speed(&self, speed: f32) {
-        self.set_pitch(speed).unwrap();
-    }
-
-    #[deprecated = "Use `AudioSource::start` instead."]
-    pub fn play(&self) {
-        if self.get_paused().unwrap() {
-            self.set_paused(false).unwrap();
-        } else {
-            self.start().unwrap();
-        }
-    }
-
-    #[deprecated = "Use `AudioSource::set_paused(bool)` instead."]
-    pub fn pause(&self) {
-        self.set_paused(true).unwrap();
-    }
-
-    #[deprecated = "Use `AudioSource::get_paused` instead."]
-    pub fn is_paused(&self) -> bool {
-        self.get_paused().unwrap()
-    }
-
     pub fn toggle(&self) {
         self.event_instance
             .set_paused(!self.event_instance.get_paused().unwrap())
