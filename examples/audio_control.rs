@@ -65,10 +65,13 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(Text::default()).with_children(|parent| {
-        parent.spawn(TextSpan::new("Controls: \n"));
-        parent.spawn(TextSpan::new("S: Stop \n"));
-        parent.spawn(TextSpan::new("P: Play \n"));
-        parent.spawn(TextSpan::new("T: Toggle Play/Pause \n"));
-    });
+    commands.spawn((
+        Text::default(),
+        children![
+            TextSpan::new("Controls: \n"),
+            TextSpan::new("S: Stop \n"),
+            TextSpan::new("P: Play \n"),
+            TextSpan::new("T: Toggle Play/Pause \n"),
+        ],
+    ));
 }
