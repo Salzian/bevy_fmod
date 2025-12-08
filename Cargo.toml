@@ -53,4 +53,4 @@ keywords = [
 license = "MIT OR Apache-2.0"
 name = "bevy_fmod"
 repository = "https://github.com/salzian/bevy_fmod"
-version = "0.8.0"
+version = "0.9.0"

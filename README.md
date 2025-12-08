@@ -1,48 +1,49 @@
 # bevy_fmod
 
-[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.17.0-232326)](https://crates.io/crates/bevy/0.17.0)
 [![bevy_fmod on crates.io](https://img.shields.io/crates/v/bevy_fmod)](https://crates.io/crates/bevy_fmod)
+[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.17-black)](https://crates.io/crates/bevy/0.17.0)
+[![Supported FMOD version](https://img.shields.io/badge/FMOD-2.02.22-black)](https://github.com/lebedec/libfmod?tab=readme-ov-file#installation)
 
 This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate
-wraps [`libfmod`][libfmod].
+wraps [`libfmod`][libfmod] and is therefore constrained to the same version of
+FMOD that it uses.
 
-```shell
-cargo add bevy_fmod
-```
+Version `0.9.0` of this crate is compatible with Bevy `0.17` and FMOD `2.02.22`.
 
-## FMOD
+> [!WARNING]
+>
+> This crate is not affiliated with FMOD in any way. It is not endorsed by or
+> affiliated with Firelight Technologies Pty, Ltd. To use FMOD in your
+> application, you are required to include attribution by Firelight Technologies'
+> terms. Learn more [here][FMOD attribution].
 
-FMOD is a cross-platform audio engine that is
-used [in many games](https://www.fmod.com/games). It is a commercial product,
-with a free license available [for specific terms][FMOD licensing].
+## Getting started
 
-### FMOD attribution
+### Linking the FMOD library
 
-This crate is not affiliated with FMOD in any way. It is not endorsed by or
-affiliated with Firelight Technologies Pty, Ltd. To use FMOD in your
-application, you are required to include attribution by Firelight Technologies'
-terms. Learn more [here][FMOD attribution].
+To use this crate, you need to link the FMOD library.
 
-## Supported platforms
+Due to FMOD's licensing, this crate does not include the required FMOD libraries.
+You will need to download the appropriate libraries [here][FMOD libraries download].
+This requires a free FMOD account.
 
-Currently, this crate is only tested and developed for Windows (non-UWP) and
-Linux. More platforms are planned eventually.
+For maximum compatibility, we recommend to download the same version of FMOD
+that `libfmod` uses. The latest supported version is `2.02.22`.
 
-Web: <https://github.com/Salzian/bevy_fmod/issues/51>
+The FMOD Studio download contains the FMOD Studio desktop application,
+which is mostly used by who do sound design for your game. To use this crate,
+you need to download the **FMOD Engine** package. This package contains
+**both** the FMOD Studio API library and the FMOD Engine API library.
 
-Pull requests are welcome.
+<details>
 
-## Linking the FMOD library
+<summary>Windows</summary>
 
-Due to FMOD's licensing, this crate does not include the required FMOD
-libraries. You will need to download the appropriate
-libraries [here][FMOD libraries download]. This requires a free FMOD account.
+#### Windows
 
-### Windows
-
-The linking process on Windows is straight forward. Download and install the
-"FMOD Engine" for Windows. When installing, a folder will be created with FMOD
-libraries. Copy the following files into root of your project:
+Download and install FMOD Engine for Windows. When installing, 
+a folder will be created with FMOD libraries.
+Copy the following files into root of your project:
 
 - `api/core/lib/x64/fmod.dll`
 - `api/studio/lib/x64/fmodstudio.dll`
@@ -73,13 +74,19 @@ My Game/
 └── fmodstudio_vc.dll
 ```
 
-### MacOS
+</details>
+
+<details>
+
+<summary>MacOS</summary>
+
+#### MacOS
 
 - Download "FMOD Engine" for MacOS.
 - In the dmg file, open the `FMOD Programmers API` folder.
 - You will need these files:
     - `api/core/lib/libfmod.dylib`
-  - `api/studio/lib/libfmodstudio.dylib`
+    - `api/studio/lib/libfmodstudio.dylib`
 
 Linking on MacOS is a bit different to Windows, as the defaults of the OS are
 not as straight forward as Windows. Also, Windows seems to take parent
@@ -116,7 +123,7 @@ is fine when publishing the game, as you can just use the Windows method and put
 the libraries in the same directory as the executable. However, during
 development, the executable is in the `target/debug` directory, which gets
 generated automatically by cargo and does not contain the libraries. The
-`"-C", "link-arg=-Wl,-rpath,./vendor/macos"` flag will tell the executable to
+`"-C", "link-arg=-Wl,-rpath,./vendor/fmod"` flag will tell the executable to
 look in the `vendor/fmod` directory of your project for the libraries.
 
 By the end, your project structure should look like this:
@@ -137,7 +144,13 @@ my_game/
 └── Cargo.toml
 ```
 
-### Linux
+</details>
+
+<details>
+
+<summary>Linux</summary>
+
+#### Linux
 
 > [!WARNING]
 > This section might be outdated. The approach described here does work, but
@@ -153,7 +166,12 @@ for more information.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
 
+</details>
+
 ## Examples
+
+To get started fast, I recommend you to check out the [minimal example](./examples/minimal.rs).
+It contains the minimum amount of code to get audio playing.
 
 To test the examples of this library, clone the repository. FMOD Studio comes
 with an Examples project. Open it and select `File > Save as...`. Save the
@@ -162,24 +180,58 @@ project (
 `File > Build`). This will create a folder called
 `.\assets\audio\demo_project\Build` which is used by our examples.
 
-Run examples with `cargo run --example <example_name>`. Find the list of
-examples in the [Cargo.toml](./Cargo.toml) See the source code of the examples
-for more details.
+## About FMOD
 
-## Live Update
+FMOD is a cross-platform audio engine that is
+used [in many games](https://www.fmod.com/games). It is a commercial product,
+with a free license available [for specific terms][FMOD licensing].
+
+### Supported platforms
+
+List of supported / tested platforms for this crate. Other platforms might work,
+but have not been tested. List of platforms taken from the
+[FMOD documentation][FMOD Platform Details].
+
+| Platform                         | Support | Issue                                            |
+|----------------------------------|---------|--------------------------------------------------|
+| Windows                          | ✅       |                                                  |
+| Mac                              | ✅       |                                                  |
+| Linux                            | ✅       |                                                  |
+| iOS                              | ❌       |                                                  |
+| Android                          | ❌       |                                                  |
+| Open Harmony                     | ❌       |                                                  |
+| Universal Windows Platform (UWP) | ❌       |                                                  |
+| HTML5                            | ❌ ️     | <https://github.com/Salzian/bevy_fmod/issues/51> |
+
+> [!NOTE]
+>
+> Pull requests are welcome.
+
+## Features
+
+### Live Update
 
 Live update is a way of connecting FMOD Studio to your game as it runs, allowing
 you to update and monitor audio content in real
 time. [Read more about it here](https://www.fmod.com/docs/2.02/studio/editing-during-live-update.html).
 
 To enable live update, you need to enable the `live-update` feature. While you
-can do so in Cargo.toml, we recommend to explicitly enable it with the
+can do so in Cargo.toml, we recommend explicitly enabling it with the
 `--features` flag. This way, you won't accidentally include it in your release
 builds.
 
 ```sh
 cargo run --example minimal --features live-update
 ```
+
+## Utilities
+
+With version `0.9.0`, this crate includes a few utilities that are not part of
+the main API, but make sense to have in the context of a bevy game. To read 
+more about them, check out the [utilities](https://docs.rs/bevy_fmod/latest/bevy_fmod/utilities/index.html)
+module in the documentation.
+
+Utilities are part of the `utilities` feature, which is enabled by default.
 
 [Bevy]: https://bevyengine.org
 
@@ -189,20 +241,6 @@ cargo run --example minimal --features live-update
 
 [FMOD libraries download]: https://fmod.com/download#fmodengine
 
-[FMOD revision history]: https://www.fmod.com/docs/2.02/studio/welcome-to-fmod-studio-revision-history.html
-
-[FMOD 2.02.12 img]: https://img.shields.io/badge/FMOD-2.02.12-black
-
-[FMOD 2.02.20 img]: https://img.shields.io/badge/FMOD-2.02.20-black
+[FMOD Platform Details]: https://www.fmod.com/docs/2.02/api/platforms.html
 
 [libfmod]: https://github.com/lebedec/libfmod
-
-[demo_project]: https://drive.google.com/file/d/13Mxq_jEHXDLuam6M9whNowGUf_KBGKTU/view?usp=sharing
-
-[salzian]: https://salzian.dev
-
-[License img]: https://img.shields.io/badge/License-MIT%20OR%20Apache%202.0-informal
-
-[GitHub releases]: https://github.com/Salzian/bevy_fmod/releases/latest
-
-[GitHub release img]: https://img.shields.io/github/v/release/Salzian/bevy_fmod?filter=v*
