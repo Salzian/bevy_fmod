@@ -1,5 +1,6 @@
 use crate::attributes_3d::attributes3d;
 use crate::components::velocity::Velocity;
+use bevy::ecs::error::Result;
 use bevy::math::Vec3;
 use bevy::prelude::{Component, Deref, DerefMut, GlobalTransform, Query};
 use libfmod::{EventInstance, StopMode};
@@ -19,25 +20,23 @@ pub struct AudioSource {
 impl AudioSource {
     pub(crate) fn update_3d_attributes(
         mut query: Query<(&AudioSource, &GlobalTransform, Option<&Velocity>)>,
-    ) {
-        query
-            .iter_mut()
-            .for_each(|(audio_source, transform, vel_component)| {
-                let mut velocity = Vec3::ZERO;
+    ) -> Result {
+        for (audio_source, transform, vel_component) in query.iter_mut() {
+            let mut velocity = Vec3::ZERO;
 
-                if let Some(vel_component) = vel_component {
-                    velocity = vel_component.current_velocity;
-                }
+            if let Some(vel_component) = vel_component {
+                velocity = vel_component.current_velocity;
+            }
 
-                audio_source
-                    .set_3d_attributes(attributes3d(
-                        transform.translation(),
-                        velocity,
-                        *transform.forward(),
-                        *transform.up(),
-                    ))
-                    .unwrap();
-            });
+            audio_source.set_3d_attributes(attributes3d(
+                transform.translation(),
+                velocity,
+                *transform.forward(),
+                *transform.up(),
+            ))?;
+        }
+
+        Ok(())
     }
 
     #[deprecated = "Use `AudioSource::get_volume` instead."]

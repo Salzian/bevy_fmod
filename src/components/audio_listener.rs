@@ -1,3 +1,4 @@
+use bevy::ecs::error::Result;
 use bevy::math::Vec3;
 use bevy::prelude::{Component, GlobalTransform, Query, Res, With};
 
@@ -15,7 +16,7 @@ impl AudioListener {
     pub(crate) fn update_3d_attributes(
         query: Query<(&GlobalTransform, Option<&Velocity>), With<AudioListener>>,
         studio: Res<FmodStudio>,
-    ) {
+    ) -> Result {
         if let Ok((transform, vel_component)) = query.single() {
             let mut velocity = Vec3::ZERO;
 
@@ -23,18 +24,18 @@ impl AudioListener {
                 velocity = vel_component.current_velocity;
             }
 
-            studio
-                .set_listener_attributes(
-                    0,
-                    attributes3d(
-                        transform.translation(),
-                        velocity,
-                        *transform.forward(),
-                        *transform.up(),
-                    ),
-                    None,
-                )
-                .unwrap();
+            studio.set_listener_attributes(
+                0,
+                attributes3d(
+                    transform.translation(),
+                    velocity,
+                    *transform.forward(),
+                    *transform.up(),
+                ),
+                None,
+            )?;
         }
+
+        Ok(())
     }
 }
