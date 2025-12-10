@@ -1,6 +1,9 @@
-use bevy::app::PreStartup;
+use bevy::ecs::error::Result;
+use bevy::ecs::lifecycle::Remove;
+use bevy::ecs::observer::On;
+use bevy::ecs::system::Query;
 use bevy::log::error;
-use bevy::prelude::{App, Plugin, PostUpdate, Res, Update, World};
+use bevy::prelude::{App, Plugin, PostUpdate, Res, Update};
 
 use crate::components::audio_listener::AudioListener;
 use crate::components::audio_source::AudioSource;
@@ -21,7 +24,6 @@ impl Plugin for FmodPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(VelocityPlugin)
             .insert_resource(FmodStudio::new(self.audio_banks_paths, self.plugin_paths))
-            .add_systems(PreStartup, register_component_hooks)
             .add_systems(
                 Update,
                 (
@@ -29,7 +31,8 @@ impl Plugin for FmodPlugin {
                     AudioListener::update_3d_attributes,
                 ),
             )
-            .add_systems(PostUpdate, Self::update);
+            .add_systems(PostUpdate, Self::update)
+            .add_observer(on_remove_audio_source);
     }
 }
 
@@ -49,16 +52,15 @@ impl FmodPlugin {
     }
 }
 
-fn register_component_hooks(world: &mut World) {
-    world
-        .register_component_hooks::<AudioSource>()
-        .on_remove(|mut world, hook_context| {
-            let entity = hook_context.entity;
-            let mut entity_mut = world.entity_mut(entity);
-            let audio_source = entity_mut.get_mut::<AudioSource>().unwrap();
-            let event_instance = audio_source.event_instance;
+fn on_remove_audio_source(
+    remove: On<Remove, AudioSource>,
+    query: Query<&mut AudioSource>,
+) -> Result {
+    let audio_source = query.get(remove.entity)?;
+    let event_instance = audio_source.event_instance;
 
-            event_instance.stop(audio_source.despawn_stop_mode).unwrap();
-            event_instance.release().unwrap();
-        });
+    event_instance.stop(audio_source.despawn_stop_mode)?;
+    event_instance.release()?;
+
+    Ok(())
 }
