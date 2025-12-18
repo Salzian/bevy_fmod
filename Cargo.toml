@@ -1,5 +1,6 @@
 [dependencies]
 libfmod = "~2.222.6"
+thiserror = { version = "2", default-features = false }
 
 [dependencies.bevy]
 default-features = false

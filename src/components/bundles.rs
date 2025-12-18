@@ -25,16 +25,16 @@ impl SpatialAudioBundle {
     /// # Returns
     ///
     /// A new instance of [`SpatialAudioBundle`] containing the components required for emitting
-    /// spatial audio.
-    pub fn new(event_description: EventDescription) -> Self {
-        SpatialAudioBundle {
+    /// spatial audio. May return an error if there was an issue creating the FMOD event instance.
+    pub fn new(event_description: EventDescription) -> crate::Result<Self> {
+        Ok(SpatialAudioBundle {
             audio_source: AudioSource {
-                event_instance: event_description.create_instance().unwrap(),
+                event_instance: event_description.create_instance()?,
                 despawn_stop_mode: StopMode::AllowFadeout,
             },
             velocity: Velocity::default(),
             transform: Transform::default(),
-        }
+        })
     }
 }
 
