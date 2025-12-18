@@ -22,8 +22,16 @@ pub struct FmodPlugin {
 
 impl Plugin for FmodPlugin {
     fn build(&self, app: &mut App) {
+        let studio_instance = match FmodStudio::new(self.audio_banks_paths, self.plugin_paths) {
+            Ok(instance) => instance,
+            Err(e) => {
+                error!("Could not create FMOD studio API instance: {e}");
+                return;
+            }
+        };
+
         app.add_plugins(VelocityPlugin)
-            .insert_resource(FmodStudio::new(self.audio_banks_paths, self.plugin_paths))
+            .insert_resource(studio_instance)
             .add_systems(
                 Update,
                 (
@@ -37,10 +45,9 @@ impl Plugin for FmodPlugin {
 }
 
 impl FmodPlugin {
-    fn update(studio: Res<FmodStudio>) {
-        studio
-            .update()
-            .unwrap_or_else(|e| error!("Failed to tick FMOD Studio: {}", e));
+    fn update(studio: Res<FmodStudio>) -> Result {
+        studio.update()?;
+        Ok(())
     }
 
     #[must_use]

@@ -39,9 +39,10 @@ impl AudioSource {
         Ok(())
     }
 
-    pub fn toggle(&self) {
-        self.event_instance
-            .set_paused(!self.event_instance.get_paused().unwrap())
-            .unwrap();
+    pub fn toggle(&self) -> crate::Result<()> {
+        let pause_state = self.event_instance.get_paused()?;
+        self.event_instance.set_paused(!pause_state)?;
+
+        Ok(())
     }
 }
