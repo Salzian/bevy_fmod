@@ -46,32 +46,22 @@ a folder will be created with FMOD libraries.
 Copy the following files into root of your project:
 
 - `api/core/lib/x64/fmod.dll`
+- `api/core/lib/x64/fmod_vc.lib`
 - `api/studio/lib/x64/fmodstudio.dll`
+- `api/studio/lib/x64/fmodstudio_vc.lib`
 
 When publishing your game, you will need to include these libraries in the same
 directory as the executable.
-
-> [!CAUTION]
->
-> The `libfmod` crate requires you to suffix the libraries with `_vc` like this:
->
-> - `fmod_vc.dll`
-> - `fmodstudio_vc.dll`
->
-> This is only necessary for Windows. I don't know the background of this
-> requirement, but it was too little of a problem to investigate further.
->
-> For the nerds that want to dive deeper, this behavior is defined in the crates
-> [build.rs](https://github.com/lebedec/libfmod/blob/8974d07e7c34aa6c94fc598d491931471d6d1799/libfmod/build.rs)
-> file.
 
 The final game will ship with the following structure:
 
 ```text
 My Game/
 ├── My Game.exe
-├── fmod_vc.dll
-└── fmodstudio_vc.dll
+├── fmod.dll
+├── fmod_vc.lib
+├── fmodstudio.dll
+└── fmodstudio_vc.lib
 ```
 
 </details>
