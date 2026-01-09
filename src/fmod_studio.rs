@@ -1,6 +1,7 @@
 use std::fs::canonicalize;
 use std::path::Path;
 
+use bevy::log::error;
 use bevy::prelude::{Deref, DerefMut, Resource, debug};
 #[cfg(feature = "live-update")]
 use libfmod::ffi::FMOD_STUDIO_INIT_LIVEUPDATE;
@@ -17,55 +18,56 @@ use libfmod::{Studio, System};
 pub struct FmodStudio(pub Studio);
 
 impl FmodStudio {
-    pub(crate) fn new(banks_paths: &[&'static str], plugin_paths: Option<&[&'static str]>) -> Self {
-        let studio = Self::init_studio();
-        let studio_core = studio.get_core_system().unwrap();
+    pub(crate) fn new(
+        banks_paths: &[&'static str],
+        plugin_paths: Option<&[&'static str]>,
+    ) -> crate::Result<Self> {
+        let studio = Self::init_studio()?;
+        let studio_core = studio.get_core_system()?;
 
         if let Some(plugin_paths) = plugin_paths {
             plugin_paths.iter().for_each(|plugin_path| {
-                let path = canonicalize(Path::new(plugin_path))
-                    .expect("Failed to canonicalize provided audio banks directory path.");
-
-                debug!("Loading FMOD plugins from: {:?}", path);
-                Self::load_plugin(studio_core, path.as_path());
+                match canonicalize(Path::new(plugin_path)) {
+                    Ok(path) => Self::load_plugin(studio_core, path.as_path()),
+                    Err(e) => error!("Failed to canonicalize {plugin_path}: {e}"),
+                }
             });
         }
 
-        banks_paths.iter().for_each(|bank_path| {
-            let path = canonicalize(Path::new(bank_path))
-                .expect("Failed to canonicalize provided audio banks directory path.");
+        banks_paths
+            .iter()
+            .for_each(|bank_path| match canonicalize(Path::new(bank_path)) {
+                Ok(path) => Self::load_bank(&studio, path.as_path()),
+                Err(e) => error!("Failed to canonicalize {bank_path}: {e}"),
+            });
 
-            debug!("Loading audio banks from: {:?}", path);
-            Self::load_bank(&studio, path.as_path());
-        });
-
-        FmodStudio(studio)
+        Ok(FmodStudio(studio))
     }
 
     fn load_plugin(studio_core: System, plugin_path: &Path) {
-        studio_core
-            .load_plugin(
-                plugin_path
-                    .to_str()
-                    .expect("Failed to convert path to string"),
-                None,
-            )
-            .expect("Could not FMOD plugin.");
+        debug!("Loading FMOD plugin from: {plugin_path:?}");
+
+        let filename = plugin_path.to_str().expect("Path should be valid unicode");
+        let priority = None;
+
+        if let Err(e) = studio_core.load_plugin(filename, priority) {
+            error!("Could not load FMOD plugin: {e}")
+        };
     }
 
     fn load_bank(studio: &Studio, bank_path: &Path) {
-        studio
-            .load_bank_file(
-                bank_path
-                    .to_str()
-                    .expect("Failed to convert path to string"),
-                FMOD_STUDIO_LOAD_BANK_NORMAL,
-            )
-            .expect("Could not load bank.");
+        debug!("Loading audio banks from: {:?}", bank_path);
+
+        let filename = bank_path.to_str().expect("Path should be valid unicode");
+        let flags = FMOD_STUDIO_LOAD_BANK_NORMAL;
+
+        if let Err(e) = studio.load_bank_file(filename, flags) {
+            error!("Could not load bank: {e}")
+        };
     }
 
-    fn init_studio() -> Studio {
-        let studio = Studio::create().expect("Failed to create FMOD studio");
+    fn init_studio() -> crate::Result<Studio> {
+        let studio = Studio::create()?;
 
         let studio_flags = FMOD_STUDIO_INIT_NORMAL;
 
@@ -74,10 +76,8 @@ impl FmodStudio {
 
         debug!("Initializing FMOD studio with flags: {}", studio_flags);
 
-        studio
-            .initialize(1024, studio_flags, FMOD_INIT_3D_RIGHTHANDED, None)
-            .expect("Failed to initialize FMOD studio");
+        studio.initialize(1024, studio_flags, FMOD_INIT_3D_RIGHTHANDED, None)?;
 
-        studio
+        Ok(studio)
     }
 }

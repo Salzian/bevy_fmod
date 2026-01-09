@@ -59,7 +59,7 @@ fn audio_control(query: Query<&AudioSource>, input: Res<ButtonInput<KeyCode>>) {
 
     if input.just_pressed(KeyCode::KeyT) {
         for audio_player in query.iter() {
-            audio_player.toggle();
+            audio_player.toggle().unwrap();
         }
     }
 }
