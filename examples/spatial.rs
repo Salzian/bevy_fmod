@@ -88,5 +88,7 @@ fn orbit_audio_source(
 }
 
 fn display_controls(mut commands: Commands) {
-    commands.spawn(Text::from("Controls: Use the WASD keys to move around"));
+    commands.spawn(Text::from(
+        "Controls: Use the WASD keys and mouse to move around",
+    ));
 }
