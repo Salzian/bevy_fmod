@@ -13,6 +13,7 @@ features = [
     "bevy_render",
     "bevy_winit",
     "multi_threaded",
+    "free_camera",
 ]
 version = "0.18"
 
