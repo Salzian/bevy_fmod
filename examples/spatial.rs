@@ -5,6 +5,7 @@
 //! Controls:
 //! Use the arrow keys to move around.
 
+use bevy::camera_controller::free_camera::{FreeCamera, FreeCameraPlugin};
 use bevy::prelude::*;
 use bevy_fmod::prelude::AudioSource;
 use bevy_fmod::prelude::*;
@@ -13,6 +14,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
+            FreeCameraPlugin,
             FmodPlugin::new(&[
                 "./assets/audio/demo_project/Build/Desktop/Master.bank",
                 "./assets/audio/demo_project/Build/Desktop/Master.strings.bank",
@@ -22,7 +24,6 @@ fn main() {
         .add_systems(Startup, (setup_scene, display_controls))
         .add_systems(PostStartup, play_music)
         .add_systems(Update, orbit_audio_source)
-        .add_systems(Update, update_listener)
         .run();
 }
 
@@ -49,9 +50,11 @@ fn setup_scene(
     ));
 
     // Camera
-    commands
-        .spawn(SpatialListenerBundle::default())
-        .insert((Camera3d::default(), Transform::from_xyz(0.0, 0.0, 4.0)));
+    commands.spawn(SpatialListenerBundle::default()).insert((
+        Camera3d::default(),
+        FreeCamera::default(),
+        Transform::from_xyz(0.0, 0.0, 4.0),
+    ));
 
     // Audio source: Orbiting cube
     let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
@@ -84,27 +87,6 @@ fn orbit_audio_source(
     }
 }
 
-fn update_listener(
-    keyboard: Res<ButtonInput<KeyCode>>,
-    time: Res<Time>,
-    mut transform: Single<&mut Transform, With<AudioListener>>,
-) {
-    let speed = 4.;
-
-    if keyboard.pressed(KeyCode::ArrowRight) {
-        transform.translation.x += speed * time.delta_secs();
-    }
-    if keyboard.pressed(KeyCode::ArrowLeft) {
-        transform.translation.x -= speed * time.delta_secs();
-    }
-    if keyboard.pressed(KeyCode::ArrowDown) {
-        transform.translation.z += speed * time.delta_secs();
-    }
-    if keyboard.pressed(KeyCode::ArrowUp) {
-        transform.translation.z -= speed * time.delta_secs();
-    }
-}
-
 fn display_controls(mut commands: Commands) {
-    commands.spawn(Text::from("Controls: Use the arrow keys to move around"));
+    commands.spawn(Text::from("Controls: Use the WASD keys to move around"));
 }
