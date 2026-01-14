@@ -8,7 +8,7 @@ This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate
 wraps [`libfmod`][libfmod] and is therefore constrained to the same version of
 FMOD that it uses.
 
-Version `0.9.0` of this crate is compatible with Bevy `0.17` and FMOD `2.02.22`.
+Version `0.10.0` of this crate is compatible with Bevy `0.18` and FMOD `2.02.22`.
 
 > [!WARNING]
 >
