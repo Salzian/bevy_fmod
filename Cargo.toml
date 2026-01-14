@@ -5,7 +5,7 @@ thiserror = { version = "2", default-features = false }
 [dependencies.bevy]
 default-features = false
 features = ["bevy_log"]
-version = "0.17"
+version = "0.18"
 
 [dev-dependencies.bevy]
 features = [
@@ -14,7 +14,7 @@ features = [
     "bevy_winit",
     "multi_threaded",
 ]
-version = "0.17"
+version = "0.18"
 
 [[example]]
 name = "minimal"
