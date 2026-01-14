@@ -25,22 +25,25 @@ fn main() {
 #[derive(Component)]
 struct MyMusicPlayer;
 
-fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
+fn startup(mut commands: Commands, studio: Res<FmodStudio>) -> Result {
     // To play a sound, you need to create an event instance.
     // To create an event instance, you need to get the event description.
-    let event_description = studio.get_event("event:/Music/Level 03").unwrap();
+    let event_description = studio.get_event("event:/Music/Level 03")?;
 
     // With the event description, you can create the event instance.
-    let event_instance = event_description.create_instance().unwrap();
+    let event_instance = event_description.create_instance()?;
 
     // To place the event instance in the world, you need to spawn a AudioSource component.
     commands.spawn(MyMusicPlayer).insert(AudioSource {
         event_instance: event_instance,
         despawn_stop_mode: StopMode::AllowFadeout,
     });
+
+    Ok(())
 }
 
-fn play_music(audio_source: Single<&AudioSource, With<MyMusicPlayer>>) {
+fn play_music(audio_source: Single<&AudioSource, With<MyMusicPlayer>>) -> Result {
     // To play the event instance, you need to start it.
-    audio_source.start().unwrap();
+    audio_source.start()?;
+    Ok(())
 }

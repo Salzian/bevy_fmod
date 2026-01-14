@@ -30,7 +30,7 @@
 //! }
 //!
 //! fn set_some_global_parameter(studio: Res<FmodStudio>) {
-//!    studio.0.set_parameter_by_name("SomeGlobalParameter", 0.5, false).unwrap();
+//!    studio.0.set_parameter_by_name("SomeGlobalParameter", 0.5, false)?;
 //! }
 //! ```
 
@@ -60,29 +60,33 @@ struct ForestSfxPlayer;
 #[derive(Component)]
 struct CountrySfxPlayer;
 
-fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
-    let event_description = studio.get_event("event:/Ambience/Forest").unwrap();
+fn startup(mut commands: Commands, studio: Res<FmodStudio>) -> Result {
+    let event_description = studio.get_event("event:/Ambience/Forest")?;
 
     commands.spawn(ForestSfxPlayer).insert(AudioSource {
-        event_instance: event_description.create_instance().unwrap(),
+        event_instance: event_description.create_instance()?,
         despawn_stop_mode: StopMode::AllowFadeout,
     });
 
-    let event_description = studio.get_event("event:/Ambience/Country").unwrap();
+    let event_description = studio.get_event("event:/Ambience/Country")?;
 
     commands.spawn(CountrySfxPlayer).insert(AudioSource {
-        event_instance: event_description.create_instance().unwrap(),
+        event_instance: event_description.create_instance()?,
         despawn_stop_mode: StopMode::AllowFadeout,
     });
 
     // In this case only needed to show the controls:
     commands.spawn(Camera2d::default());
+
+    Ok(())
 }
 
-fn play_music(audio_sources: Query<&AudioSource>) {
+fn play_music(audio_sources: Query<&AudioSource>) -> Result {
     for audio_source in audio_sources.iter() {
-        audio_source.start().unwrap();
+        audio_source.start()?;
     }
+
+    Ok(())
 }
 
 fn set_rain(

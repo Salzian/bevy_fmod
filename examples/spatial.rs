@@ -32,7 +32,7 @@ fn setup_scene(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     studio: Res<FmodStudio>,
-) {
+) -> Result {
     // Plane
     commands.spawn((
         Mesh3d(meshes.add(Plane3d::default().mesh().size(5.0, 5.0))),
@@ -57,10 +57,10 @@ fn setup_scene(
     ));
 
     // Audio source: Orbiting cube
-    let event_description = studio.get_event("event:/Music/Radio Station").unwrap();
+    let event_description = studio.get_event("event:/Music/Radio Station")?;
 
     let audio_source = AudioSource {
-        event_instance: event_description.create_instance().unwrap(),
+        event_instance: event_description.create_instance()?,
         despawn_stop_mode: StopMode::AllowFadeout,
     };
 
@@ -71,10 +71,13 @@ fn setup_scene(
             MeshMaterial3d(materials.add(Color::srgb(0.8, 0.7, 0.6))),
             Transform::from_scale(Vec3::splat(0.2)),
         ));
+
+    Ok(())
 }
 
-fn play_music(audio_sources: Single<&AudioSource>) {
-    audio_sources.start().unwrap();
+fn play_music(audio_sources: Single<&AudioSource>) -> Result {
+    audio_sources.start()?;
+    Ok(())
 }
 
 fn orbit_audio_source(
