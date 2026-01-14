@@ -1,7 +1,7 @@
 # bevy_fmod
 
 [![bevy_fmod on crates.io](https://img.shields.io/crates/v/bevy_fmod)](https://crates.io/crates/bevy_fmod)
-[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.17-black)](https://crates.io/crates/bevy/0.17.0)
+[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.18-black)](https://crates.io/crates/bevy/0.18.0)
 [![Supported FMOD version](https://img.shields.io/badge/FMOD-2.02.22-black)](https://github.com/lebedec/libfmod?tab=readme-ov-file#installation)
 
 This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate
