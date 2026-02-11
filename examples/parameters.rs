@@ -76,7 +76,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
     });
 
     // In this case only needed to show the controls:
-    commands.spawn(Camera2d::default());
+    commands.spawn(Camera2d);
 }
 
 fn play_music(audio_sources: Query<&AudioSource>) {

@@ -6,4 +6,4 @@
 mod mute_when_unfocused;
 
 #[doc(inline)]
-pub use mute_when_unfocused::MuteWhenUnfocused;
+pub use mute_when_unfocused::MuteWhenUnfocusedPlugin;

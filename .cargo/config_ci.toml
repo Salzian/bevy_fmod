@@ -1,0 +1,70 @@
+# This config is used for the CI workflow.
+# Feel free to also use it locally for fast builds if you have the required setup!
+
+[unstable]
+codegen-backend = true
+
+[profile.dev]
+codegen-backend = "cranelift"
+
+# Consider using llvm for this setting if you use tests that `#[should_panic]`,
+# as cranelift only supports `panic = abort`.
+# Since Foxtrot does not use `#[should_panic]` so far, we can use cranelift for speed increases.
+[profile.dev.package."*"]
+codegen-backend = "cranelift"
+
+# Disable cranelift for release profile
+[profile.release]
+codegen-backend = "llvm"
+
+# cranelift cannot build wasm32-unknown-unknown out of the box
+[profile.web]
+codegen-backend = "llvm"
+
+[profile.web.package."*"]
+codegen-backend = "llvm"
+
+# Override the high opt-level from the dev profile for the test profile
+[profile.test.package."*"]
+opt-level = 1
+
+[target.wasm32-unknown-unknown]
+# Clang does not support wasm32-unknown-unknown,
+# so it's hard to use a better linker.
+# Note that Wasm already uses rust-lld by default.
+rustflags = [
+    "-Dwarnings",
+    "-Cdebuginfo=line-tables-only",
+    "--cfg",
+    "getrandom_backend=\"wasm_js\"",
+    # Nightly
+    "-Zshare-generics=y",
+    "-Zthreads=0",
+]
+rustdocflags = [
+    "-Dwarnings",
+    # Nightly
+    "-Zshare-generics=y",
+    "-Zthreads=0",
+]
+
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = [
+    "-Dwarnings",
+    "-Cdebuginfo=line-tables-only",
+    # Faster linker
+    "-Clink-arg=--ld-path=wild",
+    # Nightly
+    "-Zshare-generics=y",
+    "-Zthreads=0",
+]
+rustdocflags = [
+    "-Dwarnings",
+    # Faster linker
+    "-Clink-arg=--ld-path=wild",
+    # Nightly
+    "-Zshare-generics=y",
+    "-Zthreads=0",
+]

@@ -6,9 +6,9 @@ use bevy::window::{PrimaryWindow, WindowFocused};
 
 /// When this plugin is added, the audio will be muted when the [PrimaryWindow] is not focused
 /// and vice versa.
-pub struct MuteWhenUnfocused;
+pub struct MuteWhenUnfocusedPlugin;
 
-impl Plugin for MuteWhenUnfocused {
+impl Plugin for MuteWhenUnfocusedPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update, mute_when_unfocused);
     }
