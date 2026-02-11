@@ -35,7 +35,7 @@ fn startup(mut commands: Commands, studio: Res<FmodStudio>) {
 
     // To place the event instance in the world, you need to spawn a AudioSource component.
     commands.spawn(MyMusicPlayer).insert(AudioSource {
-        event_instance: event_instance,
+        event_instance,
         despawn_stop_mode: StopMode::AllowFadeout,
     });
 }
