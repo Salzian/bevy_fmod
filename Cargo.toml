@@ -5,7 +5,7 @@ thiserror = { version = "2", default-features = false }
 [dependencies.bevy]
 default-features = false
 features = ["bevy_log"]
-version = "0.18"
+version = "0.19"
 
 [dev-dependencies.bevy]
 features = [
@@ -15,7 +15,7 @@ features = [
     "multi_threaded",
     "free_camera",
 ]
-version = "0.18"
+version = "0.19"
 
 [[example]]
 name = "minimal"
@@ -55,4 +55,4 @@ keywords = [
 license = "MIT OR Apache-2.0"
 name = "bevy_fmod"
 repository = "https://github.com/salzian/bevy_fmod"
-version = "0.10.0"
+version = "0.11.0"
