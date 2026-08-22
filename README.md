@@ -1,14 +1,14 @@
 # bevy_fmod
 
 [![bevy_fmod on crates.io](https://img.shields.io/crates/v/bevy_fmod)](https://crates.io/crates/bevy_fmod)
-[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.18-black)](https://crates.io/crates/bevy/0.18.0)
+[![Latest compatible Bevy version](https://img.shields.io/badge/Bevy-0.19-black)](https://crates.io/crates/bevy/0.19.0)
 [![Supported FMOD version](https://img.shields.io/badge/FMOD-2.02.22-black)](https://github.com/lebedec/libfmod?tab=readme-ov-file#installation)
 
 This crate aims to provide an idiomatic [Bevy] plugin for FMOD. This crate
 wraps [`libfmod`][libfmod] and is therefore constrained to the same version of
 FMOD that it uses.
 
-Version `0.10.0` of this crate is compatible with Bevy `0.18` and FMOD `2.02.22`.
+Version `0.11.0` of this crate is compatible with Bevy `0.19` and FMOD `2.02.22`.
 
 > [!WARNING]
 >
@@ -151,7 +151,7 @@ Below are the steps for a fairly minimal method to link the libraries. See the
 comments in [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs)
 for more information.
 
-- Download the "FMOD Studio" and "FMOD Engine" package for Linux.
+- Download the "FMOD Engine" package for Linux.
 - Create a new folder `fmod` in the root of your project.
 - Extract the `api` folder into it.
 - Copy the contents of [build.rs](https://github.com/Salzian/bevy_fmod/blob/main/build.rs) into your own build script.
