@@ -60,7 +60,7 @@ impl FmodPlugin {
 }
 
 fn on_remove_audio_source(
-    remove: On<Remove, AudioSource>,
+    remove: On<Remove<AudioSource>>,
     query: Query<&mut AudioSource>,
 ) -> Result {
     let audio_source = query.get(remove.entity)?;
